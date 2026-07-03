@@ -1,0 +1,3 @@
+title = "Basics"
+order = 10
+summary = "VST3 descriptor examples without a host."

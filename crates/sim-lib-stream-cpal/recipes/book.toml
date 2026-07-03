@@ -1,0 +1,5 @@
+book = "stream-cpal"
+title = "Stream cpal"
+summary = "cpal modeled site descriptors and hardware-gated output plans."
+order = 116
+chapters = ["01-basics"]

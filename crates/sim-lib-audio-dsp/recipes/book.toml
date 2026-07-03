@@ -1,0 +1,5 @@
+book = "audio-dsp"
+title = "Audio DSP"
+summary = "Offline DSP processor and fixture descriptors."
+order = 132
+chapters = ["01-basics", "30-agents"]

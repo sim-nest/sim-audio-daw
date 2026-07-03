@@ -1,0 +1,29 @@
+[package]
+name = "sim-lib-stream-asio"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "Modeled Windows ASIO stream-host adapter (in-process simulation; no ASIO SDK/driver I/O)."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[features]
+default = ["model"]
+# Marks the modeled (pure-Rust, no-FFI) capability tier; see the crate docs.
+model = []
+
+[dependencies]
+sim-kernel = { version = "0.1.0" }
+sim-lib-audio-graph-core = { version = "0.1.0", path = "../sim-lib-audio-graph-core" }
+sim-lib-core = { version = "0.1.0" }
+sim-lib-stream-audio = { version = "0.1.0" }
+sim-lib-stream-core = { version = "0.1.0" }
+sim-lib-stream-host = { version = "0.1.0" }
+
+[dev-dependencies]
+sim-test-support = { version = "0.1.0" }
+
+[lints]
+workspace = true

@@ -1,0 +1,5 @@
+book = "plugin-vst3"
+title = "VST3 Plugin"
+summary = "VST3-shaped bus, parameter, and export descriptors."
+order = 137
+chapters = ["01-basics"]

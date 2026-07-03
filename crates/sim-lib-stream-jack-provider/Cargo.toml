@@ -1,0 +1,24 @@
+[package]
+name = "sim-lib-stream-jack-provider"
+version = "0.1.0"
+edition = "2021"
+license = "MPL-2.0"
+description = "Loadable JACK audio placement provider (cdylib; not built by default)."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[features]
+default = ["model"]
+model = []
+jack-hardware = ["dep:jack"]
+
+[dependencies]
+jack = { version = "0.11", optional = true }
+sim-kernel = { version = "0.1.0" }
+sim-lib-stream-core = { version = "0.1.0" }
+sim-lib-stream-host = { version = "0.1.0" }

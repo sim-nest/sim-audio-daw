@@ -1,0 +1,8 @@
+id = "offline-chain"
+title = "Offline DSP chain descriptor"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 10
+tags = ["audio", "dsp", "offline"]
+requires = ["audio-dsp", "codec/lisp"]

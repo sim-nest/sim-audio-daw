@@ -1,0 +1,5 @@
+book = "audio-graph-live"
+title = "Audio Graph Live"
+summary = "Live graph queue, transport, and fake-clock descriptors."
+order = 131
+chapters = ["01-basics"]

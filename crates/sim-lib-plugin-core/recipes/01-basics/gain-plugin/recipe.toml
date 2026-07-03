@@ -1,0 +1,8 @@
+id = "gain-plugin"
+title = "Gain plugin descriptor"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 10
+tags = ["plugin", "descriptor", "parameter"]
+requires = ["plugin-core", "codec/lisp"]

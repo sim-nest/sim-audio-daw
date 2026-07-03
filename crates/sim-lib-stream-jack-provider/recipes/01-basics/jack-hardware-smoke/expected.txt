@@ -1,0 +1,1 @@
+(stream-jack-provider hardware-smoke (guard SIM_JACK_HARDWARE_SMOKE) (command cargo-test) (expected test-ok))

@@ -1,0 +1,5 @@
+book = "audio-graph/core"
+title = "Audio Graph Core"
+summary = "Hardware-free processor graph descriptors and offline blocks."
+order = 130
+chapters = ["01-basics"]

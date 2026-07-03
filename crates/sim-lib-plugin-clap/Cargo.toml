@@ -1,0 +1,29 @@
+[package]
+name = "sim-lib-plugin-clap"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "Modeled CLAP-shaped plugin adapters for SIM audio graph processors (no native CLAP hosting)."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[features]
+default = ["model"]
+# Marks the modeled (pure-Rust, no-FFI) capability tier; see the crate docs.
+model = []
+clap-host = []
+
+[dependencies]
+sim-kernel = { version = "0.1.0" }
+sim-lib-audio-dsp = { version = "0.1.0", path = "../sim-lib-audio-dsp" }
+sim-lib-audio-graph-core = { version = "0.1.0", path = "../sim-lib-audio-graph-core" }
+sim-lib-core = { version = "0.1.0" }
+sim-lib-plugin-core = { version = "0.1.0", path = "../sim-lib-plugin-core" }
+
+[dev-dependencies]
+sim-test-support = { version = "0.1.0" }
+
+[lints]
+workspace = true

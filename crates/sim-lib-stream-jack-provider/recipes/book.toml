@@ -1,0 +1,5 @@
+book = "stream-jack-provider"
+title = "Stream JACK provider"
+summary = "Loadable JACK provider descriptors and hardware-gated smoke checks."
+order = 117
+chapters = ["01-basics"]

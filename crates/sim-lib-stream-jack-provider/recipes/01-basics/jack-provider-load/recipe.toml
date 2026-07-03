@@ -1,0 +1,13 @@
+id = "jack-provider-load"
+title = "JACK provider load"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 30
+tags = ["stream", "jack", "provider", "loader", "capability"]
+requires = ["stream-jack-provider", "stream-host", "codec/lisp"]
+expected = "expected.txt"
+
+[[expect]]
+form = 0
+result = "(stream-jack-provider load (capability audio.provider.native) (loader loader-registry) (entry sim_audio_provider_v1) (site audio/provider/jack-modeled) (fallback modeled))"

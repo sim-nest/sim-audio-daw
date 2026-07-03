@@ -1,0 +1,5 @@
+book = "plugin-core"
+title = "Plugin Core"
+summary = "Plugin descriptor, parameter, state, and graph adapter data."
+order = 134
+chapters = ["01-basics"]

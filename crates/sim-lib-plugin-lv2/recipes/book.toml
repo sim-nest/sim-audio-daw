@@ -1,0 +1,5 @@
+book = "plugin-lv2"
+title = "LV2 Plugin"
+summary = "LV2-shaped plugin port and descriptor metadata."
+order = 136
+chapters = ["01-basics"]

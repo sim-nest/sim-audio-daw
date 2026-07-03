@@ -1,0 +1,24 @@
+id = "a30-020-audio-processing"
+title = "Audio processing agent"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 20
+tags = ["30-agents", "chapter-11", "audio-processing", "offline", "deterministic", "fake-asr"]
+requires = ["audio-dsp", "agent", "codec/lisp"]
+recipe_number = 20
+source_chapter = 11
+architecture_family = "audio-processing"
+runner_mode = "fake"
+safety_posture = "offline"
+capabilities = ["read-eval", "synthetic-waveform", "rms", "spectrum", "fake-asr"]
+descriptor_shape = "audio-processing-trace"
+assert_tags = ["30-agents", "chapter-11", "audio-processing", "offline"]
+assert_capabilities = ["read-eval"]
+assert_setup_codec = "lisp"
+assert_descriptor_shape = "audio-processing-trace"
+expected = "expected.txt"
+
+[[expect]]
+form = 0
+result = "(audio-processing-trace (id a30-020-audio-processing) (fixture (source synthetic-waveform) (media copied-no) (sample-rate 48000) (duration-ms 250)) (synthesis (component sine-hz-440) (component noise-floor-minus-48db) (window hann)) (features (rms-percent 42) (spectrum (peak-hz 440) (centroid-hz 560) (band-energy low-18 mid-71 high-11))) (fake-asr (runner fake-asr) (transcript steady-test-tone) (segment 0 250 steady-test-tone)) (prosody (loudness moderate) (pitch stable) (pace even)) (answer steady-tone-with-moderate-loudness) (effect-ledger (effect synth-fixture local) (effect compute-rms pass) (effect compute-spectrum pass) (effect fake-asr-transcript deterministic)))"

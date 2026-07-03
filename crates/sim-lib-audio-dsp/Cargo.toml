@@ -1,0 +1,25 @@
+[package]
+name = "sim-lib-audio-dsp"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "Reusable pure Rust DSP processors for the SIM audio graph."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[dependencies]
+sim-citizen = { version = "0.1.0" }
+sim-citizen-derive = { version = "0.1.0" }
+sim-kernel = { version = "0.1.0" }
+sim-value = { version = "0.1.0" }
+sim-lib-audio-graph-core = { version = "0.1.0", path = "../sim-lib-audio-graph-core" }
+sim-lib-core = { version = "0.1.0" }
+
+[dev-dependencies]
+sim-lib-audio-graph-live = { version = "0.1.0", path = "../sim-lib-audio-graph-live" }
+sim-test-support = { version = "0.1.0" }
+
+[lints]
+workspace = true

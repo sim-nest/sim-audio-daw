@@ -1,0 +1,5 @@
+book = "plugin-clap"
+title = "CLAP Plugin"
+summary = "CLAP-shaped plugin descriptor and export metadata."
+order = 135
+chapters = ["01-basics"]

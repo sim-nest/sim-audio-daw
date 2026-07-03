@@ -1,0 +1,21 @@
+[package]
+name = "sim-lib-plugin-core"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "Common plugin descriptors, state, and graph adapters."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[dependencies]
+sim-citizen = { version = "0.1.0" }
+sim-citizen-derive = { version = "0.1.0" }
+sim-kernel = { version = "0.1.0" }
+sim-lib-audio-graph-core = { version = "0.1.0", path = "../sim-lib-audio-graph-core" }
+sim-lib-core = { version = "0.1.0" }
+sim-value = { version = "0.1.0" }
+
+[lints]
+workspace = true

@@ -1,0 +1,12 @@
+id = "loadable-modeled-provider"
+title = "Loadable modeled JACK provider"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 10
+tags = ["stream", "jack", "provider", "model"]
+requires = ["stream-jack-provider", "codec/lisp"]
+
+[[expect]]
+form = 0
+result = "(stream-jack-provider loadable modeled-site registrar-entry)"

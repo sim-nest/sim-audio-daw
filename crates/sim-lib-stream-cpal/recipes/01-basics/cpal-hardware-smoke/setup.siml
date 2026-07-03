@@ -1,0 +1,1 @@
+(quote (stream-cpal hardware-smoke (guard SIM_CPAL_HARDWARE_SMOKE) (command cargo-test) (expected test-ok)))

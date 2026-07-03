@@ -1,0 +1,40 @@
+(module
+  (import "env" "host_frame_count" (func $fc (result i32)))
+  (import "env" "host_audio_read" (func $ar (param i32 i32) (result f32)))
+  (import "env" "host_audio_write" (func $aw (param i32 i32 f32)))
+  (import "env" "host_param_get" (func $pg (param i32) (result f64)))
+  (memory (export "memory") 1)
+  (data (i32.const 0) "\02\00\02\00\01\00\00\00")
+  (data (i32.const 8) "gain")
+  (data (i32.const 72) "sim")
+  (data (i32.const 104) "sim.gain")
+  (func (export "sim_audio_manifest_ptr") (result i32)
+    i32.const 0)
+  (func (export "sim_audio_prepare") (param f64 i32))
+  (func (export "sim_audio_reset"))
+  (func (export "sim_audio_process") (result i32)
+    (local $n i32)
+    (local $ch i32)
+    (local $frame i32)
+    (local $gain f32)
+    (local.set $n (call $fc))
+    (local.set $gain (f32.demote_f64 (call $pg (i32.const 0))))
+    (local.set $ch (i32.const 0))
+    (block $channels_done
+      (loop $channels
+        (br_if $channels_done (i32.ge_u (local.get $ch) (i32.const 2)))
+        (local.set $frame (i32.const 0))
+        (block $frames_done
+          (loop $frames
+            (br_if $frames_done (i32.ge_u (local.get $frame) (local.get $n)))
+            (call $aw
+              (local.get $ch)
+              (local.get $frame)
+              (f32.mul
+                (call $ar (local.get $ch) (local.get $frame))
+                (local.get $gain)))
+            (local.set $frame (i32.add (local.get $frame) (i32.const 1)))
+            (br $frames)))
+        (local.set $ch (i32.add (local.get $ch) (i32.const 1)))
+        (br $channels)))
+    i32.const 0))

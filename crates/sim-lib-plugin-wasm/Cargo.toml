@@ -1,0 +1,31 @@
+[package]
+name = "sim-lib-plugin-wasm"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "WebAssembly audio plugin host for SIM audio graph processors."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[features]
+default = []
+wasm-plugin = ["dep:wasmtime"]
+clap-host = ["dep:sim-lib-plugin-clap", "sim-lib-plugin-clap/clap-host"]
+lv2-host = ["dep:sim-lib-plugin-lv2", "sim-lib-plugin-lv2/lv2-host"]
+
+[dependencies]
+sim-kernel = { version = "0.1.0" }
+sim-lib-audio-graph-core = { version = "0.1.0", path = "../sim-lib-audio-graph-core" }
+sim-lib-plugin-clap = { version = "0.1.0", path = "../sim-lib-plugin-clap", optional = true }
+sim-lib-plugin-core = { version = "0.1.0", path = "../sim-lib-plugin-core" }
+sim-lib-plugin-lv2 = { version = "0.1.0", path = "../sim-lib-plugin-lv2", optional = true }
+sim-wasm-abi = { version = "0.1.0", features = ["audio"] }
+wasmtime = { version = "23", optional = true, default-features = false, features = ["cranelift", "runtime", "component-model"] }
+
+[dev-dependencies]
+wat = "1"
+
+[lints]
+workspace = true

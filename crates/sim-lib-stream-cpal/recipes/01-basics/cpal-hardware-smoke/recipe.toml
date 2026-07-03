@@ -1,0 +1,13 @@
+id = "cpal-hardware-smoke"
+title = "cpal hardware smoke"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 20
+tags = ["stream", "cpal", "hardware", "smoke"]
+requires = ["stream-cpal", "codec/lisp", "cpal-hardware"]
+expected = "expected.txt"
+
+[[expect]]
+form = 0
+result = "(stream-cpal hardware-smoke (guard SIM_CPAL_HARDWARE_SMOKE) (command cargo-test) (expected test-ok))"

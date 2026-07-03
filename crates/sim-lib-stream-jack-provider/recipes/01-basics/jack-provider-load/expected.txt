@@ -1,0 +1,1 @@
+(stream-jack-provider load (capability audio.provider.native) (loader loader-registry) (entry sim_audio_provider_v1) (site audio/provider/jack-modeled) (fallback modeled))

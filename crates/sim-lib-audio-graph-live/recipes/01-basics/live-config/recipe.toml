@@ -1,0 +1,8 @@
+id = "live-config"
+title = "Live graph config descriptor"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 10
+tags = ["audio-graph", "live", "descriptor"]
+requires = ["audio-graph-live", "codec/lisp"]

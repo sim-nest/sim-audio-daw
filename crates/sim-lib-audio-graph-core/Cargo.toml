@@ -1,0 +1,20 @@
+[package]
+name = "sim-lib-audio-graph-core"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+description = "Pure Rust audio processor graph primitives."
+readme = "README.md"
+publish = true
+repository = "https://github.com/sim-nest/sim-audio-daw"
+homepage = "https://github.com/sim-nest/sim-audio-daw"
+
+[dependencies]
+sim-citizen = { version = "0.1.0" }
+sim-citizen-derive = { version = "0.1.0" }
+sim-kernel = { version = "0.1.0" }
+sim-lib-stream-core = { version = "0.1.0" }
+sim-value = { version = "0.1.0" }
+
+[lints]
+workspace = true

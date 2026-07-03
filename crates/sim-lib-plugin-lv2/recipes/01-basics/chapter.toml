@@ -1,0 +1,3 @@
+title = "Basics"
+order = 10
+summary = "LV2 descriptor examples without host scanning."

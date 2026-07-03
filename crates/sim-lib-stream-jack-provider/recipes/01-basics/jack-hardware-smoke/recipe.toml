@@ -1,0 +1,13 @@
+id = "jack-hardware-smoke"
+title = "JACK hardware smoke"
+codec = "lisp"
+setup = "setup.siml"
+purpose = "purpose.md"
+order = 20
+tags = ["stream", "jack", "provider", "hardware", "smoke"]
+requires = ["stream-jack-provider", "codec/lisp", "jack-hardware"]
+expected = "expected.txt"
+
+[[expect]]
+form = 0
+result = "(stream-jack-provider hardware-smoke (guard SIM_JACK_HARDWARE_SMOKE) (command cargo-test) (expected test-ok))"

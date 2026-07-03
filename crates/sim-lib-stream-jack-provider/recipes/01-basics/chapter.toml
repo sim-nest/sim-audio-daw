@@ -1,0 +1,3 @@
+title = "Basics"
+order = 10
+summary = "JACK provider registration through the shared audio-provider seam."
