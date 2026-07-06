@@ -49,7 +49,9 @@ impl Lib for CpalProviderModeled {
 mod tests {
     use std::sync::Arc;
 
-    use sim_kernel::{Cx, DefaultFactory, EagerPolicy, Lib, LibLoader, LibSource, LoaderRegistry};
+    use sim_kernel::{
+        Cx, DefaultFactory, EagerPolicy, GrantSeat, Lib, LibLoader, LibSource, LoaderRegistry,
+    };
     use sim_lib_stream_host::{
         AudioProviderHost, AudioRouter, AudioSiteKey, DeviceCatalog, RouterAudioProviderRegistrar,
         native_audio_provider_capability,
@@ -71,8 +73,8 @@ mod tests {
         }
     }
 
-    fn test_cx() -> Cx {
-        Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory))
+    fn test_cx() -> (Cx, GrantSeat) {
+        Cx::new_seated(Arc::new(EagerPolicy), Arc::new(DefaultFactory))
     }
 
     #[test]
@@ -90,8 +92,8 @@ mod tests {
     #[test]
     fn provider_modeled_loads_through_audio_provider_host() {
         let loaders = LoaderRegistry::new().with_loader(CpalModeledProviderLoader);
-        let mut cx = test_cx();
-        cx.grant(native_audio_provider_capability());
+        let (mut cx, seat) = test_cx();
+        seat.grant(&mut cx, native_audio_provider_capability());
         let mut router = AudioRouter::new();
         let mut host = AudioProviderHost::new(&mut cx, &loaders)
             .with_entry(cpal_modeled_provider_symbol(), cpal_modeled_provider_entry);
