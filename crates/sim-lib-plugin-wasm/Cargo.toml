@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-plugin-wasm"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MPL-2.0"
 description = "WebAssembly audio plugin host for SIM audio graph processors."

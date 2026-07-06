@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-audio-dsp"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MPL-2.0"
 description = "Reusable pure Rust DSP processors for the SIM audio graph."
