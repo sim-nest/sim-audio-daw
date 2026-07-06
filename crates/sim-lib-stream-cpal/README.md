@@ -7,9 +7,9 @@ cpal stream-host adapter with a modeled default lane and gated hardware support.
 ## Package Metadata
 
 - Manifest: `crates/sim-lib-stream-cpal/Cargo.toml`
-- Publish: `false`
+- Publish: `true`
 - Targets: `lib`
 
 ## Crate Documentation
 
-cpal stream-host adapter with a modeled default lane and gated hardware support.
+cpal stream-host adapter.

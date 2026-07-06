@@ -7,7 +7,7 @@ Common plugin descriptors, state, and graph adapters.
 ## Package Metadata
 
 - Manifest: `crates/sim-lib-plugin-core/Cargo.toml`
-- Publish: `false`
+- Publish: `true`
 - Targets: `lib`
 
 ## Crate Documentation

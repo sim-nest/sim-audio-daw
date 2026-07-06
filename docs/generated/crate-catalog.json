@@ -1,0 +1,128 @@
+{
+  "generator": "xtask crate-catalog v1",
+  "package_count": 10,
+  "packages": [
+    {
+      "description": "Reusable pure Rust DSP processors for the SIM audio graph.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-audio-dsp/Cargo.toml",
+      "name": "sim-lib-audio-dsp",
+      "publish": "true",
+      "readme": "crates/sim-lib-audio-dsp/README.md",
+      "root": "crates/sim-lib-audio-dsp",
+      "target_kinds": [
+        "lib",
+        "test"
+      ]
+    },
+    {
+      "description": "Pure Rust audio processor graph primitives.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-audio-graph-core/Cargo.toml",
+      "name": "sim-lib-audio-graph-core",
+      "publish": "true",
+      "readme": "crates/sim-lib-audio-graph-core/README.md",
+      "root": "crates/sim-lib-audio-graph-core",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "Preallocated live audio graph runner for host callback integration.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-audio-graph-live/Cargo.toml",
+      "name": "sim-lib-audio-graph-live",
+      "publish": "true",
+      "readme": "crates/sim-lib-audio-graph-live/README.md",
+      "root": "crates/sim-lib-audio-graph-live",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "Modeled CLAP-shaped plugin adapters for SIM audio graph processors (no native CLAP hosting).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-plugin-clap/Cargo.toml",
+      "name": "sim-lib-plugin-clap",
+      "publish": "true",
+      "readme": "crates/sim-lib-plugin-clap/README.md",
+      "root": "crates/sim-lib-plugin-clap",
+      "target_kinds": [
+        "lib",
+        "test"
+      ]
+    },
+    {
+      "description": "Common plugin descriptors, state, and graph adapters.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-plugin-core/Cargo.toml",
+      "name": "sim-lib-plugin-core",
+      "publish": "true",
+      "readme": "crates/sim-lib-plugin-core/README.md",
+      "root": "crates/sim-lib-plugin-core",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "LV2-shaped plugin adapters for SIM audio graph processors.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-plugin-lv2/Cargo.toml",
+      "name": "sim-lib-plugin-lv2",
+      "publish": "true",
+      "readme": "crates/sim-lib-plugin-lv2/README.md",
+      "root": "crates/sim-lib-plugin-lv2",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "VST3-shaped plugin export adapters for SIM audio graph processors.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-plugin-vst3/Cargo.toml",
+      "name": "sim-lib-plugin-vst3",
+      "publish": "true",
+      "readme": "crates/sim-lib-plugin-vst3/README.md",
+      "root": "crates/sim-lib-plugin-vst3",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "WebAssembly audio plugin host for SIM audio graph processors.",
+      "generated_readme": false,
+      "manifest": "crates/sim-lib-plugin-wasm/Cargo.toml",
+      "name": "sim-lib-plugin-wasm",
+      "publish": "true",
+      "readme": "crates/sim-lib-plugin-wasm/README.md",
+      "root": "crates/sim-lib-plugin-wasm",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "cpal stream-host adapter with a modeled default lane and gated hardware support.",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-cpal/Cargo.toml",
+      "name": "sim-lib-stream-cpal",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-cpal/README.md",
+      "root": "crates/sim-lib-stream-cpal",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "SIM workspace package for xtask.",
+      "generated_readme": true,
+      "manifest": "xtask/Cargo.toml",
+      "name": "xtask",
+      "publish": "false",
+      "readme": "xtask/README.md",
+      "root": "xtask",
+      "target_kinds": [
+        "bin"
+      ]
+    }
+  ]
+}
