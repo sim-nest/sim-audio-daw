@@ -69,10 +69,14 @@ impl Processor for OnePoleFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.states.len() < channels {
-            self.states.resize(channels, OnePoleState::default());
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // state, so clamp to it rather than grow a wider block in place.
+        let prepared = self.states.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "OnePoleFilter::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let alpha = self.alpha();
         let frames = block.frames as usize;
         for channel in 0..channels {
@@ -244,10 +248,14 @@ impl Processor for BiquadFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.states.len() < channels {
-            self.states.resize(channels, BiquadState::default());
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // state, so clamp to it rather than grow a wider block in place.
+        let prepared = self.states.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "BiquadFilter::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let c = self.coefficients;
         let frames = block.frames as usize;
         for channel in 0..channels {
@@ -343,10 +351,14 @@ impl Processor for StateVariableFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.states.len() < channels {
-            self.states.resize(channels, SvfState::default());
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // state, so clamp to it rather than grow a wider block in place.
+        let prepared = self.states.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "StateVariableFilter::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {

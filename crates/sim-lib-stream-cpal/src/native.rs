@@ -1,9 +1,9 @@
 //! Native cpal hardware site support.
 
-use std::{rc::Rc, sync::Mutex};
+use std::{collections::VecDeque, rc::Rc, sync::Mutex};
 
 use sim_kernel::{Error, Result, Symbol};
-use sim_lib_stream_core::{BufferPolicy, ClockDomain, StreamMedia};
+use sim_lib_stream_core::{BufferPolicy, ClockDomain, PcmSampleFormat, StreamMedia, StreamPacket};
 use sim_lib_stream_host::{
     AudioDeviceCard, AudioSite, AudioSiteKey, HostClockInfo, HostDirection, HostLatencyInfo,
     HostOpenStream, HostStreamConfig, HostStreamConfigRequest, HostStreamDriver,
@@ -12,6 +12,10 @@ use sim_lib_stream_host::{
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
 const CPAL_DEFAULT_FRAMES_PER_BUFFER: u32 = 512;
+
+/// Number of buffered host items pulled per refill attempt inside the realtime
+/// output callback.
+const QUEUE_DRAIN_BATCH: usize = 64;
 
 /// Returns the hardware backend identity symbol for cpal streams.
 pub fn cpal_hardware_backend_symbol() -> Symbol {
@@ -124,25 +128,22 @@ pub struct CpalDriver {
 
 impl CpalDriver {
     /// Builds and starts a cpal output stream for an opened SIM host stream.
+    ///
+    /// The realtime callback drains PCM packets buffered on `queue` into the
+    /// device output buffer, so a live host stream reaches the hardware; any
+    /// shortfall is filled with silence.
     pub fn spawn(
         device: &cpal::Device,
         config: cpal::SupportedStreamConfig,
-        _queue: sim_lib_stream_host::HostCallbackQueue,
+        queue: sim_lib_stream_host::HostCallbackQueue,
     ) -> Result<Self> {
         let stream_config = config.config();
+        let mut pending: VecDeque<f32> = VecDeque::new();
         let stream = device
             .build_output_stream(
                 &stream_config,
-                |samples: &mut [f32], _callback_info| {
-                    // SAFETY: `samples.as_mut_ptr()` comes from this callback's
-                    // exclusive `&mut [f32]`; the reconstructed slice uses the
-                    // same length and does not escape the callback.
-                    let out = unsafe {
-                        std::slice::from_raw_parts_mut(samples.as_mut_ptr(), samples.len())
-                    };
-                    for sample in out {
-                        *sample = 0.0;
-                    }
+                move |samples: &mut [f32], _callback_info| {
+                    fill_output_from_queue(&queue, &mut pending, samples);
                 },
                 |_err| {},
                 None,
@@ -193,6 +194,45 @@ enum CpalDriverHandle {
     Test {
         _probe: Box<dyn Send>,
     },
+}
+
+/// Drains buffered PCM packets from `queue` into the interleaved `samples`
+/// output buffer, buffering any surplus in `pending` for the next callback and
+/// zero-filling whatever the queue cannot supply.
+///
+/// Runs on the realtime audio thread, so it only touches the non-blocking queue
+/// drain and never allocates beyond the shared `pending` scratch buffer.
+fn fill_output_from_queue(
+    queue: &sim_lib_stream_host::HostCallbackQueue,
+    pending: &mut VecDeque<f32>,
+    samples: &mut [f32],
+) {
+    while pending.len() < samples.len() {
+        match queue.drain(QUEUE_DRAIN_BATCH) {
+            Ok(items) if !items.is_empty() => {
+                for item in items {
+                    if let StreamPacket::Pcm(pcm) = item.packet() {
+                        match pcm.sample_format() {
+                            PcmSampleFormat::F32 => {
+                                pending.extend(pcm.samples_f32().iter().copied());
+                            }
+                            PcmSampleFormat::I16 => {
+                                pending.extend(
+                                    pcm.samples_i16()
+                                        .iter()
+                                        .map(|sample| f32::from(*sample) / f32::from(i16::MAX)),
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+            _ => break,
+        }
+    }
+    for sample in samples.iter_mut() {
+        *sample = pending.pop_front().unwrap_or(0.0);
+    }
 }
 
 /// Enumerates output devices as cpal hardware audio sites.

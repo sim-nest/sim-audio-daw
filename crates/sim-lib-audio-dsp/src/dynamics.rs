@@ -205,10 +205,14 @@ impl Processor for Compressor {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.envelopes.len() < channels {
-            self.envelopes.resize(channels, self.envelope());
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // state, so clamp to it rather than grow a wider block in place.
+        let prepared = self.envelopes.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "Compressor::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {
@@ -288,10 +292,14 @@ impl Processor for Gate {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.envelopes.len() < channels {
-            self.envelopes.resize(channels, self.envelope());
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // state, so clamp to it rather than grow a wider block in place.
+        let prepared = self.envelopes.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "Gate::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {

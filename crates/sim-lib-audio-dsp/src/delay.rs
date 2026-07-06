@@ -111,12 +111,14 @@ impl Processor for DelayProcessor {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.lines.len() < channels {
-            let max_delay_samples = self.max_delay_samples();
-            self.lines
-                .resize_with(channels, || DelayLine::new(max_delay_samples));
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // delay lines, so clamp to them rather than build a new line in place.
+        let prepared = self.lines.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "DelayProcessor::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let delay = self.delay_samples();
         let frames = block.frames as usize;
         for channel in 0..channels {
@@ -246,12 +248,14 @@ impl Processor for AllPassFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.lines.len() < channels {
-            let delay_samples = self.delay_samples() as usize;
-            self.lines
-                .resize_with(channels, || DelayLine::new(delay_samples));
-        }
+        // The audio callback never allocates: `prepare` sized the per-channel
+        // delay lines, so clamp to them rather than build a new line in place.
+        let prepared = self.lines.len();
+        debug_assert!(
+            output_channels(block) <= prepared,
+            "AllPassFilter::process received more channels than prepare configured"
+        );
+        let channels = output_channels(block).min(prepared);
         let delay = self.delay_samples();
         let frames = block.frames as usize;
         for channel in 0..channels {

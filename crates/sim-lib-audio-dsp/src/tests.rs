@@ -257,3 +257,67 @@ fn assert_all_finite(output: &[Vec<f32>]) {
         }
     }
 }
+
+/// Prepares `processor` for `prepared_channels` then processes one block whose
+/// output has `block_channels` lanes, without re-preparing in between. Used to
+/// exercise the audio-path channel clamp when the block width differs from what
+/// `prepare` saw.
+fn process_with_prepared_width<P: Processor + ?Sized>(
+    processor: &mut P,
+    prepared_channels: usize,
+    block_channels: usize,
+    frames: usize,
+) -> Vec<Vec<f32>> {
+    processor.prepare(PrepareConfig::new(
+        48_000,
+        frames as u32,
+        block_channels as u16,
+        prepared_channels as u16,
+    ));
+    let input: Vec<f32> = (0..frames)
+        .map(|frame| frame as f32 / frames as f32)
+        .collect();
+    let inputs: Vec<&[f32]> = (0..block_channels).map(|_| input.as_slice()).collect();
+    let mut output = vec![vec![0.0; frames]; block_channels];
+    let mut output_refs: Vec<&mut [f32]> = output.iter_mut().map(Vec::as_mut_slice).collect();
+    let mut sink = NullEventSink;
+    let mut scratch = BlockArena::with_f32_capacity(frames * block_channels.max(1));
+    let mut block = ProcessBlock {
+        frames: frames as u32,
+        in_audio: &inputs,
+        out_audio: &mut output_refs,
+        in_events: &[],
+        out_events: &mut sink,
+        transport: Transport::default(),
+        scratch: &mut scratch,
+    };
+    processor.process(&mut block);
+    output
+}
+
+#[test]
+fn narrower_block_than_prepare_clamps_and_stays_finite() {
+    // Prepared for four channels, handed a two-channel block: the audio path
+    // clamps to the block width and never touches the extra prepared state.
+    let mut compressor = Compressor::new(-12.0, 4.0);
+    let output = process_with_prepared_width(&mut compressor, 4, 2, 32);
+    assert_eq!(output.len(), 2);
+    assert_all_finite(&output);
+
+    let mut delay = DelayProcessor::milliseconds(2.0, 8.0);
+    let output = process_with_prepared_width(&mut delay, 4, 2, 32);
+    assert_eq!(output.len(), 2);
+    assert_all_finite(&output);
+}
+
+// In debug builds the audio-path guard trips instead of silently reallocating
+// per-channel state when a block is wider than `prepare` configured. In release
+// builds the same width is clamped without allocating, so this contract check
+// is debug-only.
+#[cfg(debug_assertions)]
+#[test]
+#[should_panic(expected = "more channels than prepare configured")]
+fn wider_block_than_prepare_trips_guard_in_debug() {
+    let mut compressor = Compressor::new(-12.0, 4.0);
+    let _ = process_with_prepared_width(&mut compressor, 1, 2, 16);
+}
