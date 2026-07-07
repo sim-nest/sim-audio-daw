@@ -1,10 +1,52 @@
 # sim-audio-daw
 
+Build an audio workstation in Rust: shape sound with pure-Rust DSP, patch a live
+signal graph that renders identically in tests and on real hardware, and host
+CLAP, LV2, and VST3 plugins -- all as inspectable SIM data.
+
 sim-audio-daw is a repository in the SIM constellation. SIM is an expandable Rust
 runtime built around a small protocol kernel plus loadable libraries; this repo
 holds the audio, plugin, and DAW libraries. The kernel does not own DAW or
 plugin policy: audio graphs, plugin descriptors, live back-ends, and DAW
 sessions are all library data surfaces loaded on top of the kernel.
+
+## Example
+
+Add the audio graph crate and render a block offline -- the same graph that later
+drives a live host callback:
+
+```bash
+cargo add sim-lib-audio-graph-core
+```
+
+```rust
+use sim_lib_audio_graph_core::{Graph, PrepareConfig, ProcessBlock, Processor};
+
+#[derive(Default)]
+struct CopyNode;
+
+impl Processor for CopyNode {
+    fn prepare(&mut self, _cfg: PrepareConfig) {}
+    fn reset(&mut self) {}
+    fn process(&mut self, block: &mut ProcessBlock<'_>) {
+        let frames = block.frames as usize;
+        for (input, output) in block.in_audio.iter().zip(block.out_audio.iter_mut()) {
+            output[..frames].copy_from_slice(&input[..frames]);
+        }
+    }
+}
+
+let mut graph = Graph::new();
+graph.add_node("copy", Box::<CopyNode>::default(), 1, 1).unwrap();
+graph.prepare(48_000, 4).unwrap();
+
+// Deterministic offline render returns the processed buffers:
+let output = graph.process_offline(&[vec![0.25, -0.5]], 2).unwrap();
+assert_eq!(output, vec![vec![0.25, -0.5]]);
+```
+
+(from the crate-level doctest in
+`crates/sim-lib-audio-graph-core/src/lib.rs:8`.)
 
 ## What this repo provides
 
