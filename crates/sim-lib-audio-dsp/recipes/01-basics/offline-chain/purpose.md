@@ -1,4 +1,4 @@
-# Offline DSP chain descriptor
+# Offline audio DSP chain (descriptor)
 
-This recipe lists deterministic DSP processors and their golden-fixture path.
-Use offline fixtures before any host graph integration.
+Documents an offline audio DSP chain (gain, delay, filter, compressor). Audio sample processing runs
+outside the cookbook sandbox eval stack, so the chain is documented rather than rendered live.

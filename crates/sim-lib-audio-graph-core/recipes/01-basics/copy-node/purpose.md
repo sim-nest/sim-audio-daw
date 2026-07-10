@@ -1,4 +1,4 @@
-# Copy node graph descriptor
+# Audio graph copy node (descriptor)
 
-This recipe shows an audio graph as portable data: a copy node, input/output
-ports, and an offline process block.
+Documents an audio graph copy node with in/out ports. It is a graph-topology descriptor; the audio
+graph runs on an audio device outside the cookbook sandbox eval stack.

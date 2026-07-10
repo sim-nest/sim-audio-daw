@@ -1,4 +1,5 @@
-# LV2 gain descriptor
+# LV2 gain plugin (descriptor)
 
-This recipe keeps LV2 examples as port descriptors: audio and control ports
-plus the derived plugin descriptor.
+Documents the LV2 gain plugin descriptor (ports). A plugin ABI descriptor: the plugin is
+instantiated and run inside an audio host, not the cookbook sandbox eval stack, so it is
+documented rather than run.

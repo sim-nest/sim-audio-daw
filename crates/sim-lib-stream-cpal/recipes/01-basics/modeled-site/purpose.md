@@ -1,5 +1,4 @@
-# Modeled cpal site descriptor
+# Modeled CPAL site (descriptor)
 
-This recipe records the cpal stream site shape with a deterministic modeled
-stereo device. It opens through the shared fake host backend and does not
-require local sound hardware.
+Documents a modeled CPAL stereo site with a fake backend -- a placement target (`Export::Site`) for
+audio. Placement is resolved through the eval fabric outside the cookbook sandbox eval stack.

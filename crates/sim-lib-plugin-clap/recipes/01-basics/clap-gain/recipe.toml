@@ -4,5 +4,5 @@ codec = "lisp"
 setup = "setup.siml"
 purpose = "purpose.md"
 order = 10
-tags = ["plugin", "clap", "descriptor"]
+tags = ["plugin", "clap", "descriptor", "sandbox-descriptor"]
 requires = ["plugin-clap", "codec/lisp"]

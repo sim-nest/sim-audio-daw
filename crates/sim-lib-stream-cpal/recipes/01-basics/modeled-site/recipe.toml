@@ -4,5 +4,5 @@ codec = "lisp"
 setup = "setup.siml"
 purpose = "purpose.md"
 order = 10
-tags = ["stream", "cpal", "site"]
+tags = ["stream", "cpal", "site", "sandbox-descriptor"]
 requires = ["stream-cpal", "codec/lisp"]

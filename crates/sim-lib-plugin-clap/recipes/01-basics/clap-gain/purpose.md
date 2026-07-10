@@ -1,4 +1,5 @@
-# CLAP gain descriptor
+# CLAP gain plugin (descriptor)
 
-This recipe represents a CLAP export as descriptor data: format, gain
-parameter, and export surface. It does not load a plugin host.
+Documents the CLAP gain plugin descriptor (parameters). A plugin ABI descriptor: the plugin is
+instantiated and run inside an audio host, not the cookbook sandbox eval stack, so it is
+documented rather than run.

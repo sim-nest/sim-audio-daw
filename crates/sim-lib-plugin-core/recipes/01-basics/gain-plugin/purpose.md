@@ -1,4 +1,5 @@
-# Gain plugin descriptor
+# core plugin gain plugin (descriptor)
 
-This recipe shows the plugin-core shape: descriptor id, gain parameter, and
-portable state data before any host format adapter is involved.
+Documents the core plugin gain plugin descriptor (parameters). A plugin ABI descriptor: the plugin is
+instantiated and run inside an audio host, not the cookbook sandbox eval stack, so it is
+documented rather than run.

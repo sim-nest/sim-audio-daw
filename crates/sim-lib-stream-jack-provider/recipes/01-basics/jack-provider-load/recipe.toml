@@ -4,7 +4,7 @@ codec = "lisp"
 setup = "setup.siml"
 purpose = "purpose.md"
 order = 30
-tags = ["stream", "jack", "provider", "loader", "capability"]
+tags = ["stream", "jack", "provider", "loader", "capability", "sandbox-descriptor"]
 requires = ["stream-jack-provider", "stream-host", "codec/lisp"]
 expected = "expected.txt"
 

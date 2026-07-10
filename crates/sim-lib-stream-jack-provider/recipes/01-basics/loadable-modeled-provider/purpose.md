@@ -1,5 +1,4 @@
-# Loadable modeled JACK provider
+# Loadable modeled JACK provider (descriptor)
 
-This recipe records the default JACK provider path. The provider registers a
-modeled JACK site through the shared audio-provider registrar and does not link
-to JACK or open host hardware.
+Documents a loadable modeled JACK site (a fake backend standing in for hardware). It is a placement
+descriptor resolved through the eval fabric, not the cookbook sandbox eval stack.

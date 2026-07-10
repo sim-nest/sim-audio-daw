@@ -4,7 +4,7 @@ codec = "lisp"
 setup = "setup.siml"
 purpose = "purpose.md"
 order = 20
-tags = ["stream", "cpal", "hardware", "smoke"]
+tags = ["stream", "cpal", "hardware", "smoke", "sandbox-descriptor"]
 requires = ["stream-cpal", "codec/lisp", "cpal-hardware"]
 expected = "expected.txt"
 
