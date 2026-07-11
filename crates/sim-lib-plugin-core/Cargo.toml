@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-plugin-core"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MPL-2.0"
 description = "Common plugin descriptors, state, and graph adapters."
@@ -10,6 +10,7 @@ repository = "https://github.com/sim-nest/sim-audio-daw"
 homepage = "https://github.com/sim-nest/sim-audio-daw"
 
 [dependencies]
+sim-cookbook = { version = "0.1.0" }
 sim-citizen = { version = "0.1.0" }
 sim-citizen-derive = { version = "0.1.0" }
 sim-kernel = { version = "0.1.0" }
@@ -19,3 +20,6 @@ sim-value = { version = "0.1.0" }
 
 [lints]
 workspace = true
+
+[build-dependencies]
+sim-cookbook = { version = "0.1.0" }

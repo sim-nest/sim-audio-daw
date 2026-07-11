@@ -8,7 +8,7 @@ Pure Rust audio processor graph primitives.
 
 - Manifest: `crates/sim-lib-audio-graph-core/Cargo.toml`
 - Publish: `true`
-- Targets: `lib`
+- Targets: `custom-build, lib`
 
 ## Crate Documentation
 

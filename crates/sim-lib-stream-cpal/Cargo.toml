@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-stream-cpal"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 license = "MPL-2.0"
 description = "cpal stream-host adapter with a modeled default lane and gated hardware support."
@@ -15,7 +15,11 @@ model = []
 cpal-hardware = ["dep:cpal"]
 
 [dependencies]
+sim-cookbook = { version = "0.1.0" }
 cpal = { version = "0.15", optional = true }
 sim-kernel = { version = "0.1.0" }
 sim-lib-stream-core = { version = "0.1.0" }
 sim-lib-stream-host = { version = "0.1.0" }
+
+[build-dependencies]
+sim-cookbook = { version = "0.1.0" }

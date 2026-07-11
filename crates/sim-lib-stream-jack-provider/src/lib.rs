@@ -25,5 +25,10 @@ pub use entry::sim_audio_provider_v1;
 #[cfg(feature = "jack-hardware")]
 pub use native::{enumerate_jack_hardware_sites, JackDriver, JackHardwareSite};
 
+
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;

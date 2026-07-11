@@ -29,5 +29,9 @@ pub use oversampling::{NonlinearSampleProcessor, OversampledSoftClipper, Oversam
 pub use runtime::{AudioDspLib, audio_dsp_symbols, install_audio_dsp_lib};
 pub use smoothing::{SmoothValue, SmoothedGain};
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;

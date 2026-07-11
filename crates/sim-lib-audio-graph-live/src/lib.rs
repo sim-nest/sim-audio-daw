@@ -32,6 +32,10 @@ pub use transport::{
     validate_lan_buffered_preview_envelope,
 };
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod site_tests;
 #[cfg(test)]

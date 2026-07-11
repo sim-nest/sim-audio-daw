@@ -11,6 +11,7 @@
       "readme": "crates/sim-lib-audio-dsp/README.md",
       "root": "crates/sim-lib-audio-dsp",
       "target_kinds": [
+        "custom-build",
         "lib",
         "test"
       ]
@@ -24,6 +25,7 @@
       "readme": "crates/sim-lib-audio-graph-core/README.md",
       "root": "crates/sim-lib-audio-graph-core",
       "target_kinds": [
+        "custom-build",
         "lib"
       ]
     },
@@ -36,6 +38,7 @@
       "readme": "crates/sim-lib-audio-graph-live/README.md",
       "root": "crates/sim-lib-audio-graph-live",
       "target_kinds": [
+        "custom-build",
         "lib"
       ]
     },
@@ -48,6 +51,7 @@
       "readme": "crates/sim-lib-plugin-clap/README.md",
       "root": "crates/sim-lib-plugin-clap",
       "target_kinds": [
+        "custom-build",
         "lib",
         "test"
       ]
@@ -61,6 +65,7 @@
       "readme": "crates/sim-lib-plugin-core/README.md",
       "root": "crates/sim-lib-plugin-core",
       "target_kinds": [
+        "custom-build",
         "lib"
       ]
     },
@@ -73,6 +78,7 @@
       "readme": "crates/sim-lib-plugin-lv2/README.md",
       "root": "crates/sim-lib-plugin-lv2",
       "target_kinds": [
+        "custom-build",
         "lib"
       ]
     },
@@ -85,6 +91,7 @@
       "readme": "crates/sim-lib-plugin-vst3/README.md",
       "root": "crates/sim-lib-plugin-vst3",
       "target_kinds": [
+        "custom-build",
         "lib"
       ]
     },
@@ -109,6 +116,7 @@
       "readme": "crates/sim-lib-stream-cpal/README.md",
       "root": "crates/sim-lib-stream-cpal",
       "target_kinds": [
+        "custom-build",
         "lib"
       ]
     },

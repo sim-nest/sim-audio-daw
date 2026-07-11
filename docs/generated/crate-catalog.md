@@ -6,13 +6,13 @@ Generated from Cargo metadata by `xtask crate-catalog v1`.
 
 | Package | Publish | Targets | Description |
 | --- | --- | --- | --- |
-| `sim-lib-audio-dsp` | `true` | `lib, test` | Reusable pure Rust DSP processors for the SIM audio graph. |
-| `sim-lib-audio-graph-core` | `true` | `lib` | Pure Rust audio processor graph primitives. |
-| `sim-lib-audio-graph-live` | `true` | `lib` | Preallocated live audio graph runner for host callback integration. |
-| `sim-lib-plugin-clap` | `true` | `lib, test` | Modeled CLAP-shaped plugin adapters for SIM audio graph processors (no native CLAP hosting). |
-| `sim-lib-plugin-core` | `true` | `lib` | Common plugin descriptors, state, and graph adapters. |
-| `sim-lib-plugin-lv2` | `true` | `lib` | LV2-shaped plugin adapters for SIM audio graph processors. |
-| `sim-lib-plugin-vst3` | `true` | `lib` | VST3-shaped plugin export adapters for SIM audio graph processors. |
+| `sim-lib-audio-dsp` | `true` | `custom-build, lib, test` | Reusable pure Rust DSP processors for the SIM audio graph. |
+| `sim-lib-audio-graph-core` | `true` | `custom-build, lib` | Pure Rust audio processor graph primitives. |
+| `sim-lib-audio-graph-live` | `true` | `custom-build, lib` | Preallocated live audio graph runner for host callback integration. |
+| `sim-lib-plugin-clap` | `true` | `custom-build, lib, test` | Modeled CLAP-shaped plugin adapters for SIM audio graph processors (no native CLAP hosting). |
+| `sim-lib-plugin-core` | `true` | `custom-build, lib` | Common plugin descriptors, state, and graph adapters. |
+| `sim-lib-plugin-lv2` | `true` | `custom-build, lib` | LV2-shaped plugin adapters for SIM audio graph processors. |
+| `sim-lib-plugin-vst3` | `true` | `custom-build, lib` | VST3-shaped plugin export adapters for SIM audio graph processors. |
 | `sim-lib-plugin-wasm` | `true` | `lib` | WebAssembly audio plugin host for SIM audio graph processors. |
-| `sim-lib-stream-cpal` | `true` | `lib` | cpal stream-host adapter with a modeled default lane and gated hardware support. |
+| `sim-lib-stream-cpal` | `true` | `custom-build, lib` | cpal stream-host adapter with a modeled default lane and gated hardware support. |
 | `xtask` | `false` | `bin` | SIM workspace package for xtask. |

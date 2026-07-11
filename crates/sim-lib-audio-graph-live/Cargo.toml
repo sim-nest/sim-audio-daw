@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-audio-graph-live"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MPL-2.0"
 description = "Preallocated live audio graph runner for host callback integration."
@@ -10,6 +10,7 @@ repository = "https://github.com/sim-nest/sim-audio-daw"
 homepage = "https://github.com/sim-nest/sim-audio-daw"
 
 [dependencies]
+sim-cookbook = { version = "0.1.0" }
 sim-kernel = { version = "0.1.0" }
 sim-lib-audio-graph-core = { version = "0.1.0", path = "../sim-lib-audio-graph-core" }
 sim-lib-core = { version = "0.1.0" }
@@ -20,3 +21,6 @@ sim-lib-stream-host = { version = "0.1.0" }
 
 [lints]
 workspace = true
+
+[build-dependencies]
+sim-cookbook = { version = "0.1.0" }

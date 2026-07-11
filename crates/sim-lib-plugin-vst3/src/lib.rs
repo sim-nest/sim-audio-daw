@@ -34,5 +34,9 @@ pub use event::{Vst3Event, Vst3EventBuffer, Vst3ParamMap};
 pub use runtime::{Vst3PluginLib, install_vst3_plugin_lib, vst3_plugin_symbols};
 pub use scope::{Vst3HostingDecision, Vst3ScopeDecision, current_vst3_scope};
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;
