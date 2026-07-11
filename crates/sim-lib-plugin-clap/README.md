@@ -8,7 +8,7 @@ Modeled CLAP-shaped plugin adapters for SIM audio graph processors (no native CL
 
 - Manifest: `crates/sim-lib-plugin-clap/Cargo.toml`
 - Publish: `true`
-- Targets: `lib, test`
+- Targets: `custom-build, lib, test`
 
 ## Crate Documentation
 

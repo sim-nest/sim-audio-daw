@@ -8,7 +8,7 @@ Reusable pure Rust DSP processors for the SIM audio graph.
 
 - Manifest: `crates/sim-lib-audio-dsp/Cargo.toml`
 - Publish: `true`
-- Targets: `lib, test`
+- Targets: `custom-build, lib, test`
 
 ## Crate Documentation
 

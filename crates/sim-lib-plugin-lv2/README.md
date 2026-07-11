@@ -8,7 +8,7 @@ LV2-shaped plugin adapters for SIM audio graph processors.
 
 - Manifest: `crates/sim-lib-plugin-lv2/Cargo.toml`
 - Publish: `true`
-- Targets: `lib`
+- Targets: `custom-build, lib`
 
 ## Crate Documentation
 

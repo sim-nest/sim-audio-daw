@@ -8,7 +8,7 @@ VST3-shaped plugin export adapters for SIM audio graph processors.
 
 - Manifest: `crates/sim-lib-plugin-vst3/Cargo.toml`
 - Publish: `true`
-- Targets: `lib`
+- Targets: `custom-build, lib`
 
 ## Crate Documentation
 

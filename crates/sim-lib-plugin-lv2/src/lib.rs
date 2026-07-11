@@ -35,5 +35,9 @@ pub use descriptor::{
 pub use runtime::{install_lv2_plugin_lib, lv2_plugin_symbols};
 pub use state::Lv2StatePatch;
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;

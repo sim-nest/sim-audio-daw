@@ -8,7 +8,7 @@ Preallocated live audio graph runner for host callback integration.
 
 - Manifest: `crates/sim-lib-audio-graph-live/Cargo.toml`
 - Publish: `true`
-- Targets: `lib`
+- Targets: `custom-build, lib`
 
 ## Crate Documentation
 

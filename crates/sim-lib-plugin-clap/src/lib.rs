@@ -31,5 +31,9 @@ pub use descriptor::{clap_audio_effect_descriptor, clap_gain_descriptor, clap_sy
 pub use event::{ClapEvent, ClapEventBuffer, ClapParamMap};
 pub use runtime::{ClapPluginLib, clap_plugin_symbols, install_clap_plugin_lib};
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;

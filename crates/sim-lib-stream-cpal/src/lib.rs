@@ -29,5 +29,9 @@ pub use native::{
     enumerate_cpal_hardware_sites, enumerate_cpal_sites,
 };
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;

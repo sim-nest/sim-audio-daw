@@ -40,5 +40,9 @@ pub use descriptor::{
 pub use runtime::{install_plugin_core_lib, plugin_core_symbols};
 pub use state::PluginState;
 
+/// Cookbook recipes for this lib, embedded at build time.
+pub static RECIPES: sim_cookbook::EmbeddedDir =
+    include!(concat!(env!("OUT_DIR"), "/cookbook_recipes.rs"));
+
 #[cfg(test)]
 mod tests;
