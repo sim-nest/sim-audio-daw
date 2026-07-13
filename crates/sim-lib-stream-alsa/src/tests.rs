@@ -12,7 +12,8 @@ use sim_lib_stream_host::{
 
 use crate::{
     AlsaBackend, AlsaCaptureBridge, AlsaPcmDevice, AlsaPcmName, AlsaPcmNameKind,
-    AlsaPlaybackBridge, alsa_backend_symbol, default_modeled_alsa_site, install_stream_alsa_lib,
+    AlsaPlaybackBridge, alsa_audio_backend_candidate, alsa_backend_symbol,
+    default_modeled_alsa_site, install_stream_alsa_lib,
 };
 
 #[derive(Debug)]
@@ -65,6 +66,15 @@ fn fake_backend_enumerates_default_hw_and_plughw_pcm_devices() {
             .devices()
             .iter()
             .any(|device| device.id() == &Symbol::new("alsa/plughw:1,0/capture"))
+    );
+}
+
+#[test]
+fn config_probe_candidate_names_alsa_backend() {
+    assert_eq!(alsa_audio_backend_candidate(), "alsa");
+    assert_eq!(
+        alsa_backend_symbol().name.as_ref(),
+        alsa_audio_backend_candidate()
     );
 }
 

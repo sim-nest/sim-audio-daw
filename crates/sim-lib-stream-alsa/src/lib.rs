@@ -23,7 +23,9 @@ mod model;
 mod runtime;
 mod site;
 
-pub use backend::{AlsaBackend, alsa_backend_symbol, alsa_transport_symbol};
+pub use backend::{
+    AlsaBackend, alsa_audio_backend_candidate, alsa_backend_symbol, alsa_transport_symbol,
+};
 pub use bridge::{AlsaCaptureBridge, AlsaPlaybackBridge};
 pub use model::{AlsaPcmDevice, AlsaPcmName, AlsaPcmNameKind};
 pub use runtime::{AlsaLib, install_stream_alsa_lib};

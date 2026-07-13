@@ -22,7 +22,8 @@ mod model;
 mod runtime;
 
 pub use backend::{
-    CoreAudioBackend, coreaudio_backend_symbol, coreaudio_clock_symbol, coreaudio_transport_symbol,
+    CoreAudioBackend, coreaudio_audio_backend_candidate, coreaudio_backend_symbol,
+    coreaudio_clock_symbol, coreaudio_transport_symbol,
 };
 pub use bridge::CoreAudioRenderBridge;
 pub use model::{

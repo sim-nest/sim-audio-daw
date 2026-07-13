@@ -1,5 +1,10 @@
 //! Resolution table for the modeled backend family.
 
+/// Returns the cpal backend candidate name used by safe config probes.
+pub fn cpal_audio_backend_candidate() -> &'static str {
+    "cpal"
+}
+
 /// Resolution selected for a modeled audio backend crate.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum BackendResolution {
@@ -89,6 +94,11 @@ mod tests {
             .expect("JACK row exists");
 
         assert_eq!(jack.resolution, BackendResolution::LoadableProvider);
+    }
+
+    #[test]
+    fn config_probe_candidate_names_cpal_backend() {
+        assert_eq!(super::cpal_audio_backend_candidate(), "cpal");
     }
 
     #[test]

@@ -17,6 +17,7 @@ mod native;
 
 pub use backend_resolution::{
     BackendResolution, BackendResolutionRow, audio_backend_resolution_rows,
+    cpal_audio_backend_candidate,
 };
 pub use model::{CpalModeledSite, cpal_modeled_backend_symbol, default_modeled_cpal_site};
 pub use provider_modeled::{

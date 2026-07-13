@@ -21,7 +21,10 @@ mod bridge;
 mod model;
 mod runtime;
 
-pub use backend::{PipeWireBackend, pipewire_backend_symbol, pipewire_transport_symbol};
+pub use backend::{
+    PipeWireBackend, pipewire_audio_backend_candidate, pipewire_backend_symbol,
+    pipewire_transport_symbol,
+};
 pub use bridge::{PipeWireCaptureBridge, PipeWireGraphBridge};
 pub use model::{PipeWireNode, PipeWirePort, PipeWireTiming, linux_audio_backend_priority};
 pub use runtime::{PipeWireLib, install_stream_pipewire_lib};

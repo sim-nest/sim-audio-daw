@@ -19,7 +19,7 @@ const QUEUE_DRAIN_BATCH: usize = 64;
 
 /// Returns the hardware backend identity symbol for cpal streams.
 pub fn cpal_hardware_backend_symbol() -> Symbol {
-    Symbol::qualified("stream/host", "cpal")
+    Symbol::qualified("stream/host", crate::cpal_audio_backend_candidate())
 }
 
 /// Native cpal output site for one host device.

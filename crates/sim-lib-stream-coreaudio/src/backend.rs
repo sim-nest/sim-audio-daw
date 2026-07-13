@@ -8,17 +8,22 @@ use sim_lib_stream_host::{
 
 use crate::{CoreAudioDevice, CoreAudioTiming};
 
+/// Returns the CoreAudio audio backend candidate name used by safe config probes.
+pub fn coreaudio_audio_backend_candidate() -> &'static str {
+    "coreaudio"
+}
+
 /// Returns the `stream/host` symbol identifying the CoreAudio host backend.
 ///
 /// This is the backend id carried by the backend `HostBackendInfo` and matched
 /// against an incoming `HostStreamConfigRequest` backend when routing opens.
 pub fn coreaudio_backend_symbol() -> Symbol {
-    Symbol::qualified("stream/host", "coreaudio")
+    Symbol::qualified("stream/host", coreaudio_audio_backend_candidate())
 }
 
 /// Returns the `stream/transport` symbol for the CoreAudio transport surface.
 pub fn coreaudio_transport_symbol() -> Symbol {
-    Symbol::qualified("stream/transport", "coreaudio")
+    Symbol::qualified("stream/transport", coreaudio_audio_backend_candidate())
 }
 
 /// Returns the `clock` symbol stamped onto streams opened by this backend.
