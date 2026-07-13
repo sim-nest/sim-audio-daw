@@ -25,5 +25,5 @@ sim-lib-stream-host = { version = "0.1.0" }
 [dev-dependencies]
 sim-test-support = { version = "0.1.0" }
 
-[lints]
-workspace = true
+[lints.rust]
+unsafe_code = "forbid"

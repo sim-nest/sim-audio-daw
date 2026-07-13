@@ -14,7 +14,10 @@ members = [
   "xtask",
 ]
 exclude = [
+  "crates/sim-lib-stream-alsa",
+  "crates/sim-lib-stream-coreaudio",
   "crates/sim-lib-stream-jack-provider",
+  "crates/sim-lib-stream-pipewire",
 ]
 
 [workspace.package]
