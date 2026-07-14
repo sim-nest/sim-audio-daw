@@ -20,6 +20,7 @@
 //! ```
 
 mod adapter;
+pub mod cookbook;
 mod descriptor;
 #[cfg(all(feature = "lv2-host", target_os = "linux"))]
 pub mod native;
@@ -29,6 +30,7 @@ mod state;
 pub use adapter::{
     Lv2ExportedProcessor, Lv2HostProcessor, export_gain_as_lv2, export_processor_as_lv2,
 };
+pub use cookbook::lv2_gain_demo;
 pub use descriptor::{
     Lv2PluginDescriptor, Lv2Port, Lv2PortKind, lv2_gain_descriptor, lv2_gain_lv2_descriptor,
 };

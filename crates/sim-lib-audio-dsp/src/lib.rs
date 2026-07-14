@@ -4,6 +4,7 @@
 
 mod citizen;
 mod common;
+pub mod cookbook;
 mod delay;
 mod dynamics;
 mod filter;
@@ -15,6 +16,7 @@ mod runtime;
 mod smoothing;
 
 pub use citizen::{DspConfigDescriptor, dsp_config_class_symbol};
+pub use cookbook::{audio_processing_trace_demo, offline_chain_demo};
 pub use delay::{AllPassFilter, CombFilter, DelayLine, DelayProcessor, FractionalDelay};
 pub use dynamics::{
     Compressor, DynamicsEnvelope, Gate, Limiter, SoftClipper, Waveshape, Waveshaper,

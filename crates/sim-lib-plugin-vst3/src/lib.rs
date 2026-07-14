@@ -20,12 +20,14 @@
 //! ```
 
 mod adapter;
+pub mod cookbook;
 mod descriptor;
 mod event;
 mod runtime;
 mod scope;
 
 pub use adapter::{Vst3ExportedProcessor, export_gain_as_vst3, export_processor_as_vst3};
+pub use cookbook::vst3_gain_demo;
 pub use descriptor::{
     Vst3Bus, Vst3BusKind, Vst3ParamInfo, Vst3PluginDescriptor, vst3_gain_descriptor,
     vst3_gain_vst3_descriptor,

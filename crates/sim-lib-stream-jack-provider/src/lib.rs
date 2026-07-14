@@ -7,12 +7,16 @@
 //! enables the native JACK module and the exported provider symbol for cdylib
 //! loading.
 
+pub mod cookbook;
 mod entry;
 mod model;
 
 #[cfg(feature = "jack-hardware")]
 mod native;
 
+pub use cookbook::{
+    jack_hardware_smoke_demo, jack_loadable_modeled_provider_demo, jack_provider_load_demo,
+};
 pub use entry::jack_provider_entry;
 pub use model::{
     default_modeled_jack_site, enumerate_jack_sites, jack_backend_symbol, jack_provider_symbol,

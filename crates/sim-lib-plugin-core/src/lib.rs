@@ -27,6 +27,7 @@
 mod adapter;
 mod capability;
 mod citizen;
+pub mod cookbook;
 mod descriptor;
 mod runtime;
 mod state;
@@ -34,6 +35,7 @@ mod state;
 pub use adapter::{HostedPluginProcessor, PluginInstance, ProcessorPlugin};
 pub use capability::{AudioPluginCapability, CapabilitySet};
 pub use citizen::{PluginDescriptorRecord, plugin_descriptor_class_symbol};
+pub use cookbook::gain_plugin_demo;
 pub use descriptor::{
     ParameterDescriptor, ParameterKind, PluginDescriptor, PluginFormat, PluginId, PluginLoadSpec,
 };

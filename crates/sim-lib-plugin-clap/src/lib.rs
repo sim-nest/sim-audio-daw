@@ -18,6 +18,7 @@
 //! ```
 
 mod adapter;
+pub mod cookbook;
 mod descriptor;
 mod event;
 #[cfg(feature = "clap-host")]
@@ -27,6 +28,7 @@ mod runtime;
 pub use adapter::{
     ClapExportedProcessor, ClapHostProcessor, export_gain_as_clap, export_processor_as_clap,
 };
+pub use cookbook::clap_gain_demo;
 pub use descriptor::{clap_audio_effect_descriptor, clap_gain_descriptor, clap_synth_descriptor};
 pub use event::{ClapEvent, ClapEventBuffer, ClapParamMap};
 pub use runtime::{ClapPluginLib, clap_plugin_symbols, install_clap_plugin_lib};

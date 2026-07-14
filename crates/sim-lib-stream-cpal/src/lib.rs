@@ -9,6 +9,7 @@
 //! conversion and documents every unsafe block.
 
 mod backend_resolution;
+pub mod cookbook;
 mod model;
 mod provider_modeled;
 
@@ -19,6 +20,7 @@ pub use backend_resolution::{
     BackendResolution, BackendResolutionRow, audio_backend_resolution_rows,
     cpal_audio_backend_candidate,
 };
+pub use cookbook::{cpal_hardware_smoke_demo, cpal_modeled_site_demo};
 pub use model::{CpalModeledSite, cpal_modeled_backend_symbol, default_modeled_cpal_site};
 pub use provider_modeled::{
     CpalProviderModeled, cpal_modeled_provider_entry, cpal_modeled_provider_symbol,
