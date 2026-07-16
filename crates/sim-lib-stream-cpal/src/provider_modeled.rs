@@ -77,6 +77,29 @@ mod tests {
         Cx::new_seated(Arc::new(EagerPolicy), Arc::new(DefaultFactory))
     }
 
+    trait GrantOutcome {
+        fn expect_granted(self);
+    }
+
+    impl GrantOutcome for () {
+        fn expect_granted(self) {}
+    }
+
+    impl GrantOutcome for Result<()> {
+        fn expect_granted(self) {
+            self.unwrap();
+        }
+    }
+
+    macro_rules! expect_granted {
+        ($grant:expr) => {{
+            #[allow(clippy::let_unit_value)]
+            let grant_result = $grant;
+            #[allow(clippy::unit_arg)]
+            grant_result.expect_granted();
+        }};
+    }
+
     #[test]
     fn provider_modeled_entry_registers_cpal_site() {
         let mut router = AudioRouter::new();
@@ -93,7 +116,7 @@ mod tests {
     fn provider_modeled_loads_through_audio_provider_host() {
         let loaders = LoaderRegistry::new().with_loader(CpalModeledProviderLoader);
         let (mut cx, seat) = test_cx();
-        seat.grant(&mut cx, native_audio_provider_capability());
+        expect_granted!(seat.grant(&mut cx, native_audio_provider_capability()));
         let mut router = AudioRouter::new();
         let mut host = AudioProviderHost::new(&mut cx, &loaders)
             .with_entry(cpal_modeled_provider_symbol(), cpal_modeled_provider_entry);
