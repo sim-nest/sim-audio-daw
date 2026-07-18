@@ -1,11 +1,10 @@
-#![cfg_attr(not(feature = "jack-hardware"), forbid(unsafe_code))]
+#![forbid(unsafe_code)]
 #![deny(missing_docs)]
 //! Loadable JACK audio placement provider.
 //!
 //! The default modeled lane registers a deterministic JACK-shaped audio site
 //! without linking to JACK or opening host hardware. The `jack-hardware` feature
-//! enables the native JACK module and the exported provider symbol for cdylib
-//! loading.
+//! enables the native JACK module for Rust host-registered provider entries.
 
 pub mod cookbook;
 mod entry;
@@ -22,9 +21,6 @@ pub use model::{
     default_modeled_jack_site, enumerate_jack_sites, jack_backend_symbol, jack_modeled_site_symbol,
     jack_provider_symbol, JackProviderModeled,
 };
-
-#[cfg(feature = "jack-hardware")]
-pub use entry::sim_audio_provider_v1;
 
 #[cfg(feature = "jack-hardware")]
 pub use native::{enumerate_jack_hardware_sites, JackDriver, JackHardwareSite};

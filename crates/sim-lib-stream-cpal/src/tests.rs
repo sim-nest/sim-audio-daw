@@ -19,7 +19,7 @@ use std::{
 
 #[cfg(feature = "cpal-hardware")]
 use sim_lib_stream_core::{
-    BufferPolicy, ClockDomain, PcmPacket, PushResult, StreamMedia, StreamPacket,
+    BufferPolicy, ClockDomain, PcmPacket, PushResult, StreamItem, StreamMedia, StreamPacket,
 };
 #[cfg(feature = "cpal-hardware")]
 use sim_lib_stream_host::{AudioSite, HostDirection, HostStreamConfigRequest};
@@ -176,6 +176,48 @@ fn config_from_cpal_uses_default_frames_with_bounds() {
     assert_eq!(config.clock().clock(), &ClockDomain::Sample.symbol());
     assert_eq!(config.clock().sample_rate_hz(), Some(96_000));
     assert_eq!(config.latency().output_frames(), 256);
+}
+
+#[cfg(feature = "cpal-hardware")]
+#[test]
+fn cpal_callback_pending_capacity_does_not_grow_for_oversized_pcm() {
+    let mut router = AudioRouter::new();
+    router.register(CpalModeledSite::default_stereo());
+    let opened = open_same_graph(&router, AudioSiteKey(cpal_modeled_site_symbol()));
+
+    let samples = (0..128)
+        .map(|sample| sample as f32 / 128.0)
+        .collect::<Vec<_>>();
+    let packet = PcmPacket::f32(2, 64, samples.clone()).unwrap();
+    assert_eq!(
+        opened
+            .stream()
+            .push_packet(StreamItem::new(StreamPacket::Pcm(packet)))
+            .unwrap(),
+        PushResult::Accepted
+    );
+
+    let mut pending = crate::native::CallbackPending::with_capacity(8);
+    let allocated = pending.allocated_capacity();
+    let mut output = [0.0_f32; 4];
+
+    crate::native::fill_output_from_queue(opened.queue(), &mut pending, &mut output);
+
+    assert_eq!(pending.allocated_capacity(), allocated);
+    assert_eq!(output, [samples[0], samples[1], samples[2], samples[3]]);
+}
+
+#[cfg(feature = "cpal-hardware")]
+#[test]
+fn cpal_pending_capacity_is_sized_from_supported_config() {
+    let supported = cpal::SupportedStreamConfig::new(
+        2,
+        cpal::SampleRate(96_000),
+        cpal::SupportedBufferSize::Range { min: 128, max: 256 },
+        cpal::SampleFormat::I16,
+    );
+
+    assert_eq!(crate::native::pending_capacity(&supported), 1024);
 }
 
 #[cfg(feature = "cpal-hardware")]

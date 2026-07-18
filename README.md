@@ -117,9 +117,10 @@ hardware feature.
 
 `sim-lib-stream-jack-provider` is a loadable JACK placement provider. Its
 default lane is modeled and FFI-free, and its `jack-hardware` feature keeps the
-native JACK binding isolated in the provider cdylib. Hosts load the provider
-through `LoaderRegistry::load_lib` under the `audio.provider.native` capability;
-when the provider is absent, placement resolves to the modeled site.
+native JACK binding isolated behind a Rust host-registered provider entry. Hosts
+load the provider through `LoaderRegistry::load_lib` under the
+`audio.provider.native` capability; when the provider is absent, placement
+resolves to the modeled site.
 
 ## How the pieces fit
 
