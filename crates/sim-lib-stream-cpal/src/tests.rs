@@ -147,8 +147,10 @@ fn cpal_real_site_smoke() {
     let silence = PcmPacket::f32(channels, 1, vec![0.0; channels]).unwrap();
     assert_eq!(
         opened
-            .queue()
-            .callback_packet(StreamPacket::Pcm(silence))
+            .stream()
+            .push_packet(sim_lib_stream_core::StreamItem::new(StreamPacket::Pcm(
+                silence
+            )))
             .unwrap(),
         PushResult::Accepted
     );

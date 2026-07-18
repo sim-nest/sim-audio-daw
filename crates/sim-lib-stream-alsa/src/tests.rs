@@ -207,8 +207,10 @@ fn same_graph_two_modeled_sites() {
             packet_from_graph_output(&rendered, expected_channels, frames as usize);
 
         opened
-            .queue()
-            .callback_packet(StreamPacket::Pcm(expected_packet.clone()))
+            .stream()
+            .push_packet(sim_lib_stream_core::StreamItem::new(StreamPacket::Pcm(
+                expected_packet.clone(),
+            )))
             .unwrap();
         let delivered = opened.queue().drain(1).unwrap();
         let StreamPacket::Pcm(packet) = delivered[0].packet() else {

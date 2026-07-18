@@ -135,7 +135,9 @@ fn callback_cassette_replays_fake_asio_queue_without_hardware() {
         sim_lib_stream_core::PcmPacket::f32(1, 2, vec![0.0, 0.5]).unwrap(),
     ));
 
-    cassette.replay(opened.queue()).unwrap();
+    for item in cassette.items() {
+        opened.stream().push_packet(item.clone()).unwrap();
+    }
 
     assert_eq!(opened.queue().drain(4).unwrap().len(), 1);
 }

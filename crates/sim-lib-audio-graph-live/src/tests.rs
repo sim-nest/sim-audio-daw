@@ -144,10 +144,10 @@ fn live_graph_runs_under_fake_backend() {
         )
         .unwrap();
     opened
-        .queue()
-        .callback_packet(StreamPacket::Pcm(
+        .stream()
+        .push_packet(sim_lib_stream_core::StreamItem::new(StreamPacket::Pcm(
             PcmPacket::f32(2, 2, output.to_vec()).unwrap(),
-        ))
+        )))
         .unwrap();
 
     assert_eq!(report.frames(), 2);
