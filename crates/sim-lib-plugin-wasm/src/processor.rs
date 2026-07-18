@@ -70,6 +70,7 @@ pub struct WasmPluginProcessor {
     #[cfg(feature = "wasm-plugin")]
     fn_process: TypedFunc<(), i32>,
     descriptor: PluginDescriptor,
+    last_error: Option<String>,
     #[cfg(feature = "wasm-plugin")]
     state: PluginState,
     #[cfg(feature = "wasm-plugin")]
@@ -80,6 +81,22 @@ impl WasmPluginProcessor {
     /// Returns this plugin's descriptor.
     pub fn descriptor(&self) -> &PluginDescriptor {
         &self.descriptor
+    }
+
+    /// Returns and clears the last Wasm backend error observed through a
+    /// non-`Result` trait entry point.
+    pub fn take_last_error(&mut self) -> Option<String> {
+        self.last_error.take()
+    }
+
+    #[cfg(feature = "wasm-plugin")]
+    fn remember_error(&mut self, err: &Error) {
+        self.last_error = Some(err.to_string());
+    }
+
+    #[cfg(feature = "wasm-plugin")]
+    fn clear_last_error(&mut self) {
+        self.last_error = None;
     }
 
     /// Sets one host-side parameter value.
@@ -180,6 +197,7 @@ impl WasmPluginProcessor {
             fn_reset,
             fn_process,
             descriptor,
+            last_error: None,
             state: PluginState::new(),
             limits,
         })
@@ -225,17 +243,20 @@ impl WasmPluginProcessor {
                         output[..frames].copy_from_slice(&lane[..frames]);
                     }
                 }
+                self.clear_last_error();
                 Ok(())
             }
             Ok(code) => {
                 silence_block(block, frames);
-                Err(Error::Eval(format!(
-                    "wasm plugin process returned status {code}"
-                )))
+                let err = Error::Eval(format!("wasm plugin process returned status {code}"));
+                self.remember_error(&err);
+                Err(err)
             }
             Err(err) => {
                 silence_block(block, frames);
-                Err(Error::Eval(format!("wasm plugin process trapped: {err}")))
+                let err = Error::Eval(format!("wasm plugin process trapped: {err}"));
+                self.remember_error(&err);
+                Err(err)
             }
         }
     }
@@ -396,10 +417,24 @@ impl PluginInstance for WasmPluginProcessor {
     }
 
     fn set_state(&mut self, state: PluginState) {
+        let mut applied = PluginState::new();
+        let mut rejected = Vec::new();
         for (&id, &value) in state.params() {
-            let _ = self.set_param(id, value);
+            match self.set_param(id, value) {
+                Ok(()) => applied.set_param(id, value),
+                Err(err) => rejected.push(err.to_string()),
+            }
         }
-        self.state = state;
+        self.state = applied;
+        if rejected.is_empty() {
+            self.clear_last_error();
+        } else {
+            self.last_error = Some(format!(
+                "wasm plugin state restore skipped {} parameter(s): {}",
+                rejected.len(),
+                rejected.join("; ")
+            ));
+        }
     }
 
     fn prepare(&mut self, cfg: PrepareConfig) {
@@ -434,6 +469,10 @@ impl PluginInstance for WasmPluginProcessor {
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
         let _ = self.process_checked(block);
+    }
+
+    fn take_last_error(&mut self) -> Option<String> {
+        WasmPluginProcessor::take_last_error(self)
     }
 }
 

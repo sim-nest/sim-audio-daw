@@ -88,6 +88,10 @@ impl<I: PluginInstance> PluginInstance for ClapHostProcessor<I> {
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
         self.hosted.process(block);
     }
+
+    fn take_last_error(&mut self) -> Option<String> {
+        self.hosted.instance_mut().take_last_error()
+    }
 }
 
 /// A native SIM [`Processor`] presented to the host as a CLAP plugin instance.

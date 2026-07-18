@@ -78,6 +78,10 @@ impl<I: PluginInstance> PluginInstance for Lv2HostProcessor<I> {
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
         self.hosted.process(block);
     }
+
+    fn take_last_error(&mut self) -> Option<String> {
+        self.hosted.instance_mut().take_last_error()
+    }
 }
 
 /// A SIM graph [`Processor`] presented as an LV2-shaped [`PluginInstance`].
