@@ -5,7 +5,9 @@ use std::sync::Arc;
 use sim_kernel::{
     AbiVersion, Export, Lib, LibManifest, LibTarget, Linker, LoadCx, Result, Symbol, Version,
 };
-use sim_lib_stream_host::{AudioDeviceCard, AudioSite, AudioSiteKey, FakeBackend, ModeledAudioSite};
+use sim_lib_stream_host::{
+    AudioDeviceCard, AudioSite, AudioSiteKey, FakeBackend, ModeledAudioSite,
+};
 
 /// Returns the provider library identity.
 pub fn jack_provider_symbol() -> Symbol {

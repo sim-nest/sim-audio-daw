@@ -141,6 +141,60 @@
       "features": [
         {
           "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-alsa"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-asio"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-coreaudio"
+    },
+    {
+      "features": [
+        {
+          "edges": [
             "dep:cpal"
           ],
           "name": "cpal-hardware",
@@ -161,6 +215,60 @@
       ],
       "group": "workspace",
       "package": "sim-lib-stream-cpal"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-jack"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-pipewire"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-portaudio"
     },
     {
       "features": [],

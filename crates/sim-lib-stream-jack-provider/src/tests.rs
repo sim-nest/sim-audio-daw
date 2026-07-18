@@ -9,7 +9,7 @@ use sim_lib_stream_host::{
 };
 
 use crate::{
-    JackProviderModeled, jack_modeled_site_symbol, jack_provider_entry, jack_provider_symbol,
+    jack_modeled_site_symbol, jack_provider_entry, jack_provider_symbol, JackProviderModeled,
 };
 
 #[derive(Clone, Copy)]

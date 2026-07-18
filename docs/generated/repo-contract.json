@@ -85,13 +85,19 @@
       "sim-lib-plugin-lv2",
       "sim-lib-plugin-vst3",
       "sim-lib-plugin-wasm",
+      "sim-lib-stream-alsa",
+      "sim-lib-stream-asio",
+      "sim-lib-stream-coreaudio",
       "sim-lib-stream-cpal",
+      "sim-lib-stream-jack",
+      "sim-lib-stream-pipewire",
+      "sim-lib-stream-portaudio",
       "xtask"
     ]
   },
   "non_citizen_exemption_count": 0,
   "non_citizen_exemptions": [],
-  "package_count": 10,
+  "package_count": 16,
   "packages": [
     {
       "crate_name": "sim_lib_audio_dsp",
@@ -631,6 +637,150 @@
       ]
     },
     {
+      "crate_name": "sim_lib_stream_alsa",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled ALSA stream-host adapter (in-process simulation; no direct Linux PCM I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-alsa/Cargo.toml",
+      "name": "sim-lib-stream-alsa",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-alsa",
+      "rustdoc_summary": "Modeled ALSA stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_alsa",
+          "src": "crates/sim-lib-stream-alsa/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_asio",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled Windows ASIO stream-host adapter (in-process simulation; no ASIO SDK/driver I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-asio/Cargo.toml",
+      "name": "sim-lib-stream-asio",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-asio",
+      "rustdoc_summary": "Modeled Windows ASIO stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_asio",
+          "src": "crates/sim-lib-stream-asio/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_coreaudio",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled macOS CoreAudio stream-host adapter (in-process simulation; no Apple framework I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-coreaudio/Cargo.toml",
+      "name": "sim-lib-stream-coreaudio",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-coreaudio",
+      "rustdoc_summary": "Modeled macOS CoreAudio stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_coreaudio",
+          "src": "crates/sim-lib-stream-coreaudio/src/lib.rs"
+        }
+      ]
+    },
+    {
       "crate_name": "sim_lib_stream_cpal",
       "dependencies": [],
       "description": "cpal stream-host adapter with a modeled default lane and gated hardware support.",
@@ -689,6 +839,150 @@
       ]
     },
     {
+      "crate_name": "sim_lib_stream_jack",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-jack/Cargo.toml",
+      "name": "sim-lib-stream-jack",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-jack",
+      "rustdoc_summary": "Modeled JACK stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_jack",
+          "src": "crates/sim-lib-stream-jack/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_pipewire",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled PipeWire stream-host adapter (in-process simulation; no real PipeWire daemon I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-pipewire/Cargo.toml",
+      "name": "sim-lib-stream-pipewire",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-pipewire",
+      "rustdoc_summary": "Modeled PipeWire stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_pipewire",
+          "src": "crates/sim-lib-stream-pipewire/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_portaudio",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled PortAudio stream-host adapter (in-process simulation; no real PortAudio I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-portaudio/Cargo.toml",
+      "name": "sim-lib-stream-portaudio",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-portaudio",
+      "rustdoc_summary": "Modeled PortAudio stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_portaudio",
+          "src": "crates/sim-lib-stream-portaudio/src/lib.rs"
+        }
+      ]
+    },
+    {
       "crate_name": "xtask",
       "dependencies": [],
       "description": "SIM workspace package for xtask.",
@@ -721,10 +1015,10 @@
     "generated_by": "cargo run -p xtask -- simdoc",
     "generation_timestamp": "2026-07-15T01:30:35+02:00",
     "generator": "xtask repo-contract v1",
-    "git_commit": "2b2682ce1e08d377a614cd24d010c4d90b024360",
+    "git_commit": "094cdb54c4c7fbead49bce58dbf87a4a49b4c3ed",
     "repo": "sim-audio-daw",
     "schema": "sim.provenance.v1",
-    "source_commit": "2b2682ce1e08d377a614cd24d010c4d90b024360",
+    "source_commit": "094cdb54c4c7fbead49bce58dbf87a4a49b4c3ed",
     "source_remote": "https://github.com/sim-nest/sim-audio-daw",
     "validation_commands": [
       "cargo fmt --all --check",
@@ -737,7 +1031,7 @@
       "cargo run -p xtask -- validation-matrix --check --repo .",
       "cargo run -p xtask -- crate-catalog --check --repo ."
     ],
-    "workspace_hash": "86bbaf60299c6462",
+    "workspace_hash": "3e5647f2e822511d",
     "workspace_hash_algorithm": "fnv1a64",
     "workspace_hash_input_count": 182,
     "workspace_hash_inputs": [

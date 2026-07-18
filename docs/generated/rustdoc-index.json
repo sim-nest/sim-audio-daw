@@ -58,11 +58,53 @@
       "summary": "WebAssembly audio plugin host for SIM audio graph processors."
     },
     {
+      "crate_name": "sim_lib_stream_alsa",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-alsa/Cargo.toml",
+      "package": "sim-lib-stream-alsa",
+      "summary": "Modeled ALSA stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_asio",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-asio/Cargo.toml",
+      "package": "sim-lib-stream-asio",
+      "summary": "Modeled Windows ASIO stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_coreaudio",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-coreaudio/Cargo.toml",
+      "package": "sim-lib-stream-coreaudio",
+      "summary": "Modeled macOS CoreAudio stream-host adapter (in-process simulation)."
+    },
+    {
       "crate_name": "sim_lib_stream_cpal",
       "group": "workspace",
       "manifest": "crates/sim-lib-stream-cpal/Cargo.toml",
       "package": "sim-lib-stream-cpal",
       "summary": "cpal stream-host adapter."
+    },
+    {
+      "crate_name": "sim_lib_stream_jack",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-jack/Cargo.toml",
+      "package": "sim-lib-stream-jack",
+      "summary": "Modeled JACK stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_pipewire",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-pipewire/Cargo.toml",
+      "package": "sim-lib-stream-pipewire",
+      "summary": "Modeled PipeWire stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_portaudio",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-portaudio/Cargo.toml",
+      "package": "sim-lib-stream-portaudio",
+      "summary": "Modeled PortAudio stream-host adapter (in-process simulation)."
     },
     {
       "crate_name": "xtask",

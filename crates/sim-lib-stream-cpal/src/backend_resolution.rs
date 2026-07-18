@@ -102,38 +102,45 @@ mod tests {
     }
 
     #[test]
-    fn no_retired_backend_is_a_default_workspace_member() {
+    fn modeled_backend_crates_are_default_workspace_members() {
         let members = workspace_members(ROOT_MANIFEST);
         for row in audio_backend_resolution_rows() {
-            match row.resolution {
-                BackendResolution::RetireSubsumed | BackendResolution::LoadableProvider => {
-                    assert!(
-                        !members.iter().any(|member| member.contains(row.crate_name)),
-                        "{} appears in the default workspace members",
-                        row.crate_name
-                    );
-                }
-                BackendResolution::ModeledFixtureOnly => {}
-            }
+            assert!(
+                members.iter().any(|member| member.contains(row.crate_name)),
+                "{} is missing from the default workspace members",
+                row.crate_name
+            );
         }
     }
 
+    #[test]
+    fn jack_provider_is_explicit_standalone_lane() {
+        let excludes = workspace_array(ROOT_MANIFEST, "exclude");
+
+        assert!(excludes.contains(&"crates/sim-lib-stream-jack-provider"));
+    }
+
     fn workspace_members(manifest: &str) -> Vec<&str> {
-        let mut in_members = false;
-        let mut members = Vec::new();
+        workspace_array(manifest, "members")
+    }
+
+    fn workspace_array<'a>(manifest: &'a str, key: &str) -> Vec<&'a str> {
+        let mut in_array = false;
+        let mut values = Vec::new();
+        let opener = format!("{key} = [");
         for line in manifest.lines() {
             let trimmed = line.trim();
-            if trimmed == "members = [" {
-                in_members = true;
+            if trimmed == opener {
+                in_array = true;
                 continue;
             }
-            if in_members && trimmed == "]" {
+            if in_array && trimmed == "]" {
                 break;
             }
-            if in_members {
-                members.push(trimmed.trim_matches(',').trim_matches('"'));
+            if in_array {
+                values.push(trimmed.trim_matches(',').trim_matches('"'));
             }
         }
-        members
+        values
     }
 }

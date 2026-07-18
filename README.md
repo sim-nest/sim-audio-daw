@@ -55,11 +55,9 @@ back-ends:
 
 - A pure Rust processor graph that renders the same way in tests and live.
 - F32 PCM as the audio currency between processors, hosts, and back-ends.
-- The in-tree cpal stream adapter, plus provider-facing stream-host contracts
-  that keep native audio back-ends outside the default workspace.
+- The in-tree cpal stream adapter and modeled platform stream adapters for ALSA,
+  ASIO, CoreAudio, JACK, PipeWire, and PortAudio.
 - Plugin descriptor, export, and host-adapter surfaces for CLAP, LV2, and VST3.
-- A portable, headless DAW session model with offline rendering, expression
-  round-trips, and a topology launch package.
 
 Audio data and patches round-trip as SIM expressions, so graphs, plugin state,
 and sessions are inspectable, replayable, and agent-readable data rather than
@@ -94,28 +92,27 @@ opaque host state.
 - `sim-lib-plugin-vst3` -- VST3-shaped export/bus descriptor surface that lowers
   to the common plugin descriptor.
 
-### DAW session
+- `sim-lib-plugin-wasm` -- WebAssembly plugin host support for the shared audio
+  graph processor model.
 
-- `sim-lib-daw-session` -- a headless DAW session surface. Sessions are portable
-  data: an audio graph `Patch` plus tracks, buses, clips, transport,
-  plugin-chain state, and recording metadata. The crate is hardware-free and
-  renders deterministic offline buffers (`render_session_offline`) for tests,
-  previews, and agent inspection. It exposes browse/help Cards, expression
-  round-trips, and a topology package adapter
-  (`daw_session_topology_package`) that emits a launch package consumable by the
-  `sim-lib-topology` engine in the `sim-runtime` repo.
+### Stream-host adapters
 
-### Stream-host adapter
-
-The default workspace contains one in-tree real audio adapter:
+The default workspace contains hardware-free modeled platform adapters plus the
+cpal adapter's modeled lane:
 
 - `sim-lib-stream-cpal` -- cpal stream-host adapter with a deterministic modeled
   lane, capability-gated hardware enumeration, and the modeled provider entry
   used by the loadable audio-provider contract.
+- `sim-lib-stream-alsa` -- modeled Linux ALSA stream-host adapter.
+- `sim-lib-stream-asio` -- modeled Windows ASIO stream-host adapter.
+- `sim-lib-stream-coreaudio` -- modeled macOS CoreAudio stream-host adapter.
+- `sim-lib-stream-jack` -- modeled JACK stream-host adapter.
+- `sim-lib-stream-pipewire` -- modeled PipeWire stream-host adapter.
+- `sim-lib-stream-portaudio` -- modeled PortAudio stream-host adapter.
 
 The `sim-lib-stream-host` provider contract keeps platform-specific native
-audio back-ends outside the default workspace. The default workspace stays
-hardware-free unless a caller explicitly grants the provider capability or cpal
+audio back-ends behind explicit capability and feature gates. The default
+workspace stays hardware-free unless a caller explicitly enables the cpal
 hardware feature.
 
 `sim-lib-stream-jack-provider` is a loadable JACK placement provider. Its
@@ -127,14 +124,13 @@ when the provider is absent, placement resolves to the modeled site.
 ## How the pieces fit
 
 ```text
-processors (audio-dsp, plugin-*) --> audio-graph-core (Patch) --> daw-session
-                                          |                            |
-                                          v                            v
-                                    audio-graph-live              topology launch
-                                          |                          package
+processors (audio-dsp, plugin-*) --> audio-graph-core (Patch)
+                                          |
                                           v
-                                  stream-host adapter (cpal) plus
-                                      loadable providers
+                                    audio-graph-live
+                                          |
+                                          v
+                              stream-host adapters plus providers
 ```
 
 The same `Patch` renders offline for deterministic tests, drives the live runner
@@ -144,20 +140,30 @@ against a host callback, and serializes into a session or a topology package.
 
 Relevant root feature families across the constellation include
 `audio-graph-core`, `audio-graph-live`, `audio-dsp`,
-`plugin-core`, `plugin-clap`, `plugin-lv2`, `plugin-vst3`, `daw-session`, and
-the `stream-cpal` back-end selector.
+`plugin-core`, `plugin-clap`, `plugin-lv2`, `plugin-vst3`, `plugin-wasm`, and
+the modeled stream-adapter families.
 
 Source-level rustdoc is the primary API reference for these crates.
 
 ## Validation
 
-These commands run in the constellation workspace; only `sim-kernel` builds from
-a lone clone today (see `DEVELOPING.md` in `sim-sdk`).
+These commands validate the default hardware-free lane:
 
 ```bash
-cargo fmt --check && cargo test --workspace && cargo clippy --workspace -- -D warnings && cargo doc --workspace --no-deps
+cargo run -p xtask -- workspace-coverage --check
+cargo fmt --all --check
+cargo test --workspace
+cargo clippy --workspace --all-targets -- -D warnings
+cargo doc --workspace --no-deps
 cargo run -p xtask -- simdoc --check
 ```
+
+`sim-lib-stream-jack-provider` is a loadable provider lane outside the root
+workspace and is validated by manifest path. Native cpal hardware validation is
+a named system-package gate; on Linux it requires `pkg-config` and
+`libasound2-dev` before running `cargo clippy -p sim-lib-stream-cpal
+--all-features --all-targets -- -D warnings` and `cargo test -p
+sim-lib-stream-cpal --all-features`.
 
 ## Documentation Lanes
 
