@@ -46,7 +46,7 @@ mod processor;
 
 pub use arena::BlockArena;
 pub use block::ProcessBlock;
-pub use bridge::DomainBridgeProcessor;
+pub use bridge::DomainBridgeMetadataProcessor;
 pub use citizen::{
     AudioGraphNodeConfig, AudioGraphPatchDescriptor, audio_graph_node_config_class_symbol,
     audio_graph_patch_class_symbol,
