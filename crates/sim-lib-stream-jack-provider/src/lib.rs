@@ -19,8 +19,8 @@ pub use cookbook::{
 };
 pub use entry::jack_provider_entry;
 pub use model::{
-    default_modeled_jack_site, enumerate_jack_sites, jack_backend_symbol, jack_provider_symbol,
-    JackProviderModeled,
+    JackProviderModeled, default_modeled_jack_site, enumerate_jack_sites, jack_backend_symbol,
+    jack_modeled_site_symbol, jack_provider_symbol,
 };
 
 #[cfg(feature = "jack-hardware")]

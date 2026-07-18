@@ -39,7 +39,8 @@ impl CpalHardwareSite {
             .map(|config| config.channels())
             .unwrap_or(2);
         let sample_rates = sample_rates(&device, default_config.as_ref());
-        let key = AudioSiteKey::new(&format!("sim:cpal-hardware-{index}"));
+        let site_name = format!("cpal-hardware-{index}");
+        let key = AudioSiteKey(Symbol::qualified("audio/site", site_name));
         let card = AudioDeviceCard {
             key: key.clone(),
             display_name: name,

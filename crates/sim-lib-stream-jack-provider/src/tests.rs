@@ -8,7 +8,9 @@ use sim_lib_stream_host::{
     RouterAudioProviderRegistrar,
 };
 
-use crate::{jack_provider_entry, jack_provider_symbol, JackProviderModeled};
+use crate::{
+    JackProviderModeled, jack_modeled_site_symbol, jack_provider_entry, jack_provider_symbol,
+};
 
 #[derive(Clone, Copy)]
 struct JackModeledProviderLoader;
@@ -36,7 +38,7 @@ fn modeled_entry_registers_jack_site() {
 
     jack_provider_entry(&mut registrar).unwrap();
 
-    let key = AudioSiteKey::new("audio/provider/jack-modeled");
+    let key = AudioSiteKey(jack_modeled_site_symbol());
     let site = router.site(&key).expect("modeled JACK site registered");
     assert_eq!(site.card().display_name, "JACK Provider Modeled");
     assert!(!site.card().hardware_required);
@@ -55,7 +57,7 @@ fn modeled_provider_loads_through_audio_provider_host() {
     host.load_into(LibSource::Symbol(jack_provider_symbol()), &mut router)
         .unwrap();
 
-    let key = AudioSiteKey::new("audio/provider/jack-modeled");
+    let key = AudioSiteKey(jack_modeled_site_symbol());
     assert!(router.site(&key).is_some());
 
     let mut catalog = DeviceCatalog::default_modeled();

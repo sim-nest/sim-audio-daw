@@ -37,7 +37,8 @@ impl JackHardwareSite {
         sample_rate_hz: u32,
         buffer_frames: u32,
     ) -> Self {
-        let key = AudioSiteKey::new(&format!("audio/provider/jack-hardware-{index}"));
+        let site_name = format!("jack-hardware-{index}");
+        let key = AudioSiteKey(Symbol::qualified("audio/site", site_name));
         let card = AudioDeviceCard {
             key: key.clone(),
             display_name: "JACK Hardware".to_owned(),

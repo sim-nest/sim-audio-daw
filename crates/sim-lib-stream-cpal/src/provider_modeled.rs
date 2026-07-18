@@ -1,11 +1,11 @@
 //! Modeled cpal provider for the loadable audio-provider contract.
 
 use sim_kernel::{
-    AbiVersion, Error, Lib, LibManifest, LibTarget, Linker, LoadCx, Result, Symbol, Version,
+    AbiVersion, Error, Export, Lib, LibManifest, LibTarget, Linker, LoadCx, Result, Symbol, Version,
 };
 use sim_lib_stream_host::{AUDIO_PROVIDER_ABI_VERSION, AudioProviderRegistrar};
 
-use crate::default_modeled_cpal_site;
+use crate::{cpal_modeled_site_symbol, default_modeled_cpal_site};
 
 /// Returns the modeled cpal provider identity.
 pub fn cpal_modeled_provider_symbol() -> Symbol {
@@ -36,7 +36,10 @@ impl Lib for CpalProviderModeled {
             target: LibTarget::HostRegistered,
             requires: Vec::new(),
             capabilities: Vec::new(),
-            exports: Vec::new(),
+            exports: vec![Export::Site {
+                symbol: cpal_modeled_site_symbol(),
+                runtime_id: None,
+            }],
         }
     }
 
@@ -107,7 +110,7 @@ mod tests {
 
         cpal_modeled_provider_entry(&mut registrar).unwrap();
 
-        let key = AudioSiteKey::new("sim:cpal-modeled");
+        let key = AudioSiteKey(cpal_modeled_site_symbol());
         assert!(router.site(&key).is_some());
         assert_eq!(router.sites_by_capability(2, &[48_000]), vec![key]);
     }
@@ -127,7 +130,7 @@ mod tests {
         )
         .unwrap();
 
-        let key = AudioSiteKey::new("sim:cpal-modeled");
+        let key = AudioSiteKey(cpal_modeled_site_symbol());
         assert!(router.site(&key).is_some());
 
         let mut catalog = DeviceCatalog::default_modeled();

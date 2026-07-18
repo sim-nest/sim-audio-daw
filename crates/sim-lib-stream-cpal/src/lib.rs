@@ -21,7 +21,10 @@ pub use backend_resolution::{
     cpal_audio_backend_candidate,
 };
 pub use cookbook::{cpal_hardware_smoke_demo, cpal_modeled_site_demo};
-pub use model::{CpalModeledSite, cpal_modeled_backend_symbol, default_modeled_cpal_site};
+pub use model::{
+    CpalModeledSite, cpal_modeled_backend_symbol, cpal_modeled_site_symbol,
+    default_modeled_cpal_site,
+};
 pub use provider_modeled::{
     CpalProviderModeled, cpal_modeled_provider_entry, cpal_modeled_provider_symbol,
 };
