@@ -14,5 +14,11 @@ Generated from Cargo metadata by `xtask crate-catalog v1`.
 | `sim-lib-plugin-lv2` | `true` | `custom-build, lib` | LV2-shaped plugin adapters for SIM audio graph processors. |
 | `sim-lib-plugin-vst3` | `true` | `custom-build, lib` | VST3-shaped plugin export adapters for SIM audio graph processors. |
 | `sim-lib-plugin-wasm` | `true` | `lib` | WebAssembly audio plugin host for SIM audio graph processors. |
+| `sim-lib-stream-alsa` | `true` | `lib` | Modeled ALSA stream-host adapter (in-process simulation; no direct Linux PCM I/O). |
+| `sim-lib-stream-asio` | `true` | `lib` | Modeled Windows ASIO stream-host adapter (in-process simulation; no ASIO SDK/driver I/O). |
+| `sim-lib-stream-coreaudio` | `true` | `lib` | Modeled macOS CoreAudio stream-host adapter (in-process simulation; no Apple framework I/O). |
 | `sim-lib-stream-cpal` | `true` | `custom-build, lib` | cpal stream-host adapter with a modeled default lane and gated hardware support. |
+| `sim-lib-stream-jack` | `true` | `lib` | Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O). |
+| `sim-lib-stream-pipewire` | `true` | `lib` | Modeled PipeWire stream-host adapter (in-process simulation; no real PipeWire daemon I/O). |
+| `sim-lib-stream-portaudio` | `true` | `lib` | Modeled PortAudio stream-host adapter (in-process simulation; no real PortAudio I/O). |
 | `xtask` | `false` | `bin` | SIM workspace package for xtask. |
