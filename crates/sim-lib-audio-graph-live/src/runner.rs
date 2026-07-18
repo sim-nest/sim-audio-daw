@@ -342,9 +342,9 @@ impl<P: Processor> LiveGraphRunner<P> {
     fn drain_control_events(&mut self, frames: usize) -> Result<usize> {
         let mut count = 0;
         while let Some(event) = self.control_to_audio.pop() {
-            if event.offset() > frames as u32 {
+            if event.offset() >= frames as u32 {
                 return Err(Error::Eval(format!(
-                    "live control event offset {} exceeds block frames {frames}",
+                    "live control event offset {} is outside block frames 0..{frames}",
                     event.offset()
                 )));
             }

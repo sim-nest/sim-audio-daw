@@ -1,6 +1,6 @@
 use sim_lib_audio_graph_core::{PrepareConfig, ProcessBlock, Processor};
 
-use crate::common::{input_sample, output_channels, prepare_channels};
+use crate::common::{input_sample, prepare_channels, prepared_output_channels};
 
 /// A circular delay buffer with fractional, linearly interpolated reads.
 #[derive(Clone, Debug, PartialEq)]
@@ -22,6 +22,11 @@ impl DelayLine {
     pub fn reset(&mut self) {
         self.buffer.fill(0.0);
         self.write = 0;
+    }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn allocated_capacity(&self) -> usize {
+        self.buffer.capacity()
     }
 
     /// Reads the sample `delay_samples` in the past, interpolating fractional
@@ -95,6 +100,14 @@ impl DelayProcessor {
     fn max_delay_samples(&self) -> usize {
         (self.max_delay_seconds * self.sample_rate_hz).ceil() as usize
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        let mut snapshot = Vec::with_capacity(self.lines.len() + 1);
+        snapshot.push(self.lines.capacity());
+        snapshot.extend(self.lines.iter().map(DelayLine::allocated_capacity));
+        snapshot
+    }
 }
 
 impl Processor for DelayProcessor {
@@ -111,21 +124,18 @@ impl Processor for DelayProcessor {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // delay lines, so clamp to them rather than build a new line in place.
-        let prepared = self.lines.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "DelayProcessor::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.lines.len(), "DelayProcessor");
         let delay = self.delay_samples();
         let frames = block.frames as usize;
         for channel in 0..channels {
             let line = &mut self.lines[channel];
             for frame in 0..frames {
                 let input = input_sample(block, channel, frame);
-                let delayed = line.read(delay);
+                let delayed = if delay <= f32::EPSILON {
+                    input
+                } else {
+                    line.read(delay)
+                };
                 line.push(input + delayed * self.feedback);
                 block.out_audio[channel][frame] = input * self.dry + delayed * self.wet;
             }
@@ -149,6 +159,11 @@ impl FractionalDelay {
         Self {
             inner: DelayProcessor::milliseconds(delay_ms, max_delay_ms),
         }
+    }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        self.inner.realtime_state_snapshot()
     }
 }
 
@@ -184,6 +199,11 @@ impl CombFilter {
                 .with_feedback(feedback)
                 .with_mix(0.0, 1.0),
         }
+    }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        self.delay.realtime_state_snapshot()
     }
 }
 
@@ -228,6 +248,14 @@ impl AllPassFilter {
     fn delay_samples(&self) -> f32 {
         self.delay_seconds * self.sample_rate_hz
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        let mut snapshot = Vec::with_capacity(self.lines.len() + 1);
+        snapshot.push(self.lines.capacity());
+        snapshot.extend(self.lines.iter().map(DelayLine::allocated_capacity));
+        snapshot
+    }
 }
 
 impl Processor for AllPassFilter {
@@ -248,14 +276,7 @@ impl Processor for AllPassFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // delay lines, so clamp to them rather than build a new line in place.
-        let prepared = self.lines.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "AllPassFilter::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.lines.len(), "AllPassFilter");
         let delay = self.delay_samples();
         let frames = block.frames as usize;
         for channel in 0..channels {

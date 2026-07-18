@@ -16,6 +16,18 @@ pub(crate) fn output_channels(block: &ProcessBlock<'_>) -> usize {
     block.out_audio.len()
 }
 
+pub(crate) fn prepared_output_channels(
+    block: &ProcessBlock<'_>,
+    prepared: usize,
+    processor: &str,
+) -> usize {
+    debug_assert!(
+        output_channels(block) <= prepared,
+        "{processor}::process received more channels than prepare configured"
+    );
+    output_channels(block).min(prepared)
+}
+
 pub(crate) fn clamp_cutoff(cutoff_hz: f32, sample_rate_hz: f32) -> f32 {
     cutoff_hz.clamp(MIN_FILTER_HZ, (sample_rate_hz * 0.49).max(MIN_FILTER_HZ))
 }

@@ -76,6 +76,36 @@ fn vst3_events_map_to_block_events_and_sim_param_ids() {
 }
 
 #[test]
+fn vst3_checked_event_conversion_rejects_end_of_block_offsets() {
+    let params = Vst3ParamMap::new();
+    let accepted = Vst3Event::Midi {
+        sample_offset: 7,
+        bytes: [0x90, 60, 100],
+        len: 3,
+    };
+    assert_eq!(
+        accepted.try_to_block_event(&params, 8).unwrap(),
+        BlockEvent::Midi {
+            offset: 7,
+            bytes: [0x90, 60, 100],
+            len: 3,
+        }
+    );
+
+    let rejected = Vst3EventBuffer::new(vec![Vst3Event::ParamValue {
+        sample_offset: 8,
+        vst3_param_id: 100,
+        normalized: 0.5,
+    }]);
+    let err = rejected
+        .try_to_block_events(&params, 8)
+        .expect_err("offset equal to frames is outside the block");
+
+    assert!(err.to_string().contains("VST3 event offset 8"));
+    assert!(err.to_string().contains("outside block frames 0..8"));
+}
+
+#[test]
 fn sim_gain_exports_as_vst3_and_runs_via_core_host_processor() {
     let exported = export_gain_as_vst3(0.75).unwrap();
     assert_eq!(exported.descriptor().id.format, PluginFormat::Vst3);

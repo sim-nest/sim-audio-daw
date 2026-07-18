@@ -1,5 +1,8 @@
 use std::sync::Arc;
 
+#[cfg(debug_assertions)]
+use std::panic::{AssertUnwindSafe, catch_unwind};
+
 use sim_kernel::{Cx, DefaultFactory, EagerPolicy, Symbol};
 use sim_lib_audio_graph_core::{
     BlockArena, NullEventSink, PrepareConfig, ProcessBlock, Processor, Transport,
@@ -8,9 +11,9 @@ use sim_lib_audio_graph_live::{LiveGraphConfig, LiveGraphRunner};
 
 use crate::{
     AllPassFilter, BiquadFilter, Chorus, CombFilter, Compressor, DcBlocker, DelayProcessor,
-    DspConfigDescriptor, Flanger, FractionalDelay, Gain, Gate, Limiter, OnePoleFilter,
-    OversampledSoftClipper, Pan, SmoothedGain, SoftClipper, StateVariableFilter, StateVariableMode,
-    Vibrato, Waveshape, Waveshaper, audio_dsp_symbols, install_audio_dsp_lib,
+    DspConfigDescriptor, Flanger, FractionalDelay, Gain, Gate, Limiter, ModulatedDelayProcessor,
+    OnePoleFilter, OversampledSoftClipper, Pan, SmoothedGain, SoftClipper, StateVariableFilter,
+    StateVariableMode, Vibrato, Waveshape, Waveshaper, audio_dsp_symbols, install_audio_dsp_lib,
     r30_delay_golden_fixture, r30_gain_golden_fixture, run_offline,
 };
 
@@ -52,6 +55,18 @@ fn golden_delay_fixture_is_exact() {
     let fixture = r30_delay_golden_fixture();
     let mut delay = DelayProcessor::milliseconds(2.0, 2.0);
     assert_eq!(run_offline(&mut delay, &fixture, 1), fixture.expected);
+}
+
+#[test]
+fn zero_delay_fully_wet_delay_outputs_current_input() {
+    let input = [0.25, -0.5, 0.75, -1.0];
+    let mut delay = DelayProcessor::new(0.0, 0.001);
+
+    assert_eq!(delay.tail_frames(), 0);
+    assert_eq!(
+        process_mono(&mut delay, &input, 48_000),
+        vec![input.to_vec()]
+    );
 }
 
 #[test]
@@ -274,6 +289,14 @@ fn process_with_prepared_width<P: Processor + ?Sized>(
         block_channels as u16,
         prepared_channels as u16,
     ));
+    process_without_reprepare(processor, block_channels, frames)
+}
+
+fn process_without_reprepare<P: Processor + ?Sized>(
+    processor: &mut P,
+    block_channels: usize,
+    frames: usize,
+) -> Vec<Vec<f32>> {
     let input: Vec<f32> = (0..frames)
         .map(|frame| frame as f32 / frames as f32)
         .collect();
@@ -310,14 +333,143 @@ fn narrower_block_than_prepare_clamps_and_stays_finite() {
     assert_all_finite(&output);
 }
 
-// In debug builds the audio-path guard trips instead of silently reallocating
-// per-channel state when a block is wider than `prepare` configured. In release
-// builds the same width is clamped without allocating, so this contract check
-// is debug-only.
+#[test]
+fn stateless_processors_accept_wider_blocks_without_prepared_state() {
+    assert_stateless_wider_block_processes("SmoothedGain", SmoothedGain::new(0.5, 1.0));
+    assert_stateless_wider_block_processes("Gain", Gain::new(0.5));
+    assert_stateless_wider_block_processes("Pan", Pan::new(0.25));
+    assert_stateless_wider_block_processes("Waveshaper", Waveshaper::new(Waveshape::Tanh, 1.2));
+    assert_stateless_wider_block_processes("SoftClipper", SoftClipper::new(2.0));
+}
+
 #[cfg(debug_assertions)]
 #[test]
-#[should_panic(expected = "more channels than prepare configured")]
-fn wider_block_than_prepare_trips_guard_in_debug() {
-    let mut compressor = Compressor::new(-12.0, 4.0);
-    let _ = process_with_prepared_width(&mut compressor, 1, 2, 16);
+fn stateful_processors_reject_wider_blocks_in_debug() {
+    assert_stateful_wider_block_guard("DcBlocker", DcBlocker::default());
+    assert_stateful_wider_block_guard("OnePoleFilter", OnePoleFilter::low_pass(1_000.0));
+    assert_stateful_wider_block_guard("BiquadFilter", BiquadFilter::low_pass(1_000.0, 0.707));
+    assert_stateful_wider_block_guard(
+        "StateVariableFilter",
+        StateVariableFilter::new(StateVariableMode::LowPass, 1_000.0, 0.707),
+    );
+    assert_stateful_wider_block_guard("DelayProcessor", DelayProcessor::milliseconds(2.0, 8.0));
+    assert_stateful_wider_block_guard("FractionalDelay", FractionalDelay::milliseconds(1.5, 8.0));
+    assert_stateful_wider_block_guard("CombFilter", CombFilter::milliseconds(2.0, 0.25));
+    assert_stateful_wider_block_guard("AllPassFilter", AllPassFilter::milliseconds(2.0, 0.5));
+    assert_stateful_wider_block_guard(
+        "ModulatedDelayProcessor",
+        ModulatedDelayProcessor::new(2.0, 1.0, 0.5),
+    );
+    assert_stateful_wider_block_guard("Chorus", Chorus::new(0.5, 1.0));
+    assert_stateful_wider_block_guard("Flanger", Flanger::new(0.5, 0.5, 0.25));
+    assert_stateful_wider_block_guard("Vibrato", Vibrato::new(1.0, 0.5));
+    assert_stateful_wider_block_guard("Compressor", Compressor::new(-12.0, 4.0));
+    assert_stateful_wider_block_guard("Limiter", Limiter::new(-6.0));
+    assert_stateful_wider_block_guard("Gate", Gate::new(-18.0, -60.0));
+    assert_stateful_wider_block_guard(
+        "OversampledSoftClipper",
+        OversampledSoftClipper::soft_clipper(2.0, 4),
+    );
+}
+
+#[cfg(not(debug_assertions))]
+#[test]
+fn stateful_processors_clamp_wider_blocks_without_state_growth_in_release() {
+    assert_stateful_no_growth("DcBlocker", DcBlocker::default(), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth("OnePoleFilter", OnePoleFilter::low_pass(1_000.0), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth(
+        "BiquadFilter",
+        BiquadFilter::low_pass(1_000.0, 0.707),
+        |p| p.realtime_state_snapshot(),
+    );
+    assert_stateful_no_growth(
+        "StateVariableFilter",
+        StateVariableFilter::new(StateVariableMode::LowPass, 1_000.0, 0.707),
+        |p| p.realtime_state_snapshot(),
+    );
+    assert_stateful_no_growth(
+        "DelayProcessor",
+        DelayProcessor::milliseconds(2.0, 8.0),
+        |p| p.realtime_state_snapshot(),
+    );
+    assert_stateful_no_growth(
+        "FractionalDelay",
+        FractionalDelay::milliseconds(1.5, 8.0),
+        |p| p.realtime_state_snapshot(),
+    );
+    assert_stateful_no_growth("CombFilter", CombFilter::milliseconds(2.0, 0.25), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth(
+        "AllPassFilter",
+        AllPassFilter::milliseconds(2.0, 0.5),
+        |p| p.realtime_state_snapshot(),
+    );
+    assert_stateful_no_growth(
+        "ModulatedDelayProcessor",
+        ModulatedDelayProcessor::new(2.0, 1.0, 0.5),
+        |p| p.realtime_state_snapshot(),
+    );
+    assert_stateful_no_growth("Chorus", Chorus::new(0.5, 1.0), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth("Flanger", Flanger::new(0.5, 0.5, 0.25), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth("Vibrato", Vibrato::new(1.0, 0.5), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth("Compressor", Compressor::new(-12.0, 4.0), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth("Limiter", Limiter::new(-6.0), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth("Gate", Gate::new(-18.0, -60.0), |p| {
+        p.realtime_state_snapshot()
+    });
+    assert_stateful_no_growth(
+        "OversampledSoftClipper",
+        OversampledSoftClipper::soft_clipper(2.0, 4),
+        |p| p.realtime_state_snapshot(),
+    );
+}
+
+fn assert_stateless_wider_block_processes<P: Processor>(name: &str, mut processor: P) {
+    let output = process_with_prepared_width(&mut processor, 1, 2, 16);
+    assert_eq!(output.len(), 2, "{name} should process both output lanes");
+    assert_all_finite(&output);
+}
+
+#[cfg(debug_assertions)]
+fn assert_stateful_wider_block_guard<P: Processor>(name: &str, mut processor: P) {
+    let result = catch_unwind(AssertUnwindSafe(|| {
+        let _ = process_with_prepared_width(&mut processor, 1, 2, 16);
+    }));
+    assert!(
+        result.is_err(),
+        "{name} accepted a wider block than prepare configured"
+    );
+}
+
+#[cfg(not(debug_assertions))]
+fn assert_stateful_no_growth<P, F>(name: &str, mut processor: P, snapshot: F)
+where
+    P: Processor,
+    F: Fn(&P) -> Vec<usize>,
+{
+    processor.prepare(PrepareConfig::new(48_000, 16, 1, 1));
+    let before = snapshot(&processor);
+    let output = process_without_reprepare(&mut processor, 2, 16);
+    assert_eq!(
+        snapshot(&processor),
+        before,
+        "{name} grew realtime state while clamping a wider block"
+    );
+    assert_eq!(output.len(), 2, "{name} should preserve block shape");
+    assert_all_finite(&output);
 }

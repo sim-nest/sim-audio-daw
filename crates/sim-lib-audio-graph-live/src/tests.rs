@@ -202,6 +202,31 @@ fn midi_and_param_events_arrive_at_deterministic_offsets() {
 }
 
 #[test]
+fn control_event_at_block_end_is_rejected() {
+    let (processor, _) = RecordingProcessor::new(1.0);
+    let mut runner =
+        LiveGraphRunner::new(processor, LiveGraphConfig::stereo(48_000, 8).unwrap()).unwrap();
+    let mut output = [0.0; 8];
+
+    assert_eq!(
+        runner.enqueue_param_set(4, 7, 0.25).unwrap(),
+        LiveQueuePush::Accepted
+    );
+    let err = runner
+        .process_interleaved_f32(
+            Some(&[0.0; 8]),
+            &mut output,
+            4,
+            LiveTransportClock::sample_frame(48_000)
+                .unwrap()
+                .transport_at(512, true),
+        )
+        .expect_err("offset equal to frames is outside the block");
+
+    assert!(err.to_string().contains("outside block frames 0..4"));
+}
+
+#[test]
 fn steady_state_callback_path_keeps_capacity_with_plain_processor() {
     let mut runner =
         LiveGraphRunner::new(PlainProcessor, LiveGraphConfig::stereo(48_000, 8).unwrap()).unwrap();

@@ -1,6 +1,6 @@
 use sim_lib_audio_graph_core::{PrepareConfig, ProcessBlock, Processor};
 
-use crate::common::{input_sample, output_channels, prepare_channels};
+use crate::common::{input_sample, prepare_channels, prepared_output_channels};
 
 /// A per-sample nonlinearity that can be wrapped by [`OversamplingWrapper`].
 pub trait NonlinearSampleProcessor: Clone + Send {
@@ -66,6 +66,11 @@ impl<P: NonlinearSampleProcessor> OversamplingWrapper<P> {
         self.previous_inputs[channel] = input;
         output
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.processors.capacity(), self.previous_inputs.capacity()]
+    }
 }
 
 impl OversamplingWrapper<TanhClipper> {
@@ -93,11 +98,8 @@ impl<P: NonlinearSampleProcessor> Processor for OversamplingWrapper<P> {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.processors.len() < channels {
-            self.processors.resize(channels, self.prototype.clone());
-            self.previous_inputs.resize(channels, 0.0);
-        }
+        let channels =
+            prepared_output_channels(block, self.processors.len(), "OversamplingWrapper");
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {
