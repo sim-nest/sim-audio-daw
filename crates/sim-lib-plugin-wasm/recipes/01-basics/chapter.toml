@@ -1,0 +1,3 @@
+title = "Basics"
+order = 10
+summary = "WebAssembly plugin loading with explicit capability and resource gates."

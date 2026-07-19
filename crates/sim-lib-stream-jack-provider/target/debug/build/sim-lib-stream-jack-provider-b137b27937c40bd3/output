@@ -1,0 +1,1 @@
+cargo:rerun-if-changed=/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes

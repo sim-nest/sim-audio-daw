@@ -7,8 +7,8 @@ CLAP, LV2, and VST3 plugins -- all as inspectable SIM data.
 sim-audio-daw is a repository in the SIM constellation. SIM is an expandable Rust
 runtime built around a small protocol kernel plus loadable libraries; this repo
 holds the audio, plugin, and DAW libraries. The kernel does not own DAW or
-plugin policy: audio graphs, plugin descriptors, live back-ends, and DAW
-sessions are all library data surfaces loaded on top of the kernel.
+plugin policy: audio graphs, plugin descriptors, live back-ends, and stream
+placements are all library data surfaces loaded on top of the kernel.
 
 ## Example
 
@@ -59,9 +59,9 @@ back-ends:
   ASIO, CoreAudio, JACK, PipeWire, and PortAudio.
 - Plugin descriptor, export, and host-adapter surfaces for CLAP, LV2, and VST3.
 
-Audio data and patches round-trip as SIM expressions, so graphs, plugin state,
-and sessions are inspectable, replayable, and agent-readable data rather than
-opaque host state.
+Audio data and patches round-trip as SIM expressions, so graphs and plugin
+state are inspectable, replayable, and agent-readable data rather than opaque
+host state.
 
 ## Crates
 
@@ -135,7 +135,7 @@ processors (audio-dsp, plugin-*) --> audio-graph-core (Patch)
 ```
 
 The same `Patch` renders offline for deterministic tests, drives the live runner
-against a host callback, and serializes into a session or a topology package.
+against a host callback, and serializes into a topology package.
 
 ## Feature families
 
@@ -151,11 +151,16 @@ Source-level rustdoc is the primary API reference for these crates.
 These commands validate the default hardware-free lane:
 
 ```bash
+cargo metadata --no-deps --format-version 1 >/dev/null
 cargo run -p xtask -- workspace-coverage --check
 cargo fmt --all --check
 cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings
 cargo doc --workspace --no-deps
+cargo fmt --manifest-path crates/sim-lib-stream-jack-provider/Cargo.toml --check
+cargo test --manifest-path crates/sim-lib-stream-jack-provider/Cargo.toml
+cargo clippy --manifest-path crates/sim-lib-stream-jack-provider/Cargo.toml --all-targets -- -D warnings
+cargo doc --manifest-path crates/sim-lib-stream-jack-provider/Cargo.toml --no-deps
 cargo run -p xtask -- simdoc --check
 ```
 

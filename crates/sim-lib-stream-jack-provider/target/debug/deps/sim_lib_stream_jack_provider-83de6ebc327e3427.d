@@ -1,0 +1,28 @@
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/deps/sim_lib_stream_jack_provider-83de6ebc327e3427.d: src/lib.rs src/cookbook.rs src/entry.rs src/model.rs src/tests.rs /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/build/sim-lib-stream-jack-provider-f4367252e61c912d/out/cookbook_recipes.rs /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/chapter.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/expected.txt /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/purpose.md /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/setup.siml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/expected.txt /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/purpose.md /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/setup.siml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/purpose.md /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/setup.siml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/book.toml Cargo.toml
+
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/deps/libsim_lib_stream_jack_provider-83de6ebc327e3427.rmeta: src/lib.rs src/cookbook.rs src/entry.rs src/model.rs src/tests.rs /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/build/sim-lib-stream-jack-provider-f4367252e61c912d/out/cookbook_recipes.rs /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/chapter.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/expected.txt /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/purpose.md /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/setup.siml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/expected.txt /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/purpose.md /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/setup.siml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/purpose.md /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/setup.siml /home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/book.toml Cargo.toml
+
+src/lib.rs:
+src/cookbook.rs:
+src/entry.rs:
+src/model.rs:
+src/tests.rs:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/build/sim-lib-stream-jack-provider-f4367252e61c912d/out/cookbook_recipes.rs:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/chapter.toml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/expected.txt:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/purpose.md:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/setup.siml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/expected.txt:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/purpose.md:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/setup.siml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/purpose.md:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/setup.siml:
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/book.toml:
+Cargo.toml:
+
+# env-dep:CLIPPY_ARGS=-D__CLIPPY_HACKERY__warnings__CLIPPY_HACKERY__
+# env-dep:CLIPPY_CONF_DIR
+# env-dep:OUT_DIR=/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/build/sim-lib-stream-jack-provider-f4367252e61c912d/out

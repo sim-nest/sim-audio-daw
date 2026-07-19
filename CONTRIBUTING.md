@@ -23,6 +23,7 @@ hardware-free lane:
 Every PR runs these gates in CI, and they must be green before merge:
 
 - `cargo fmt --all --check`
+- `cargo metadata --no-deps --format-version 1`
 - `cargo run -p xtask -- workspace-coverage --check`
 - `cargo test --workspace`
 - `cargo clippy --workspace --all-targets -- -D warnings`

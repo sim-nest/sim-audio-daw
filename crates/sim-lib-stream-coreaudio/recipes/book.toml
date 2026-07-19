@@ -1,0 +1,5 @@
+book = "stream-coreaudio"
+title = "Stream CoreAudio"
+summary = "Command-backed checks for the modeled macOS CoreAudio stream adapter."
+order = 120
+chapters = ["01-basics"]

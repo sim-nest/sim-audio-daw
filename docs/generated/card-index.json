@@ -1,5 +1,5 @@
 {
-  "card_count": 11,
+  "card_count": 18,
   "cards": [
     {
       "id": "browse/catalog",
@@ -50,16 +50,58 @@
       "summary": "VST3-shaped bus, parameter, and export descriptors."
     },
     {
+      "id": "cookbook/plugin-wasm",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-wasm",
+      "summary": "Command-backed checks for bounded WebAssembly plugin loading."
+    },
+    {
+      "id": "cookbook/stream-alsa",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-alsa",
+      "summary": "Command-backed checks for the modeled ALSA stream adapter."
+    },
+    {
+      "id": "cookbook/stream-asio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-asio",
+      "summary": "Command-backed checks for the modeled Windows ASIO stream adapter."
+    },
+    {
+      "id": "cookbook/stream-coreaudio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-coreaudio",
+      "summary": "Command-backed checks for the modeled macOS CoreAudio stream adapter."
+    },
+    {
       "id": "cookbook/stream-cpal",
       "kind": "cookbook-recipe",
       "owner": "sim-lib-stream-cpal",
       "summary": "cpal modeled site descriptors and hardware-gated output plans."
     },
     {
+      "id": "cookbook/stream-jack",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-jack",
+      "summary": "Command-backed checks for the modeled JACK stream adapter."
+    },
+    {
       "id": "cookbook/stream-jack-provider",
       "kind": "cookbook-recipe",
       "owner": "sim-lib-stream-jack-provider",
       "summary": "Loadable JACK provider descriptors and hardware-gated smoke checks."
+    },
+    {
+      "id": "cookbook/stream-pipewire",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-pipewire",
+      "summary": "Command-backed checks for the modeled PipeWire stream adapter."
+    },
+    {
+      "id": "cookbook/stream-portaudio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-portaudio",
+      "summary": "Command-backed checks for the modeled PortAudio stream adapter."
     },
     {
       "id": "registry/catalog",

@@ -1,0 +1,15 @@
+&[
+    ("01-basics/chapter.toml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/chapter.toml") as &[u8]),
+    ("01-basics/jack-hardware-smoke/expected.txt", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/expected.txt") as &[u8]),
+    ("01-basics/jack-hardware-smoke/purpose.md", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/purpose.md") as &[u8]),
+    ("01-basics/jack-hardware-smoke/recipe.toml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml") as &[u8]),
+    ("01-basics/jack-hardware-smoke/setup.siml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/setup.siml") as &[u8]),
+    ("01-basics/jack-provider-load/expected.txt", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/expected.txt") as &[u8]),
+    ("01-basics/jack-provider-load/purpose.md", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/purpose.md") as &[u8]),
+    ("01-basics/jack-provider-load/recipe.toml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml") as &[u8]),
+    ("01-basics/jack-provider-load/setup.siml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/setup.siml") as &[u8]),
+    ("01-basics/loadable-modeled-provider/purpose.md", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/purpose.md") as &[u8]),
+    ("01-basics/loadable-modeled-provider/recipe.toml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml") as &[u8]),
+    ("01-basics/loadable-modeled-provider/setup.siml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/setup.siml") as &[u8]),
+    ("book.toml", include_bytes!("/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/recipes/book.toml") as &[u8]),
+]

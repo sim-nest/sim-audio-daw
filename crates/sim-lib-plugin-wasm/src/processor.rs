@@ -1,63 +1,32 @@
 //! Wasmtime-backed audio plugin processor.
 
 #[cfg(feature = "wasm-plugin")]
-use wasmtime::{
-    Caller, Config, Engine, Linker, Module, Store, StoreLimits, StoreLimitsBuilder, TypedFunc,
-};
+mod host;
+#[cfg(feature = "wasm-plugin")]
+mod manifest;
+
+#[cfg(feature = "wasm-plugin")]
+use wasmtime::{Config, Engine, Module, Store, TypedFunc};
 
 use sim_kernel::{Error, Result};
 #[cfg(feature = "wasm-plugin")]
-use sim_lib_audio_graph_core::{PortDecl, PortDir, PortMedia, PrepareConfig, ProcessBlock};
+use sim_lib_audio_graph_core::{PortDir, PortMedia, PrepareConfig, ProcessBlock};
 use sim_lib_plugin_core::PluginDescriptor;
 #[cfg(feature = "wasm-plugin")]
-use sim_lib_plugin_core::{
-    ParameterDescriptor, PluginFormat, PluginId, PluginInstance, PluginState,
-};
+use sim_lib_plugin_core::{PluginInstance, PluginState};
 
 use crate::WasmResourceLimits;
 #[cfg(feature = "wasm-plugin")]
 use crate::abi::{
-    EXPORT_MANIFEST_PTR, EXPORT_PREPARE, EXPORT_PROCESS, EXPORT_RESET, IMPORT_AUDIO_READ,
-    IMPORT_AUDIO_WRITE, IMPORT_FRAME_COUNT, IMPORT_MODULE, IMPORT_PARAM_GET, WasmAudioManifest,
+    EXPORT_MANIFEST_PTR, EXPORT_PREPARE, EXPORT_PROCESS, EXPORT_RESET, WasmAudioManifest,
 };
+#[cfg(feature = "wasm-plugin")]
+use crate::processor::host::{HostAudio, build_audio_linker, refill_fuel, silence_block};
+#[cfg(feature = "wasm-plugin")]
+use crate::processor::manifest::descriptor_from_manifest;
 
 #[cfg(feature = "wasm-plugin")]
 const LOAD_FUEL: u64 = 10_000_000;
-
-/// Host ceiling on the audio channel count a plugin manifest may declare.
-///
-/// The manifest is guest-supplied text; the host sizes per-channel buffers from
-/// it in [`WasmPluginProcessor::prepare`], so an unbounded count would let a
-/// hostile plugin drive an arbitrary host allocation. The cap is validated when
-/// the descriptor is built, before any host buffer is allocated.
-#[cfg(feature = "wasm-plugin")]
-const MAX_PLUGIN_CHANNELS: u16 = 512;
-
-#[cfg(feature = "wasm-plugin")]
-#[derive(Debug)]
-struct HostAudio {
-    frame_count: u32,
-    audio_in: Vec<Vec<f32>>,
-    audio_out: Vec<Vec<f32>>,
-    params: Vec<f64>,
-    store_limits: StoreLimits,
-}
-
-#[cfg(feature = "wasm-plugin")]
-impl HostAudio {
-    fn new(limits: WasmResourceLimits) -> Self {
-        Self {
-            frame_count: 0,
-            audio_in: Vec::new(),
-            audio_out: Vec::new(),
-            params: Vec::new(),
-            store_limits: StoreLimitsBuilder::new()
-                .memory_size(limits.max_memory_bytes())
-                .trap_on_grow_failure(true)
-                .build(),
-        }
-    }
-}
 
 /// WebAssembly-backed plugin instance exposed through the shared plugin API.
 pub struct WasmPluginProcessor {
@@ -286,127 +255,6 @@ impl WasmPluginProcessor {
 }
 
 #[cfg(feature = "wasm-plugin")]
-fn check_plugin_channels(which: &str, channels: u16) -> Result<()> {
-    if channels > MAX_PLUGIN_CHANNELS {
-        return Err(Error::Eval(format!(
-            "wasm plugin declares {channels} {which} channels, exceeding the host maximum of {MAX_PLUGIN_CHANNELS}"
-        )));
-    }
-    Ok(())
-}
-
-#[cfg(feature = "wasm-plugin")]
-fn descriptor_from_manifest(manifest: &WasmAudioManifest) -> Result<PluginDescriptor> {
-    check_plugin_channels("input", manifest.audio_in_channels)?;
-    check_plugin_channels("output", manifest.audio_out_channels)?;
-    let plugin_id = PluginId::new(PluginFormat::Wasm, manifest.stable_id_str().to_owned())?;
-    let mut descriptor = PluginDescriptor::new(
-        plugin_id,
-        manifest.name_str().to_owned(),
-        manifest.vendor_str().to_owned(),
-        "0.1.0".to_owned(),
-    )?;
-    if manifest.audio_in_channels > 0 {
-        descriptor.ports.push(PortDecl::new(
-            "audio-in",
-            PortMedia::Audio,
-            PortDir::In,
-            manifest.audio_in_channels,
-        ));
-    }
-    if manifest.audio_out_channels > 0 {
-        descriptor.ports.push(PortDecl::new(
-            "audio-out",
-            PortMedia::Audio,
-            PortDir::Out,
-            manifest.audio_out_channels,
-        ));
-    }
-    for id in 0..u32::from(manifest.param_count) {
-        descriptor.parameters.push(ParameterDescriptor::new(
-            id,
-            format!("param-{id}"),
-            format!("Param {id}"),
-            0.0,
-            1.0,
-            1.0,
-        )?);
-    }
-    Ok(descriptor)
-}
-
-#[cfg(feature = "wasm-plugin")]
-fn build_audio_linker(engine: &Engine) -> Result<Linker<HostAudio>> {
-    let mut linker = Linker::new(engine);
-    linker
-        .func_wrap(
-            IMPORT_MODULE,
-            IMPORT_FRAME_COUNT,
-            |caller: Caller<'_, HostAudio>| caller.data().frame_count,
-        )
-        .map_err(|err| Error::Eval(err.to_string()))?;
-    linker
-        .func_wrap(
-            IMPORT_MODULE,
-            IMPORT_AUDIO_READ,
-            |caller: Caller<'_, HostAudio>, ch: u32, frame: u32| -> f32 {
-                caller
-                    .data()
-                    .audio_in
-                    .get(ch as usize)
-                    .and_then(|lane| lane.get(frame as usize))
-                    .copied()
-                    .unwrap_or(0.0)
-            },
-        )
-        .map_err(|err| Error::Eval(err.to_string()))?;
-    linker
-        .func_wrap(
-            IMPORT_MODULE,
-            IMPORT_AUDIO_WRITE,
-            |mut caller: Caller<'_, HostAudio>, ch: u32, frame: u32, value: f32| {
-                if let Some(lane) = caller.data_mut().audio_out.get_mut(ch as usize)
-                    && let Some(sample) = lane.get_mut(frame as usize)
-                {
-                    *sample = value;
-                }
-            },
-        )
-        .map_err(|err| Error::Eval(err.to_string()))?;
-    linker
-        .func_wrap(
-            IMPORT_MODULE,
-            IMPORT_PARAM_GET,
-            |caller: Caller<'_, HostAudio>, id: u32| -> f64 {
-                caller
-                    .data()
-                    .params
-                    .get(id as usize)
-                    .copied()
-                    .unwrap_or(1.0)
-            },
-        )
-        .map_err(|err| Error::Eval(err.to_string()))?;
-    Ok(linker)
-}
-
-#[cfg(feature = "wasm-plugin")]
-fn refill_fuel(store: &mut Store<HostAudio>, fuel: u64) -> Result<()> {
-    store
-        .set_fuel(fuel)
-        .map_err(|err| Error::Eval(format!("wasm fuel refill failed: {err}")))
-}
-
-#[cfg(feature = "wasm-plugin")]
-fn silence_block(block: &mut ProcessBlock<'_>, frames: usize) {
-    for output in block.out_audio.iter_mut() {
-        if output.len() >= frames {
-            output[..frames].fill(0.0);
-        }
-    }
-}
-
-#[cfg(feature = "wasm-plugin")]
 impl PluginInstance for WasmPluginProcessor {
     fn descriptor(&self) -> &PluginDescriptor {
         &self.descriptor
@@ -473,50 +321,5 @@ impl PluginInstance for WasmPluginProcessor {
 
     fn take_last_error(&mut self) -> Option<String> {
         WasmPluginProcessor::take_last_error(self)
-    }
-}
-
-#[cfg(all(test, feature = "wasm-plugin"))]
-mod tests {
-    use super::{MAX_PLUGIN_CHANNELS, descriptor_from_manifest};
-    use crate::abi::WasmAudioManifest;
-
-    fn manifest_with_channels(audio_in: u16, audio_out: u16) -> WasmAudioManifest {
-        let mut name = [0u8; 64];
-        name[..4].copy_from_slice(b"test");
-        let mut stable_id = [0u8; 64];
-        stable_id[..8].copy_from_slice(b"sim.test");
-        WasmAudioManifest {
-            audio_in_channels: audio_in,
-            audio_out_channels: audio_out,
-            param_count: 0,
-            _pad: 0,
-            name,
-            vendor: [0u8; 32],
-            stable_id,
-        }
-    }
-
-    #[test]
-    fn manifest_within_channel_cap_builds_descriptor() {
-        let manifest = manifest_with_channels(2, MAX_PLUGIN_CHANNELS);
-        let descriptor = descriptor_from_manifest(&manifest).expect("channel count within cap");
-        assert_eq!(descriptor.ports.len(), 2);
-    }
-
-    #[test]
-    fn manifest_over_channel_cap_is_rejected() {
-        let manifest = manifest_with_channels(u16::MAX, 2);
-        let err = descriptor_from_manifest(&manifest)
-            .expect_err("manifest over the channel cap must be rejected");
-        assert!(format!("{err}").contains("exceeding the host maximum"));
-    }
-
-    #[test]
-    fn manifest_over_output_channel_cap_is_rejected() {
-        let manifest = manifest_with_channels(2, MAX_PLUGIN_CHANNELS + 1);
-        let err = descriptor_from_manifest(&manifest)
-            .expect_err("output channel count over the cap must be rejected");
-        assert!(format!("{err}").contains("output channels"));
     }
 }

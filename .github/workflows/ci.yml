@@ -12,6 +12,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+      - run: cargo metadata --no-deps --format-version 1 >/dev/null
       - run: cargo run -p xtask -- workspace-coverage --check
       - run: cargo fmt --all --check
       - run: cargo fmt --manifest-path crates/sim-lib-stream-jack-provider/Cargo.toml --check

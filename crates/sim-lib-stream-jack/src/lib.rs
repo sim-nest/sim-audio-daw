@@ -11,8 +11,8 @@
 //!
 //! The crate keeps validation independent of a running JACK server. It models
 //! a JACK client, routable audio and MIDI ports, sample-frame transport, and
-//! the callback bridge used to drive an audio graph. A future provider can
-//! populate the same model from native JACK client and port registration.
+//! the callback bridge used to drive an audio graph. Native provider crates
+//! populate the same model from JACK client and port registration.
 
 mod backend;
 mod bridge;

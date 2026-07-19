@@ -1,0 +1,6 @@
+id = "modeled-coreaudio"
+title = "Enumerate modeled CoreAudio devices"
+command = "cargo test -p sim-lib-stream-coreaudio fake_backend_enumerates_default_input_and_output"
+order = 10
+tags = ["stream", "coreaudio", "modeled", "inventory", "test-command"]
+requires = ["stream-coreaudio", "codec/lisp"]

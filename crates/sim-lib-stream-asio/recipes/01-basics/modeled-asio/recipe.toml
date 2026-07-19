@@ -1,0 +1,6 @@
+id = "modeled-asio"
+title = "Enumerate a modeled ASIO driver"
+command = "cargo test -p sim-lib-stream-asio fake_backend_enumerates_sim_asio_driver_and_ports"
+order = 10
+tags = ["stream", "asio", "modeled", "inventory", "test-command"]
+requires = ["stream-asio", "codec/lisp"]

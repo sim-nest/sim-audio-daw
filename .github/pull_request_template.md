@@ -5,6 +5,7 @@
 ## Checklist
 
 - [ ] `cargo fmt --all --check` passes
+- [ ] `cargo metadata --no-deps --format-version 1` passes
 - [ ] `cargo run -p xtask -- workspace-coverage --check` passes
 - [ ] `cargo test --workspace` passes
 - [ ] `cargo clippy --workspace --all-targets -- -D warnings` passes

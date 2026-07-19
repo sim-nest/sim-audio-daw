@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["default_modeled_jack_site","enumerate_jack_sites","jack_backend_symbol","jack_modeled_site_symbol","jack_provider_entry","jack_provider_symbol"],"mod":["cookbook"],"static":["RECIPES"],"struct":["JackProviderModeled"]};

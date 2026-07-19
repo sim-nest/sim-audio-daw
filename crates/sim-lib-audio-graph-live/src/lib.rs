@@ -12,6 +12,7 @@ mod event;
 mod profile;
 mod queue;
 mod runner;
+mod runner_types;
 mod runtime;
 mod site;
 mod transport;

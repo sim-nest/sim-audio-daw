@@ -1,0 +1,13 @@
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/deps/sim_config-bf8dfe46b8d539a6.d: /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/lib.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/merge.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/path.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/probe.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/report.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/shape.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/source.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/table.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/view.rs
+
+/home/bo/projects/sim-audio-daw/crates/sim-lib-stream-jack-provider/target/debug/deps/libsim_config-bf8dfe46b8d539a6.rmeta: /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/lib.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/merge.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/path.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/probe.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/report.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/shape.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/source.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/table.rs /home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/view.rs
+
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/lib.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/merge.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/path.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/probe.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/report.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/shape.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/source.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/table.rs:
+/home/bo/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sim-config-0.1.1/src/view.rs:

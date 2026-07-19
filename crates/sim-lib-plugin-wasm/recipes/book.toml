@@ -1,0 +1,5 @@
+book = "plugin-wasm"
+title = "Plugin Wasm"
+summary = "Command-backed checks for bounded WebAssembly plugin loading."
+order = 138
+chapters = ["01-basics"]

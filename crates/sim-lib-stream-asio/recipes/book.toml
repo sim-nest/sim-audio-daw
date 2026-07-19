@@ -1,0 +1,5 @@
+book = "stream-asio"
+title = "Stream ASIO"
+summary = "Command-backed checks for the modeled Windows ASIO stream adapter."
+order = 119
+chapters = ["01-basics"]
