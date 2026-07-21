@@ -1057,10 +1057,10 @@
     "generated_by": "cargo run -p xtask -- simdoc",
     "generation_timestamp": "2026-07-15T01:30:35+02:00",
     "generator": "xtask repo-contract v1",
-    "git_commit": "f5c8a7d3134400a05c2f44c650bc865301004fde",
+    "git_commit": "cec26448e4c23e0848909a9439d42691251d281b",
     "repo": "sim-audio-daw",
     "schema": "sim.provenance.v1",
-    "source_commit": "f5c8a7d3134400a05c2f44c650bc865301004fde",
+    "source_commit": "cec26448e4c23e0848909a9439d42691251d281b",
     "source_remote": "https://github.com/sim-nest/sim-audio-daw",
     "validation_commands": [
       "cargo fmt --all --check",
@@ -1073,9 +1073,9 @@
       "cargo run -p xtask -- validation-matrix --check --repo .",
       "cargo run -p xtask -- crate-catalog --check --repo ."
     ],
-    "workspace_hash": "3a1374b4f436b292",
+    "workspace_hash": "eee48026d70cebaf",
     "workspace_hash_algorithm": "fnv1a64",
-    "workspace_hash_input_count": 201,
+    "workspace_hash_input_count": 202,
     "workspace_hash_inputs": [
       "Cargo.toml",
       "crates/sim-lib-audio-dsp/Cargo.toml",
@@ -1277,6 +1277,7 @@
       "crates/sim-lib-stream-portaudio/src/runtime.rs",
       "crates/sim-lib-stream-portaudio/src/tests.rs",
       "crates/sim-lib-stream-portaudio/src/tone.rs",
+      "features.toml",
       "xtask/Cargo.toml"
     ]
   },

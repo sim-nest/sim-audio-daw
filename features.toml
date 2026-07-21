@@ -1,0 +1,57 @@
+schema = "sim.features"
+
+[enforcement.audience]
+user = "strict"
+code = "advisory"
+framework = "advisory"
+
+[enforcement.surface]
+cli = "strict"
+docs = "advisory"
+
+[enforcement.route]
+major_entrypoints = "advisory"
+frameworks = "advisory"
+
+[[feature]]
+id = "feature/sim-audio-daw/generated-docs"
+title = "Repository documentation surface"
+summary = "Publish generated package, card, recipe, and index facts for the audio and plugin crates."
+owner = "crate/xtask"
+audiences = ["code"]
+guidance = "Use this row when checking the generated documentation and index lane for the audio repo."
+claims_anchors = [
+  "anchor/cli/xtask",
+  "anchor/doc/generated/feature-map",
+  "anchor/doc/generated/sim-index-fragment",
+]
+claims_surfaces = [
+  "cli/xtask",
+  "docs/sim-audio-daw/generated",
+]
+
+[[feature]]
+id = "feature/sim-audio-daw/audio-graph-workbench"
+title = "Audio graph workbench"
+summary = "Compose offline and live audio graph descriptors with DSP and gain-plugin examples."
+owner = "crate/sim-lib-audio-graph-core"
+audiences = ["user", "code"]
+guidance = "Use this row when building or checking an audio graph before connecting it to a host."
+
+[[feature]]
+id = "feature/sim-audio-daw/audio-device-providers"
+title = "Audio device providers"
+summary = "Model host audio devices and load JACK, cpal, PipeWire, ALSA, ASIO, CoreAudio, and PortAudio provider paths."
+owner = "crate/sim-lib-stream-cpal"
+audiences = ["user", "code", "framework"]
+guidance = "Use this row when choosing an audio placement target or checking a provider fixture."
+
+[[route]]
+id = "route/build-audio-workbench"
+task = "Build an audio workbench"
+audiences = ["user", "code"]
+steps = [
+  { feature = "feature/sim-audio-daw/audio-graph-workbench", why = "The graph row collects the DSP and plugin recipes for local construction." },
+  { feature = "feature/sim-audio-daw/audio-device-providers", why = "The provider row selects a modeled or host-backed audio target." },
+  { specimen = "recipe/sim-audio-daw/crates/sim-lib-audio-graph-core/01-basics/copy-node", why = "The copy-node recipe is the smallest graph example." },
+]
