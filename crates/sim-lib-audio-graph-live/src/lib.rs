@@ -7,14 +7,17 @@
 //! transport snapshots, and a small allocation-free steady-state process path
 //! for mono and stereo graphs.
 
+pub mod cookbook;
 mod event;
 mod profile;
 mod queue;
 mod runner;
+mod runner_types;
 mod runtime;
 mod site;
 mod transport;
 
+pub use cookbook::live_config_demo;
 pub use event::{LiveAudioEvent, LiveControlEvent, LiveQueuePush};
 pub use profile::{
     LiveStreamLane, buffered_pcm_preview_profile, lan_buffered_audio_preview_profile,

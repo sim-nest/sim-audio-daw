@@ -58,6 +58,36 @@ fn clap_events_map_to_block_events_and_sim_param_ids() {
 }
 
 #[test]
+fn clap_checked_event_conversion_rejects_end_of_block_offsets() {
+    let params = ClapParamMap::new();
+    let accepted = ClapEvent::MidiShort {
+        time: 7,
+        bytes: [0x90, 60, 100],
+        len: 3,
+    };
+    assert_eq!(
+        accepted.try_to_block_event(&params, 8).unwrap(),
+        BlockEvent::Midi {
+            offset: 7,
+            bytes: [0x90, 60, 100],
+            len: 3,
+        }
+    );
+
+    let rejected = ClapEventBuffer::new(vec![ClapEvent::ParamValue {
+        time: 8,
+        clap_param_id: 1000,
+        value: 0.5,
+    }]);
+    let err = rejected
+        .try_to_block_events(&params, 8)
+        .expect_err("offset equal to frames is outside the block");
+
+    assert!(err.to_string().contains("CLAP event offset 8"));
+    assert!(err.to_string().contains("outside block frames 0..8"));
+}
+
+#[test]
 fn sim_gain_exports_as_clap_and_hosts_as_graph_processor() {
     let exported = export_gain_as_clap(0.5).unwrap();
     assert_eq!(exported.descriptor().id.format, PluginFormat::Clap);

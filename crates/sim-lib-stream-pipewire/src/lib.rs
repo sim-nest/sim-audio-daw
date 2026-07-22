@@ -13,15 +13,18 @@
 //! This crate keeps CI independent of a running PipeWire daemon. It models
 //! provider-reported PipeWire nodes and visible SIM client ports, maps quantum,
 //! sample-rate, and latency metadata into `HostStreamConfig`, and bridges fake
-//! process callbacks into `ProcessBlock` and PCM callback queues. A future
-//! native provider can populate this model from PipeWire registry events.
+//! process callbacks into `ProcessBlock` and PCM callback queues. Native
+//! provider crates populate this model from PipeWire registry events.
 
 mod backend;
 mod bridge;
 mod model;
 mod runtime;
 
-pub use backend::{PipeWireBackend, pipewire_backend_symbol, pipewire_transport_symbol};
+pub use backend::{
+    PipeWireBackend, pipewire_audio_backend_candidate, pipewire_backend_symbol,
+    pipewire_transport_symbol,
+};
 pub use bridge::{PipeWireCaptureBridge, PipeWireGraphBridge};
 pub use model::{PipeWireNode, PipeWirePort, PipeWireTiming, linux_audio_backend_priority};
 pub use runtime::{PipeWireLib, install_stream_pipewire_lib};

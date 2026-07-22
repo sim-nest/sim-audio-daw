@@ -1,0 +1,5 @@
+book = "stream-alsa"
+title = "Stream ALSA"
+summary = "Command-backed checks for the modeled ALSA stream adapter."
+order = 118
+chapters = ["01-basics"]

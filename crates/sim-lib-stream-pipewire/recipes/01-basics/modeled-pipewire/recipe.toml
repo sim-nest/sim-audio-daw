@@ -1,0 +1,6 @@
+id = "modeled-pipewire"
+title = "Enumerate modeled PipeWire nodes"
+command = "cargo test -p sim-lib-stream-pipewire fake_backend_enumerates_default_nodes_and_visible_sim_ports"
+order = 10
+tags = ["stream", "pipewire", "modeled", "inventory", "test-command"]
+requires = ["stream-pipewire", "codec/lisp"]

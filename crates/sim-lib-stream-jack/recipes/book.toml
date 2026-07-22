@@ -1,0 +1,5 @@
+book = "stream-jack"
+title = "Stream JACK"
+summary = "Command-backed checks for the modeled JACK stream adapter."
+order = 121
+chapters = ["01-basics"]

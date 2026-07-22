@@ -1,11 +1,14 @@
 #![forbid(unsafe_code)]
 
+// conformance: audio device providers resolve modeled host streams.
+
+use sim_kernel::Symbol;
 use sim_lib_stream_host::{
     AudioDeviceCard, AudioPlacementRequest, AudioRouter, AudioSiteKey, FakeBackend,
     ModeledAudioSite,
 };
 
-use crate::{CpalModeledSite, default_modeled_cpal_site};
+use crate::{CpalModeledSite, cpal_modeled_site_symbol, default_modeled_cpal_site};
 
 #[cfg(feature = "cpal-hardware")]
 use std::{
@@ -17,10 +20,8 @@ use std::{
 };
 
 #[cfg(feature = "cpal-hardware")]
-use sim_kernel::Symbol;
-#[cfg(feature = "cpal-hardware")]
 use sim_lib_stream_core::{
-    BufferPolicy, ClockDomain, PcmPacket, PushResult, StreamMedia, StreamPacket,
+    BufferPolicy, ClockDomain, PcmPacket, PushResult, StreamItem, StreamMedia, StreamPacket,
 };
 #[cfg(feature = "cpal-hardware")]
 use sim_lib_stream_host::{AudioSite, HostDirection, HostStreamConfigRequest};
@@ -30,7 +31,7 @@ fn modeled_cpal_site_registers_and_opens_stream() {
     let mut router = AudioRouter::new();
     router.register(default_modeled_cpal_site());
 
-    let key = AudioSiteKey::new("sim:cpal-modeled");
+    let key = AudioSiteKey(cpal_modeled_site_symbol());
     assert!(router.site(&key).is_some());
     assert_eq!(router.sites_by_capability(2, &[48_000]), vec![key.clone()]);
 
@@ -55,7 +56,7 @@ fn router_with_cpal_real_sites_has_modeled_fallback() {
         router.register(std::sync::Arc::new(site));
     }
 
-    let key = AudioSiteKey::new("sim:cpal-modeled");
+    let key = AudioSiteKey(cpal_modeled_site_symbol());
     let capable = router.sites_by_capability(2, &[48_000]);
     assert!(capable.contains(&key));
 }
@@ -64,8 +65,8 @@ fn router_with_cpal_real_sites_has_modeled_fallback() {
 fn absent_jack_provider_degrades_to_modeled_site() {
     let mut router = AudioRouter::new();
     router.register(CpalModeledSite::default_stereo());
-    let modeled = AudioSiteKey::new("sim:cpal-modeled");
-    let jack = AudioSiteKey::new("sim:jack-real:system");
+    let modeled = AudioSiteKey(cpal_modeled_site_symbol());
+    let jack = AudioSiteKey(Symbol::qualified("audio/site", "jack-real-system"));
 
     let resolved = router.resolve_or_modeled(&jack, &modeled).unwrap();
     assert_eq!(resolved, modeled);
@@ -82,8 +83,8 @@ fn absent_jack_provider_degrades_to_modeled_site() {
 fn same_graph_opens_against_modeled_or_provider_site() {
     let mut router = AudioRouter::new();
     router.register(CpalModeledSite::default_stereo());
-    let modeled = AudioSiteKey::new("sim:cpal-modeled");
-    let provider = AudioSiteKey::new("audio/provider/jack-modeled");
+    let modeled = AudioSiteKey(cpal_modeled_site_symbol());
+    let provider = AudioSiteKey(Symbol::qualified("audio/site", "jack-modeled"));
     router.register(std::sync::Arc::new(ModeledAudioSite::new(
         AudioDeviceCard::modeled(provider.clone(), "JACK Provider Modeled"),
         std::sync::Arc::new(FakeBackend::new()),
@@ -147,8 +148,10 @@ fn cpal_real_site_smoke() {
     let silence = PcmPacket::f32(channels, 1, vec![0.0; channels]).unwrap();
     assert_eq!(
         opened
-            .queue()
-            .callback_packet(StreamPacket::Pcm(silence))
+            .stream()
+            .push_packet(sim_lib_stream_core::StreamItem::new(StreamPacket::Pcm(
+                silence
+            )))
             .unwrap(),
         PushResult::Accepted
     );
@@ -175,6 +178,48 @@ fn config_from_cpal_uses_default_frames_with_bounds() {
     assert_eq!(config.clock().clock(), &ClockDomain::Sample.symbol());
     assert_eq!(config.clock().sample_rate_hz(), Some(96_000));
     assert_eq!(config.latency().output_frames(), 256);
+}
+
+#[cfg(feature = "cpal-hardware")]
+#[test]
+fn cpal_callback_pending_capacity_does_not_grow_for_oversized_pcm() {
+    let mut router = AudioRouter::new();
+    router.register(CpalModeledSite::default_stereo());
+    let opened = open_same_graph(&router, AudioSiteKey(cpal_modeled_site_symbol()));
+
+    let samples = (0..128)
+        .map(|sample| sample as f32 / 128.0)
+        .collect::<Vec<_>>();
+    let packet = PcmPacket::f32(2, 64, samples.clone()).unwrap();
+    assert_eq!(
+        opened
+            .stream()
+            .push_packet(StreamItem::new(StreamPacket::Pcm(packet)))
+            .unwrap(),
+        PushResult::Accepted
+    );
+
+    let mut pending = crate::native::CallbackPending::with_capacity(8);
+    let allocated = pending.allocated_capacity();
+    let mut output = [0.0_f32; 4];
+
+    crate::native::fill_output_from_queue(opened.queue(), &mut pending, &mut output);
+
+    assert_eq!(pending.allocated_capacity(), allocated);
+    assert_eq!(output, [samples[0], samples[1], samples[2], samples[3]]);
+}
+
+#[cfg(feature = "cpal-hardware")]
+#[test]
+fn cpal_pending_capacity_is_sized_from_supported_config() {
+    let supported = cpal::SupportedStreamConfig::new(
+        2,
+        cpal::SampleRate(96_000),
+        cpal::SupportedBufferSize::Range { min: 128, max: 256 },
+        cpal::SampleFormat::I16,
+    );
+
+    assert_eq!(crate::native::pending_capacity(&supported), 1024);
 }
 
 #[cfg(feature = "cpal-hardware")]

@@ -1,6 +1,8 @@
 use sim_kernel::{Cx, Lib, LibManifest, Linker, LoadCx, Result, Symbol};
 use sim_lib_core::{SurfaceField, SurfacePackLib, SurfacePackSpec, SurfaceValueSpec, install_once};
 
+use crate::cookbook_runtime::{audio_dsp_cookbook_exports, install_audio_dsp_cookbook_functions};
+
 const AUDIO_DSP_LIB_ID: &str = "audio-dsp";
 
 /// Host-registered lib exporting the reusable DSP processor cards, built on the
@@ -9,11 +11,14 @@ pub struct AudioDspLib;
 
 impl Lib for AudioDspLib {
     fn manifest(&self) -> LibManifest {
-        audio_dsp_pack().manifest()
+        let mut manifest = audio_dsp_pack().manifest();
+        manifest.exports.extend(audio_dsp_cookbook_exports());
+        manifest
     }
 
     fn load(&self, cx: &mut LoadCx, linker: &mut Linker<'_>) -> Result<()> {
-        audio_dsp_pack().load(cx, linker)
+        audio_dsp_pack().load(cx, linker)?;
+        install_audio_dsp_cookbook_functions(cx, linker)
     }
 }
 

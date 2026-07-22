@@ -1,0 +1,5 @@
+book = "stream-portaudio"
+title = "Stream PortAudio"
+summary = "Command-backed checks for the modeled PortAudio stream adapter."
+order = 123
+chapters = ["01-basics"]

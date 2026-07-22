@@ -90,7 +90,7 @@ impl PluginState {
         ])
     }
 
-    /// Decodes a state previously produced by [`PluginState::to_expr`].
+    /// Decodes a state produced by [`PluginState::to_expr`].
     ///
     /// # Errors
     ///

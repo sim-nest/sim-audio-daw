@@ -2,57 +2,57 @@ use sim_lib_stream_core::{ClockDomain, DomainBridgeDescriptor};
 
 use crate::{PortDecl, PortDir, PortMedia, ProcessBlock, Processor};
 
-/// A [`Processor`] that bridges between clock domains or rate contracts.
+/// A [`Processor`] that carries domain-bridge metadata through a graph.
 ///
-/// Wraps a [`DomainBridgeDescriptor`] and carries audio through unchanged or
-/// forwards events, depending on its [`PortMedia`]. Its declared latency and
-/// clock domain come from the descriptor's output rate.
+/// This node is metadata-only: it advertises a [`DomainBridgeDescriptor`] for
+/// graph planning, copies audio, and forwards current-block events unchanged.
+/// It does not resample audio, insert delay, or buffer events.
 #[derive(Clone, Debug)]
-pub struct DomainBridgeProcessor {
+pub struct DomainBridgeMetadataProcessor {
     descriptor: DomainBridgeDescriptor,
     media: PortMedia,
 }
 
-impl DomainBridgeProcessor {
-    /// Creates a bridge processor from a descriptor and port media kind.
+impl DomainBridgeMetadataProcessor {
+    /// Creates a metadata bridge node from a descriptor and port media kind.
     pub fn new(descriptor: DomainBridgeDescriptor, media: PortMedia) -> Self {
         Self { descriptor, media }
     }
 
-    /// Creates an audio resampling bridge from `input_hz` to `output_hz`.
-    pub fn resampler(input_hz: u32, output_hz: u32) -> sim_kernel::Result<Self> {
+    /// Creates metadata for an audio sample-rate bridge from `input_hz` to `output_hz`.
+    pub fn sample_rate_bridge_metadata(input_hz: u32, output_hz: u32) -> sim_kernel::Result<Self> {
         Ok(Self::new(
             DomainBridgeDescriptor::resampler(input_hz, output_hz)?,
             PortMedia::Audio,
         ))
     }
 
-    /// Creates an event jitter-buffer bridge tolerating `max_late_packets`.
-    pub fn jitter_buffer(max_late_packets: u32) -> Self {
+    /// Creates metadata for an event jitter bridge tolerating `max_late_packets`.
+    pub fn event_jitter_bridge_metadata(max_late_packets: u32) -> Self {
         Self::new(
             DomainBridgeDescriptor::jitter_buffer(max_late_packets),
             PortMedia::Event,
         )
     }
 
-    /// Creates an audio latency-compensation delay of `frames` frames.
-    pub fn latency_comp_delay(frames: u64) -> Self {
+    /// Creates metadata for an audio latency-compensation bridge of `frames` frames.
+    pub fn audio_latency_bridge_metadata(frames: u64) -> Self {
         Self::new(
             DomainBridgeDescriptor::latency_comp_delay(frames),
             PortMedia::Audio,
         )
     }
 
-    /// Creates an event-media rate gate bridging from `input_domain`.
-    pub fn event_rate_gate(input_domain: ClockDomain) -> sim_kernel::Result<Self> {
+    /// Creates metadata for an event-media block gate from `input_domain`.
+    pub fn event_block_gate_metadata(input_domain: ClockDomain) -> sim_kernel::Result<Self> {
         Ok(Self::new(
             DomainBridgeDescriptor::event_rate_gate(input_domain)?,
             PortMedia::Event,
         ))
     }
 
-    /// Creates a control-media rate gate bridging from `input_domain`.
-    pub fn control_rate_gate(input_domain: ClockDomain) -> sim_kernel::Result<Self> {
+    /// Creates metadata for a control-media block gate from `input_domain`.
+    pub fn control_block_gate_metadata(input_domain: ClockDomain) -> sim_kernel::Result<Self> {
         Ok(Self::new(
             DomainBridgeDescriptor::event_rate_gate(input_domain)?,
             PortMedia::Control,
@@ -70,7 +70,7 @@ impl DomainBridgeProcessor {
     }
 }
 
-impl Processor for DomainBridgeProcessor {
+impl Processor for DomainBridgeMetadataProcessor {
     fn prepare(&mut self, _cfg: crate::PrepareConfig) {}
 
     fn reset(&mut self) {}
@@ -116,13 +116,18 @@ impl Processor for DomainBridgeProcessor {
     }
 
     fn tail_frames(&self) -> u64 {
-        self.descriptor.latency().frame_count()
+        0
     }
 }
 
 fn copy_audio(block: &mut ProcessBlock<'_>) {
     let frames = block.frames as usize;
-    for (input, output) in block.in_audio.iter().zip(block.out_audio.iter_mut()) {
-        output[..frames].copy_from_slice(&input[..frames]);
+    for (channel, output) in block.out_audio.iter_mut().enumerate() {
+        let output = &mut output[..frames];
+        if let Some(input) = block.in_audio.get(channel) {
+            output.copy_from_slice(&input[..frames]);
+        } else {
+            output.fill(0.0);
+        }
     }
 }

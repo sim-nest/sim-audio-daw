@@ -9,8 +9,8 @@ use sim_lib_stream_host::{
 
 use crate::{
     CoreAudioBackend, CoreAudioDevice, CoreAudioRenderBridge, CoreAudioTiming,
-    coreaudio_backend_symbol, coreaudio_clock_symbol, install_stream_coreaudio_lib,
-    macos_audio_backend_priority, macos_midi_backend_priority,
+    coreaudio_audio_backend_candidate, coreaudio_backend_symbol, coreaudio_clock_symbol,
+    install_stream_coreaudio_lib, macos_audio_backend_priority, macos_midi_backend_priority,
 };
 
 #[derive(Debug)]
@@ -50,6 +50,15 @@ fn fake_backend_enumerates_default_input_and_output() {
         device.id() == &Symbol::new("coreaudio/default-input")
             && device.direction() == HostDirection::Input
     }));
+}
+
+#[test]
+fn config_probe_candidate_names_coreaudio_backend() {
+    assert_eq!(coreaudio_audio_backend_candidate(), "coreaudio");
+    assert_eq!(
+        coreaudio_backend_symbol().name.as_ref(),
+        coreaudio_audio_backend_candidate()
+    );
 }
 
 #[test]
@@ -116,7 +125,9 @@ fn callback_cassette_replays_fake_coreaudio_queue_without_hardware() {
         sim_lib_stream_core::PcmPacket::f32(1, 2, vec![0.0, 0.5]).unwrap(),
     ));
 
-    cassette.replay(opened.queue()).unwrap();
+    for item in cassette.items() {
+        opened.stream().push_packet(item.clone()).unwrap();
+    }
 
     assert_eq!(opened.queue().drain(4).unwrap().len(), 1);
 }

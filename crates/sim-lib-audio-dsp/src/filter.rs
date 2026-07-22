@@ -2,7 +2,9 @@ use std::f32::consts::PI;
 
 use sim_lib_audio_graph_core::{PrepareConfig, ProcessBlock, Processor};
 
-use crate::common::{clamp_cutoff, db_to_gain, input_sample, output_channels, prepare_channels};
+use crate::common::{
+    clamp_cutoff, db_to_gain, input_sample, prepare_channels, prepared_output_channels,
+};
 
 /// Mode of a [`OnePoleFilter`].
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -52,6 +54,11 @@ impl OnePoleFilter {
         let cutoff = clamp_cutoff(self.cutoff_hz, self.sample_rate_hz);
         1.0 - (-2.0 * PI * cutoff / self.sample_rate_hz).exp()
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.states.capacity()]
+    }
 }
 
 impl Processor for OnePoleFilter {
@@ -69,14 +76,7 @@ impl Processor for OnePoleFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // state, so clamp to it rather than grow a wider block in place.
-        let prepared = self.states.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "OnePoleFilter::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.states.len(), "OnePoleFilter");
         let alpha = self.alpha();
         let frames = block.frames as usize;
         for channel in 0..channels {
@@ -230,6 +230,11 @@ impl BiquadFilter {
             a2: a2 / a0,
         };
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.states.capacity()]
+    }
 }
 
 impl Processor for BiquadFilter {
@@ -248,14 +253,7 @@ impl Processor for BiquadFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // state, so clamp to it rather than grow a wider block in place.
-        let prepared = self.states.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "BiquadFilter::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.states.len(), "BiquadFilter");
         let c = self.coefficients;
         let frames = block.frames as usize;
         for channel in 0..channels {
@@ -334,6 +332,11 @@ impl StateVariableFilter {
             StateVariableMode::Notch => low + high,
         }
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.states.capacity()]
+    }
 }
 
 impl Processor for StateVariableFilter {
@@ -351,14 +354,7 @@ impl Processor for StateVariableFilter {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // state, so clamp to it rather than grow a wider block in place.
-        let prepared = self.states.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "StateVariableFilter::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.states.len(), "StateVariableFilter");
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {

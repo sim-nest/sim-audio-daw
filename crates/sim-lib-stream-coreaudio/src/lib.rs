@@ -10,11 +10,11 @@
 //! default-on `model` feature; a native provider would live behind a separate
 //! FFI binding outside this repo.
 //!
-//! The simple macOS path remains PortAudio or a future RtAudio adapter over
-//! CoreAudio. This crate exists for native CoreAudio coverage when that portable
-//! path is insufficient, while keeping workspace validation independent of
-//! Apple frameworks and hardware. MIDI remains separate: RtMidi is the first
-//! macOS MIDI path, and this crate intentionally models only PCM devices.
+//! The simple macOS path uses PortAudio or RtAudio over CoreAudio. This crate
+//! exists for native CoreAudio coverage when that portable path is insufficient,
+//! while keeping workspace validation independent of Apple frameworks and
+//! hardware. MIDI remains separate: RtMidi is the macOS MIDI path, and this
+//! crate intentionally models only PCM devices.
 
 mod backend;
 mod bridge;
@@ -22,7 +22,8 @@ mod model;
 mod runtime;
 
 pub use backend::{
-    CoreAudioBackend, coreaudio_backend_symbol, coreaudio_clock_symbol, coreaudio_transport_symbol,
+    CoreAudioBackend, coreaudio_audio_backend_candidate, coreaudio_backend_symbol,
+    coreaudio_clock_symbol, coreaudio_transport_symbol,
 };
 pub use bridge::CoreAudioRenderBridge;
 pub use model::{

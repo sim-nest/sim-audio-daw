@@ -1,6 +1,6 @@
 {
   "generator": "xtask crate-catalog v1",
-  "package_count": 10,
+  "package_count": 16,
   "packages": [
     {
       "description": "Reusable pure Rust DSP processors for the SIM audio graph.",
@@ -108,6 +108,42 @@
       ]
     },
     {
+      "description": "Modeled ALSA stream-host adapter (in-process simulation; no direct Linux PCM I/O).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-alsa/Cargo.toml",
+      "name": "sim-lib-stream-alsa",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-alsa/README.md",
+      "root": "crates/sim-lib-stream-alsa",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "Modeled Windows ASIO stream-host adapter (in-process simulation; no ASIO SDK/driver I/O).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-asio/Cargo.toml",
+      "name": "sim-lib-stream-asio",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-asio/README.md",
+      "root": "crates/sim-lib-stream-asio",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "Modeled macOS CoreAudio stream-host adapter (in-process simulation; no Apple framework I/O).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-coreaudio/Cargo.toml",
+      "name": "sim-lib-stream-coreaudio",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-coreaudio/README.md",
+      "root": "crates/sim-lib-stream-coreaudio",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
       "description": "cpal stream-host adapter with a modeled default lane and gated hardware support.",
       "generated_readme": true,
       "manifest": "crates/sim-lib-stream-cpal/Cargo.toml",
@@ -117,6 +153,42 @@
       "root": "crates/sim-lib-stream-cpal",
       "target_kinds": [
         "custom-build",
+        "lib"
+      ]
+    },
+    {
+      "description": "Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-jack/Cargo.toml",
+      "name": "sim-lib-stream-jack",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-jack/README.md",
+      "root": "crates/sim-lib-stream-jack",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "Modeled PipeWire stream-host adapter (in-process simulation; no real PipeWire daemon I/O).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-pipewire/Cargo.toml",
+      "name": "sim-lib-stream-pipewire",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-pipewire/README.md",
+      "root": "crates/sim-lib-stream-pipewire",
+      "target_kinds": [
+        "lib"
+      ]
+    },
+    {
+      "description": "Modeled PortAudio stream-host adapter (in-process simulation; no real PortAudio I/O).",
+      "generated_readme": true,
+      "manifest": "crates/sim-lib-stream-portaudio/Cargo.toml",
+      "name": "sim-lib-stream-portaudio",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-portaudio/README.md",
+      "root": "crates/sim-lib-stream-portaudio",
+      "target_kinds": [
         "lib"
       ]
     },

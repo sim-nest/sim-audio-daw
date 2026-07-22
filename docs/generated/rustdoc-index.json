@@ -1,5 +1,117 @@
 {
-  "schema": "sim.rustdoc-index.v1",
-  "repo": "sim-audio-daw",
-  "target_doc": "target/doc/"
+  "generator": "xtask repo-contract v1",
+  "packages": [
+    {
+      "crate_name": "sim_lib_audio_dsp",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-audio-dsp/Cargo.toml",
+      "package": "sim-lib-audio-dsp",
+      "summary": "Reusable pure Rust DSP processors for the SIM audio graph."
+    },
+    {
+      "crate_name": "sim_lib_audio_graph_core",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-audio-graph-core/Cargo.toml",
+      "package": "sim-lib-audio-graph-core",
+      "summary": "Pure Rust audio processor graph primitives."
+    },
+    {
+      "crate_name": "sim_lib_audio_graph_live",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-audio-graph-live/Cargo.toml",
+      "package": "sim-lib-audio-graph-live",
+      "summary": "Preallocated live audio graph runner for host callback integration."
+    },
+    {
+      "crate_name": "sim_lib_plugin_clap",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-clap/Cargo.toml",
+      "package": "sim-lib-plugin-clap",
+      "summary": "Modeled CLAP-shaped plugin adapters for SIM audio graph processors."
+    },
+    {
+      "crate_name": "sim_lib_plugin_core",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-core/Cargo.toml",
+      "package": "sim-lib-plugin-core",
+      "summary": "Common plugin descriptors, state, and graph adapters."
+    },
+    {
+      "crate_name": "sim_lib_plugin_lv2",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-lv2/Cargo.toml",
+      "package": "sim-lib-plugin-lv2",
+      "summary": "LV2-shaped plugin adapters for SIM audio graph processors."
+    },
+    {
+      "crate_name": "sim_lib_plugin_vst3",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-vst3/Cargo.toml",
+      "package": "sim-lib-plugin-vst3",
+      "summary": "VST3-shaped plugin export adapters for SIM audio graph processors."
+    },
+    {
+      "crate_name": "sim_lib_plugin_wasm",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-wasm/Cargo.toml",
+      "package": "sim-lib-plugin-wasm",
+      "summary": "WebAssembly audio plugin host for SIM audio graph processors."
+    },
+    {
+      "crate_name": "sim_lib_stream_alsa",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-alsa/Cargo.toml",
+      "package": "sim-lib-stream-alsa",
+      "summary": "Modeled ALSA stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_asio",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-asio/Cargo.toml",
+      "package": "sim-lib-stream-asio",
+      "summary": "Modeled Windows ASIO stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_coreaudio",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-coreaudio/Cargo.toml",
+      "package": "sim-lib-stream-coreaudio",
+      "summary": "Modeled macOS CoreAudio stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_cpal",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-cpal/Cargo.toml",
+      "package": "sim-lib-stream-cpal",
+      "summary": "cpal stream-host adapter."
+    },
+    {
+      "crate_name": "sim_lib_stream_jack",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-jack/Cargo.toml",
+      "package": "sim-lib-stream-jack",
+      "summary": "Modeled JACK stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_pipewire",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-pipewire/Cargo.toml",
+      "package": "sim-lib-stream-pipewire",
+      "summary": "Modeled PipeWire stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "sim_lib_stream_portaudio",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-portaudio/Cargo.toml",
+      "package": "sim-lib-stream-portaudio",
+      "summary": "Modeled PortAudio stream-host adapter (in-process simulation)."
+    },
+    {
+      "crate_name": "xtask",
+      "group": "workspace",
+      "manifest": "xtask/Cargo.toml",
+      "package": "xtask",
+      "summary": "SIM workspace package for xtask."
+    }
+  ]
 }

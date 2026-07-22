@@ -1,1 +1,1 @@
-(quote (stream-jack-provider loadable modeled-site registrar-entry))
+(stream/jack-loadable-modeled-provider-demo)

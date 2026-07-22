@@ -13,9 +13,9 @@
 //! local sound hardware. It models provider-reported ALSA PCM devices, supports
 //! `default`, `hw:*`, and `plughw:*` names, exposes host inventory/open plans,
 //! bridges playback callbacks into `ProcessBlock`, and records capture buffers
-//! as PCM stream packets. A future native provider can populate the same model
-//! from `snd_pcm_*` enumeration. ALSA sequencer MIDI is intentionally left as a
-//! follow-up for a MIDI-specific adapter so this crate remains focused on PCM.
+//! as PCM stream packets. Native provider crates populate the same model from
+//! `snd_pcm_*` enumeration. ALSA sequencer MIDI belongs in a MIDI-specific
+//! adapter so this crate remains focused on PCM.
 
 mod backend;
 mod bridge;
@@ -23,7 +23,9 @@ mod model;
 mod runtime;
 mod site;
 
-pub use backend::{AlsaBackend, alsa_backend_symbol, alsa_transport_symbol};
+pub use backend::{
+    AlsaBackend, alsa_audio_backend_candidate, alsa_backend_symbol, alsa_transport_symbol,
+};
 pub use bridge::{AlsaCaptureBridge, AlsaPlaybackBridge};
 pub use model::{AlsaPcmDevice, AlsaPcmName, AlsaPcmNameKind};
 pub use runtime::{AlsaLib, install_stream_alsa_lib};

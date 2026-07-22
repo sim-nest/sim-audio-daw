@@ -2,7 +2,7 @@ use std::f32::consts::FRAC_PI_4;
 
 use sim_lib_audio_graph_core::{PrepareConfig, ProcessBlock, Processor};
 
-use crate::common::{input_sample, output_channels, prepare_channels};
+use crate::common::{input_sample, output_channels, prepare_channels, prepared_output_channels};
 
 /// A [`Processor`] that scales every channel by a fixed linear gain.
 ///
@@ -122,6 +122,11 @@ impl DcBlocker {
             states: Vec::new(),
         }
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.states.capacity()]
+    }
 }
 
 impl Default for DcBlocker {
@@ -144,10 +149,7 @@ impl Processor for DcBlocker {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.states.len() < channels {
-            self.states.resize(channels, DcState::default());
-        }
+        let channels = prepared_output_channels(block, self.states.len(), "DcBlocker");
         let frames = block.frames as usize;
         for channel in 0..channels {
             let state = &mut self.states[channel];

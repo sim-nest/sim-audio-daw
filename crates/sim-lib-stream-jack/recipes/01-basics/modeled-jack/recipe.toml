@@ -1,0 +1,6 @@
+id = "modeled-jack"
+title = "Enumerate a modeled JACK client"
+command = "cargo test -p sim-lib-stream-jack fake_backend_enumerates_sim_client_audio_and_midi_ports"
+order = 10
+tags = ["stream", "jack", "modeled", "inventory", "test-command"]
+requires = ["stream-jack", "codec/lisp"]

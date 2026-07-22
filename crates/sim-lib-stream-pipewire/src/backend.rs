@@ -8,12 +8,17 @@ use sim_lib_stream_host::{
 
 use crate::{PipeWireNode, PipeWireTiming};
 
+/// Returns the PipeWire audio backend candidate name used by safe config probes.
+pub fn pipewire_audio_backend_candidate() -> &'static str {
+    "pipewire"
+}
+
 /// Returns the `stream/host:pipewire` symbol identifying this host backend.
 ///
 /// This is the backend id carried by [`HostBackendInfo`] and matched against
 /// incoming [`HostStreamConfigRequest`] backends in [`PipeWireBackend::open`].
 pub fn pipewire_backend_symbol() -> Symbol {
-    Symbol::qualified("stream/host", "pipewire")
+    Symbol::qualified("stream/host", pipewire_audio_backend_candidate())
 }
 
 /// Returns the `stream/transport:pipewire` symbol naming the transport surface.
@@ -21,7 +26,7 @@ pub fn pipewire_backend_symbol() -> Symbol {
 /// PipeWire is reported as both the host backend and the transport that moves
 /// PCM frames, so the transport symbol is distinct from the backend symbol.
 pub fn pipewire_transport_symbol() -> Symbol {
-    Symbol::qualified("stream/transport", "pipewire")
+    Symbol::qualified("stream/transport", pipewire_audio_backend_candidate())
 }
 
 /// PipeWire host backend with deterministic provider data.

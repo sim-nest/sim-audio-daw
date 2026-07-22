@@ -5,8 +5,12 @@ use std::path::Path;
 use std::sync::Arc;
 
 use sim_kernel::{Error, Result};
+#[cfg(feature = "wasm-plugin")]
+use sim_lib_plugin_core::AudioPluginCapability;
 use sim_lib_plugin_core::{CapabilitySet, PluginInstance};
 
+#[cfg(feature = "wasm-plugin")]
+use crate::WasmPluginProcessor;
 use crate::WasmResourceLimits;
 
 #[cfg(feature = "clap-host")]
@@ -64,9 +68,10 @@ impl PluginRouter {
 
     #[cfg(feature = "wasm-plugin")]
     fn load_wasm(&self, path: &Path, caps: &CapabilitySet) -> Result<RoutedPlugin> {
+        caps.require(AudioPluginCapability::WasmPlugin)?;
         let bytes = std::fs::read(path)
             .map_err(|err| Error::Eval(format!("cannot read {}: {err}", path.display())))?;
-        let plugin = crate::load_wasm_plugin(caps, &bytes, self.limits)?;
+        let plugin = WasmPluginProcessor::from_bytes_with_limits(&bytes, self.limits)?;
         Ok(Box::new(plugin))
     }
 

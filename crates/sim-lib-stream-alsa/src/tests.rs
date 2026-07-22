@@ -12,7 +12,8 @@ use sim_lib_stream_host::{
 
 use crate::{
     AlsaBackend, AlsaCaptureBridge, AlsaPcmDevice, AlsaPcmName, AlsaPcmNameKind,
-    AlsaPlaybackBridge, alsa_backend_symbol, default_modeled_alsa_site, install_stream_alsa_lib,
+    AlsaPlaybackBridge, alsa_audio_backend_candidate, alsa_backend_symbol,
+    default_modeled_alsa_site, install_stream_alsa_lib,
 };
 
 #[derive(Debug)]
@@ -65,6 +66,15 @@ fn fake_backend_enumerates_default_hw_and_plughw_pcm_devices() {
             .devices()
             .iter()
             .any(|device| device.id() == &Symbol::new("alsa/plughw:1,0/capture"))
+    );
+}
+
+#[test]
+fn config_probe_candidate_names_alsa_backend() {
+    assert_eq!(alsa_audio_backend_candidate(), "alsa");
+    assert_eq!(
+        alsa_backend_symbol().name.as_ref(),
+        alsa_audio_backend_candidate()
     );
 }
 
@@ -197,8 +207,10 @@ fn same_graph_two_modeled_sites() {
             packet_from_graph_output(&rendered, expected_channels, frames as usize);
 
         opened
-            .queue()
-            .callback_packet(StreamPacket::Pcm(expected_packet.clone()))
+            .stream()
+            .push_packet(sim_lib_stream_core::StreamItem::new(StreamPacket::Pcm(
+                expected_packet.clone(),
+            )))
             .unwrap();
         let delivered = opened.queue().drain(1).unwrap();
         let StreamPacket::Pcm(packet) = delivered[0].packet() else {

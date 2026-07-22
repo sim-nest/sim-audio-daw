@@ -8,14 +8,19 @@ use sim_lib_stream_host::{
 
 use crate::AlsaPcmDevice;
 
+/// Returns the ALSA audio backend candidate name used by safe config probes.
+pub fn alsa_audio_backend_candidate() -> &'static str {
+    "alsa"
+}
+
 /// Returns the backend identity symbol `stream/host:alsa`.
 pub fn alsa_backend_symbol() -> Symbol {
-    Symbol::qualified("stream/host", "alsa")
+    Symbol::qualified("stream/host", alsa_audio_backend_candidate())
 }
 
 /// Returns the transport identity symbol `stream/transport:alsa`.
 pub fn alsa_transport_symbol() -> Symbol {
-    Symbol::qualified("stream/transport", "alsa")
+    Symbol::qualified("stream/transport", alsa_audio_backend_candidate())
 }
 
 /// ALSA host backend with provider-supplied deterministic PCM devices.

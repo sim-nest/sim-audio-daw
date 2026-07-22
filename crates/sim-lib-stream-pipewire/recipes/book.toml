@@ -1,0 +1,5 @@
+book = "stream-pipewire"
+title = "Stream PipeWire"
+summary = "Command-backed checks for the modeled PipeWire stream adapter."
+order = 122
+chapters = ["01-basics"]

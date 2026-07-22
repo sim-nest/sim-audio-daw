@@ -19,7 +19,7 @@ const QUEUE_DRAIN_BATCH: usize = 64;
 
 /// Returns the hardware backend identity symbol for cpal streams.
 pub fn cpal_hardware_backend_symbol() -> Symbol {
-    Symbol::qualified("stream/host", "cpal")
+    Symbol::qualified("stream/host", crate::cpal_audio_backend_candidate())
 }
 
 /// Native cpal output site for one host device.
@@ -39,7 +39,8 @@ impl CpalHardwareSite {
             .map(|config| config.channels())
             .unwrap_or(2);
         let sample_rates = sample_rates(&device, default_config.as_ref());
-        let key = AudioSiteKey::new(&format!("sim:cpal-hardware-{index}"));
+        let site_name = format!("cpal-hardware-{index}");
+        let key = AudioSiteKey(Symbol::qualified("audio/site", site_name));
         let card = AudioDeviceCard {
             key: key.clone(),
             display_name: name,
@@ -137,18 +138,7 @@ impl CpalDriver {
         config: cpal::SupportedStreamConfig,
         queue: sim_lib_stream_host::HostCallbackQueue,
     ) -> Result<Self> {
-        let stream_config = config.config();
-        let mut pending: VecDeque<f32> = VecDeque::new();
-        let stream = device
-            .build_output_stream(
-                &stream_config,
-                move |samples: &mut [f32], _callback_info| {
-                    fill_output_from_queue(&queue, &mut pending, samples);
-                },
-                |_err| {},
-                None,
-            )
-            .map_err(|err| Error::Eval(format!("cpal output stream build failed: {err}")))?;
+        let stream = build_output_stream(device, config, queue)?;
         stream
             .play()
             .map_err(|err| Error::Eval(format!("cpal output stream start failed: {err}")))?;
@@ -196,17 +186,103 @@ enum CpalDriverHandle {
     },
 }
 
+fn build_output_stream(
+    device: &cpal::Device,
+    config: cpal::SupportedStreamConfig,
+    queue: sim_lib_stream_host::HostCallbackQueue,
+) -> Result<cpal::Stream> {
+    match config.sample_format() {
+        cpal::SampleFormat::I8 => build_typed_output_stream::<i8>(device, config, queue),
+        cpal::SampleFormat::I16 => build_typed_output_stream::<i16>(device, config, queue),
+        cpal::SampleFormat::I32 => build_typed_output_stream::<i32>(device, config, queue),
+        cpal::SampleFormat::I64 => build_typed_output_stream::<i64>(device, config, queue),
+        cpal::SampleFormat::U8 => build_typed_output_stream::<u8>(device, config, queue),
+        cpal::SampleFormat::U16 => build_typed_output_stream::<u16>(device, config, queue),
+        cpal::SampleFormat::U32 => build_typed_output_stream::<u32>(device, config, queue),
+        cpal::SampleFormat::U64 => build_typed_output_stream::<u64>(device, config, queue),
+        cpal::SampleFormat::F32 => build_typed_output_stream::<f32>(device, config, queue),
+        cpal::SampleFormat::F64 => build_typed_output_stream::<f64>(device, config, queue),
+        format => Err(Error::Eval(format!(
+            "unsupported cpal output sample format {format}"
+        ))),
+    }
+}
+
+fn build_typed_output_stream<T>(
+    device: &cpal::Device,
+    config: cpal::SupportedStreamConfig,
+    queue: sim_lib_stream_host::HostCallbackQueue,
+) -> Result<cpal::Stream>
+where
+    T: cpal::SizedSample + cpal::FromSample<f32>,
+{
+    let stream_config = config.config();
+    let mut pending = CallbackPending::with_capacity(pending_capacity(&config));
+    device
+        .build_output_stream(
+            &stream_config,
+            move |samples: &mut [T], _callback_info| {
+                fill_output_from_queue(&queue, &mut pending, samples);
+            },
+            |_err| {},
+            None,
+        )
+        .map_err(|err| Error::Eval(format!("cpal output stream build failed: {err}")))
+}
+
+pub(crate) struct CallbackPending {
+    samples: VecDeque<f32>,
+    capacity: usize,
+}
+
+impl CallbackPending {
+    pub(crate) fn with_capacity(capacity: usize) -> Self {
+        Self {
+            samples: VecDeque::with_capacity(capacity),
+            capacity,
+        }
+    }
+
+    fn len(&self) -> usize {
+        self.samples.len()
+    }
+
+    fn push_sample(&mut self, sample: f32) {
+        if self.samples.len() < self.capacity {
+            self.samples.push_back(sample);
+        }
+    }
+
+    fn pop_sample(&mut self) -> f32 {
+        self.samples.pop_front().unwrap_or(0.0)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn allocated_capacity(&self) -> usize {
+        self.samples.capacity()
+    }
+}
+
+pub(crate) fn pending_capacity(config: &cpal::SupportedStreamConfig) -> usize {
+    let frames = frames_per_buffer(config.buffer_size()) as usize;
+    frames
+        .saturating_mul(config.channels() as usize)
+        .saturating_mul(2)
+}
+
 /// Drains buffered PCM packets from `queue` into the interleaved `samples`
 /// output buffer, buffering any surplus in `pending` for the next callback and
 /// zero-filling whatever the queue cannot supply.
 ///
 /// Runs on the realtime audio thread, so it only touches the non-blocking queue
-/// drain and never allocates beyond the shared `pending` scratch buffer.
-fn fill_output_from_queue(
+/// drain and never grows the fixed-capacity `pending` scratch buffer.
+pub(crate) fn fill_output_from_queue<T>(
     queue: &sim_lib_stream_host::HostCallbackQueue,
-    pending: &mut VecDeque<f32>,
-    samples: &mut [f32],
-) {
+    pending: &mut CallbackPending,
+    samples: &mut [T],
+) where
+    T: cpal::Sample + cpal::FromSample<f32>,
+{
     while pending.len() < samples.len() {
         match queue.drain(QUEUE_DRAIN_BATCH) {
             Ok(items) if !items.is_empty() => {
@@ -214,14 +290,14 @@ fn fill_output_from_queue(
                     if let StreamPacket::Pcm(pcm) = item.packet() {
                         match pcm.sample_format() {
                             PcmSampleFormat::F32 => {
-                                pending.extend(pcm.samples_f32().iter().copied());
+                                for sample in pcm.samples_f32() {
+                                    pending.push_sample(*sample);
+                                }
                             }
                             PcmSampleFormat::I16 => {
-                                pending.extend(
-                                    pcm.samples_i16()
-                                        .iter()
-                                        .map(|sample| f32::from(*sample) / f32::from(i16::MAX)),
-                                );
+                                for sample in pcm.samples_i16() {
+                                    pending.push_sample(f32::from(*sample) / f32::from(i16::MAX));
+                                }
                             }
                         }
                     }
@@ -231,7 +307,7 @@ fn fill_output_from_queue(
         }
     }
     for sample in samples.iter_mut() {
-        *sample = pending.pop_front().unwrap_or(0.0);
+        *sample = T::from_sample(pending.pop_sample());
     }
 }
 

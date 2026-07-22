@@ -1,5 +1,279 @@
 {
-  "schema": "sim.feature-map.v1",
-  "repo": "sim-audio-daw",
-  "packages": []
+  "generator": "xtask repo-contract v1",
+  "packages": [
+    {
+      "features": [],
+      "group": "workspace",
+      "package": "sim-lib-audio-dsp"
+    },
+    {
+      "features": [],
+      "group": "workspace",
+      "package": "sim-lib-audio-graph-core"
+    },
+    {
+      "features": [],
+      "group": "workspace",
+      "package": "sim-lib-audio-graph-live"
+    },
+    {
+      "features": [
+        {
+          "edges": [],
+          "name": "clap-host",
+          "workspace_edges": []
+        },
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-plugin-clap"
+    },
+    {
+      "features": [],
+      "group": "workspace",
+      "package": "sim-lib-plugin-core"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "lv2-host",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-plugin-lv2"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-plugin-vst3"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "dep:sim-lib-plugin-clap",
+            "sim-lib-plugin-clap/clap-host"
+          ],
+          "name": "clap-host",
+          "workspace_edges": [
+            {
+              "feature": null,
+              "package": "sim-lib-plugin-clap"
+            },
+            {
+              "feature": "clap-host",
+              "package": "sim-lib-plugin-clap"
+            }
+          ]
+        },
+        {
+          "edges": [],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [
+            "dep:sim-lib-plugin-lv2",
+            "sim-lib-plugin-lv2/lv2-host"
+          ],
+          "name": "lv2-host",
+          "workspace_edges": [
+            {
+              "feature": null,
+              "package": "sim-lib-plugin-lv2"
+            },
+            {
+              "feature": "lv2-host",
+              "package": "sim-lib-plugin-lv2"
+            }
+          ]
+        },
+        {
+          "edges": [
+            "dep:wasmtime"
+          ],
+          "name": "wasm-plugin",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-plugin-wasm"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-alsa"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-asio"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-coreaudio"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "dep:cpal"
+          ],
+          "name": "cpal-hardware",
+          "workspace_edges": []
+        },
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-cpal"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-jack"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-pipewire"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-portaudio"
+    },
+    {
+      "features": [],
+      "group": "workspace",
+      "package": "xtask"
+    }
+  ]
 }

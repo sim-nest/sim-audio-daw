@@ -15,6 +15,11 @@ pub fn cpal_modeled_backend_symbol() -> Symbol {
     fake_backend_symbol()
 }
 
+/// Returns the modeled cpal audio site export symbol.
+pub fn cpal_modeled_site_symbol() -> Symbol {
+    Symbol::qualified("audio/site", "cpal-modeled")
+}
+
 /// Deterministic cpal-named site backed by the shared fake host backend.
 pub struct CpalModeledSite {
     site: ModeledAudioSite,
@@ -23,7 +28,7 @@ pub struct CpalModeledSite {
 impl CpalModeledSite {
     /// Builds a deterministic modeled stereo cpal site.
     pub fn stereo() -> Arc<Self> {
-        let key = AudioSiteKey::new("sim:cpal-modeled");
+        let key = AudioSiteKey(cpal_modeled_site_symbol());
         let card = AudioDeviceCard::modeled(key, "cpal Modeled Stereo");
         Arc::new(Self {
             site: ModeledAudioSite::new(card, Arc::new(FakeBackend::new())),

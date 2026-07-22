@@ -1,18 +1,1639 @@
 {
-  "schema": "sim.repo-contract.v1",
-  "repo": "sim-audio-daw",
-  "lanes": [
-    "target/doc/",
-    "docs/agents/cards.jsonl",
-    "docs/humans/",
-    "docs/diagrams/src/",
-    "docs/diagrams/generated/"
+  "card_count": 18,
+  "cards": [
+    {
+      "id": "browse/catalog",
+      "kind": "browse-root",
+      "owner": "workspace",
+      "summary": "root browse catalog"
+    },
+    {
+      "id": "cookbook/audio-dsp",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-audio-dsp",
+      "summary": "Offline DSP processor and fixture descriptors."
+    },
+    {
+      "id": "cookbook/audio-graph-live",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-audio-graph-live",
+      "summary": "Live graph queue, transport, and fake-clock descriptors."
+    },
+    {
+      "id": "cookbook/audio-graph/core",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-audio-graph-core",
+      "summary": "Hardware-free processor graph descriptors and offline blocks."
+    },
+    {
+      "id": "cookbook/plugin-clap",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-clap",
+      "summary": "CLAP-shaped plugin descriptor and export metadata."
+    },
+    {
+      "id": "cookbook/plugin-core",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-core",
+      "summary": "Plugin descriptor, parameter, state, and graph adapter data."
+    },
+    {
+      "id": "cookbook/plugin-lv2",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-lv2",
+      "summary": "LV2-shaped plugin port and descriptor metadata."
+    },
+    {
+      "id": "cookbook/plugin-vst3",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-vst3",
+      "summary": "VST3-shaped bus, parameter, and export descriptors."
+    },
+    {
+      "id": "cookbook/plugin-wasm",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-wasm",
+      "summary": "Command-backed checks for bounded WebAssembly plugin loading."
+    },
+    {
+      "id": "cookbook/stream-alsa",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-alsa",
+      "summary": "Command-backed checks for the modeled ALSA stream adapter."
+    },
+    {
+      "id": "cookbook/stream-asio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-asio",
+      "summary": "Command-backed checks for the modeled Windows ASIO stream adapter."
+    },
+    {
+      "id": "cookbook/stream-coreaudio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-coreaudio",
+      "summary": "Command-backed checks for the modeled macOS CoreAudio stream adapter."
+    },
+    {
+      "id": "cookbook/stream-cpal",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-cpal",
+      "summary": "cpal modeled site descriptors and hardware-gated output plans."
+    },
+    {
+      "id": "cookbook/stream-jack",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-jack",
+      "summary": "Command-backed checks for the modeled JACK stream adapter."
+    },
+    {
+      "id": "cookbook/stream-jack-provider",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-jack-provider",
+      "summary": "Loadable JACK provider descriptors and hardware-gated smoke checks."
+    },
+    {
+      "id": "cookbook/stream-pipewire",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-pipewire",
+      "summary": "Command-backed checks for the modeled PipeWire stream adapter."
+    },
+    {
+      "id": "cookbook/stream-portaudio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-portaudio",
+      "summary": "Command-backed checks for the modeled PortAudio stream adapter."
+    },
+    {
+      "id": "registry/catalog",
+      "kind": "browse-registry",
+      "owner": "workspace",
+      "summary": "registry catalog browse card"
+    }
   ],
-  "contracts": [
-    "docs/generated/provenance.json",
-    "docs/generated/repo-contract.json",
-    "docs/generated/rustdoc-index.json",
-    "docs/generated/card-index.json",
-    "docs/generated/feature-map.json"
+  "citizen_count": 0,
+  "citizens": [],
+  "generator": "xtask repo-contract v1",
+  "group_count": 1,
+  "group_order": [
+    "workspace"
+  ],
+  "groups": {
+    "workspace": [
+      "sim-lib-audio-dsp",
+      "sim-lib-audio-graph-core",
+      "sim-lib-audio-graph-live",
+      "sim-lib-plugin-clap",
+      "sim-lib-plugin-core",
+      "sim-lib-plugin-lv2",
+      "sim-lib-plugin-vst3",
+      "sim-lib-plugin-wasm",
+      "sim-lib-stream-alsa",
+      "sim-lib-stream-asio",
+      "sim-lib-stream-coreaudio",
+      "sim-lib-stream-cpal",
+      "sim-lib-stream-jack",
+      "sim-lib-stream-pipewire",
+      "sim-lib-stream-portaudio",
+      "xtask"
+    ]
+  },
+  "non_citizen_exemption_count": 0,
+  "non_citizen_exemptions": [],
+  "package_count": 16,
+  "packages": [
+    {
+      "crate_name": "sim_lib_audio_dsp",
+      "dependencies": [
+        {
+          "kind": "dev",
+          "optional": false,
+          "package": "sim-lib-audio-graph-live",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Reusable pure Rust DSP processors for the SIM audio graph.",
+      "features": [],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-audio-dsp/Cargo.toml",
+      "name": "sim-lib-audio-dsp",
+      "publish": "true",
+      "root": "crates/sim-lib-audio-dsp",
+      "rustdoc_summary": "Reusable pure Rust DSP processors for the SIM audio graph.",
+      "target_kinds": [
+        "custom-build",
+        "lib",
+        "test"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_audio_dsp",
+          "src": "crates/sim-lib-audio-dsp/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "test"
+          ],
+          "name": "overlap_baseline",
+          "src": "crates/sim-lib-audio-dsp/tests/overlap_baseline.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-audio-dsp/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_audio_graph_core",
+      "dependencies": [],
+      "description": "Pure Rust audio processor graph primitives.",
+      "features": [],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-audio-graph-core/Cargo.toml",
+      "name": "sim-lib-audio-graph-core",
+      "publish": "true",
+      "root": "crates/sim-lib-audio-graph-core",
+      "rustdoc_summary": "Pure Rust audio processor graph primitives.",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_audio_graph_core",
+          "src": "crates/sim-lib-audio-graph-core/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-audio-graph-core/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_audio_graph_live",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Preallocated live audio graph runner for host callback integration.",
+      "features": [],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-audio-graph-live/Cargo.toml",
+      "name": "sim-lib-audio-graph-live",
+      "publish": "true",
+      "root": "crates/sim-lib-audio-graph-live",
+      "rustdoc_summary": "Preallocated live audio graph runner for host callback integration.",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_audio_graph_live",
+          "src": "crates/sim-lib-audio-graph-live/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-audio-graph-live/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_plugin_clap",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-dsp",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-plugin-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled CLAP-shaped plugin adapters for SIM audio graph processors (no native CLAP hosting).",
+      "features": [
+        {
+          "edges": [],
+          "name": "clap-host",
+          "workspace_edges": []
+        },
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-clap/Cargo.toml",
+      "name": "sim-lib-plugin-clap",
+      "publish": "true",
+      "root": "crates/sim-lib-plugin-clap",
+      "rustdoc_summary": "Modeled CLAP-shaped plugin adapters for SIM audio graph processors.",
+      "target_kinds": [
+        "custom-build",
+        "lib",
+        "test"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_plugin_clap",
+          "src": "crates/sim-lib-plugin-clap/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "test"
+          ],
+          "name": "overlap_baseline",
+          "src": "crates/sim-lib-plugin-clap/tests/overlap_baseline.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-plugin-clap/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_plugin_core",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Common plugin descriptors, state, and graph adapters.",
+      "features": [],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-core/Cargo.toml",
+      "name": "sim-lib-plugin-core",
+      "publish": "true",
+      "root": "crates/sim-lib-plugin-core",
+      "rustdoc_summary": "Common plugin descriptors, state, and graph adapters.",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_plugin_core",
+          "src": "crates/sim-lib-plugin-core/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-plugin-core/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_plugin_lv2",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-dsp",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-plugin-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "LV2-shaped plugin adapters for SIM audio graph processors.",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "lv2-host",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-lv2/Cargo.toml",
+      "name": "sim-lib-plugin-lv2",
+      "publish": "true",
+      "root": "crates/sim-lib-plugin-lv2",
+      "rustdoc_summary": "LV2-shaped plugin adapters for SIM audio graph processors.",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_plugin_lv2",
+          "src": "crates/sim-lib-plugin-lv2/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-plugin-lv2/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_plugin_vst3",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-dsp",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-plugin-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "VST3-shaped plugin export adapters for SIM audio graph processors.",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-vst3/Cargo.toml",
+      "name": "sim-lib-plugin-vst3",
+      "publish": "true",
+      "root": "crates/sim-lib-plugin-vst3",
+      "rustdoc_summary": "VST3-shaped plugin export adapters for SIM audio graph processors.",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_plugin_vst3",
+          "src": "crates/sim-lib-plugin-vst3/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-plugin-vst3/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_plugin_wasm",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": true,
+          "package": "sim-lib-plugin-clap",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-plugin-core",
+          "rename": null,
+          "target": null
+        },
+        {
+          "kind": "normal",
+          "optional": true,
+          "package": "sim-lib-plugin-lv2",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "WebAssembly audio plugin host for SIM audio graph processors.",
+      "features": [
+        {
+          "edges": [
+            "dep:sim-lib-plugin-clap",
+            "sim-lib-plugin-clap/clap-host"
+          ],
+          "name": "clap-host",
+          "workspace_edges": [
+            {
+              "feature": null,
+              "package": "sim-lib-plugin-clap"
+            },
+            {
+              "feature": "clap-host",
+              "package": "sim-lib-plugin-clap"
+            }
+          ]
+        },
+        {
+          "edges": [],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [
+            "dep:sim-lib-plugin-lv2",
+            "sim-lib-plugin-lv2/lv2-host"
+          ],
+          "name": "lv2-host",
+          "workspace_edges": [
+            {
+              "feature": null,
+              "package": "sim-lib-plugin-lv2"
+            },
+            {
+              "feature": "lv2-host",
+              "package": "sim-lib-plugin-lv2"
+            }
+          ]
+        },
+        {
+          "edges": [
+            "dep:wasmtime"
+          ],
+          "name": "wasm-plugin",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-plugin-wasm/Cargo.toml",
+      "name": "sim-lib-plugin-wasm",
+      "publish": "true",
+      "root": "crates/sim-lib-plugin-wasm",
+      "rustdoc_summary": "WebAssembly audio plugin host for SIM audio graph processors.",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_plugin_wasm",
+          "src": "crates/sim-lib-plugin-wasm/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_alsa",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled ALSA stream-host adapter (in-process simulation; no direct Linux PCM I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-alsa/Cargo.toml",
+      "name": "sim-lib-stream-alsa",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-alsa",
+      "rustdoc_summary": "Modeled ALSA stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_alsa",
+          "src": "crates/sim-lib-stream-alsa/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_asio",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled Windows ASIO stream-host adapter (in-process simulation; no ASIO SDK/driver I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-asio/Cargo.toml",
+      "name": "sim-lib-stream-asio",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-asio",
+      "rustdoc_summary": "Modeled Windows ASIO stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_asio",
+          "src": "crates/sim-lib-stream-asio/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_coreaudio",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled macOS CoreAudio stream-host adapter (in-process simulation; no Apple framework I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-coreaudio/Cargo.toml",
+      "name": "sim-lib-stream-coreaudio",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-coreaudio",
+      "rustdoc_summary": "Modeled macOS CoreAudio stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_coreaudio",
+          "src": "crates/sim-lib-stream-coreaudio/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_cpal",
+      "dependencies": [],
+      "description": "cpal stream-host adapter with a modeled default lane and gated hardware support.",
+      "features": [
+        {
+          "edges": [
+            "dep:cpal"
+          ],
+          "name": "cpal-hardware",
+          "workspace_edges": []
+        },
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-cpal/Cargo.toml",
+      "name": "sim-lib-stream-cpal",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-cpal",
+      "rustdoc_summary": "cpal stream-host adapter.",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_cpal",
+          "src": "crates/sim-lib-stream-cpal/src/lib.rs"
+        },
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "custom-build"
+          ],
+          "name": "build-script-build",
+          "src": "crates/sim-lib-stream-cpal/build.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_jack",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-jack/Cargo.toml",
+      "name": "sim-lib-stream-jack",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-jack",
+      "rustdoc_summary": "Modeled JACK stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_jack",
+          "src": "crates/sim-lib-stream-jack/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_pipewire",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled PipeWire stream-host adapter (in-process simulation; no real PipeWire daemon I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-pipewire/Cargo.toml",
+      "name": "sim-lib-stream-pipewire",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-pipewire",
+      "rustdoc_summary": "Modeled PipeWire stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_pipewire",
+          "src": "crates/sim-lib-stream-pipewire/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "sim_lib_stream_portaudio",
+      "dependencies": [
+        {
+          "kind": "normal",
+          "optional": false,
+          "package": "sim-lib-audio-graph-core",
+          "rename": null,
+          "target": null
+        }
+      ],
+      "description": "Modeled PortAudio stream-host adapter (in-process simulation; no real PortAudio I/O).",
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-portaudio/Cargo.toml",
+      "name": "sim-lib-stream-portaudio",
+      "publish": "true",
+      "root": "crates/sim-lib-stream-portaudio",
+      "rustdoc_summary": "Modeled PortAudio stream-host adapter (in-process simulation).",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_lib_stream_portaudio",
+          "src": "crates/sim-lib-stream-portaudio/src/lib.rs"
+        }
+      ]
+    },
+    {
+      "crate_name": "xtask",
+      "dependencies": [],
+      "description": "SIM workspace package for xtask.",
+      "features": [],
+      "group": "workspace",
+      "manifest": "xtask/Cargo.toml",
+      "name": "xtask",
+      "publish": "false",
+      "root": "xtask",
+      "rustdoc_summary": "SIM workspace package for xtask.",
+      "target_kinds": [
+        "bin"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "bin"
+          ],
+          "kind": [
+            "bin"
+          ],
+          "name": "xtask",
+          "src": "xtask/src/main.rs"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "api_docs": "target/doc/",
+    "generated_by": "cargo run -p xtask -- simdoc",
+    "generation_timestamp": "2026-07-15T01:30:35+02:00",
+    "generator": "xtask repo-contract v1",
+    "git_commit": "7f0a7dc27d6e589b14dd73b599ee19bfa0e446c7",
+    "repo": "sim-audio-daw",
+    "schema": "sim.provenance.v1",
+    "source_commit": "7f0a7dc27d6e589b14dd73b599ee19bfa0e446c7",
+    "source_remote": "https://github.com/sim-nest/sim-audio-daw",
+    "validation_commands": [
+      "cargo fmt --all --check",
+      "cargo test",
+      "cargo clippy --all-targets -- -D warnings",
+      "cargo doc --no-deps",
+      "cargo run -p xtask -- simdoc --check",
+      "cargo run -p xtask -- check-file-sizes",
+      "cargo run -p xtask -- repo-contract --check --repo .",
+      "cargo run -p xtask -- validation-matrix --check --repo .",
+      "cargo run -p xtask -- crate-catalog --check --repo ."
+    ],
+    "workspace_hash": "c10a41202e3e967c",
+    "workspace_hash_algorithm": "fnv1a64",
+    "workspace_hash_input_count": 202,
+    "workspace_hash_inputs": [
+      "Cargo.toml",
+      "crates/sim-lib-audio-dsp/Cargo.toml",
+      "crates/sim-lib-audio-dsp/build.rs",
+      "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/recipe.toml",
+      "crates/sim-lib-audio-dsp/recipes/30-agents/a30-020-audio-processing/recipe.toml",
+      "crates/sim-lib-audio-dsp/recipes/book.toml",
+      "crates/sim-lib-audio-dsp/src/citizen.rs",
+      "crates/sim-lib-audio-dsp/src/common.rs",
+      "crates/sim-lib-audio-dsp/src/cookbook.rs",
+      "crates/sim-lib-audio-dsp/src/cookbook_runtime.rs",
+      "crates/sim-lib-audio-dsp/src/delay.rs",
+      "crates/sim-lib-audio-dsp/src/dynamics.rs",
+      "crates/sim-lib-audio-dsp/src/filter.rs",
+      "crates/sim-lib-audio-dsp/src/fixture.rs",
+      "crates/sim-lib-audio-dsp/src/gain.rs",
+      "crates/sim-lib-audio-dsp/src/lib.rs",
+      "crates/sim-lib-audio-dsp/src/modulation.rs",
+      "crates/sim-lib-audio-dsp/src/oversampling.rs",
+      "crates/sim-lib-audio-dsp/src/runtime.rs",
+      "crates/sim-lib-audio-dsp/src/smoothing.rs",
+      "crates/sim-lib-audio-dsp/src/tests.rs",
+      "crates/sim-lib-audio-dsp/tests/overlap_baseline.rs",
+      "crates/sim-lib-audio-graph-core/Cargo.toml",
+      "crates/sim-lib-audio-graph-core/build.rs",
+      "crates/sim-lib-audio-graph-core/recipes/01-basics/copy-node/recipe.toml",
+      "crates/sim-lib-audio-graph-core/recipes/book.toml",
+      "crates/sim-lib-audio-graph-core/src/arena.rs",
+      "crates/sim-lib-audio-graph-core/src/block.rs",
+      "crates/sim-lib-audio-graph-core/src/bridge.rs",
+      "crates/sim-lib-audio-graph-core/src/bridge_tests.rs",
+      "crates/sim-lib-audio-graph-core/src/citizen.rs",
+      "crates/sim-lib-audio-graph-core/src/cookbook.rs",
+      "crates/sim-lib-audio-graph-core/src/graph.rs",
+      "crates/sim-lib-audio-graph-core/src/lib.rs",
+      "crates/sim-lib-audio-graph-core/src/patch.rs",
+      "crates/sim-lib-audio-graph-core/src/port.rs",
+      "crates/sim-lib-audio-graph-core/src/processor.rs",
+      "crates/sim-lib-audio-graph-core/src/tests.rs",
+      "crates/sim-lib-audio-graph-live/Cargo.toml",
+      "crates/sim-lib-audio-graph-live/build.rs",
+      "crates/sim-lib-audio-graph-live/recipes/01-basics/live-config/recipe.toml",
+      "crates/sim-lib-audio-graph-live/recipes/book.toml",
+      "crates/sim-lib-audio-graph-live/src/cookbook.rs",
+      "crates/sim-lib-audio-graph-live/src/event.rs",
+      "crates/sim-lib-audio-graph-live/src/lib.rs",
+      "crates/sim-lib-audio-graph-live/src/profile.rs",
+      "crates/sim-lib-audio-graph-live/src/queue.rs",
+      "crates/sim-lib-audio-graph-live/src/runner.rs",
+      "crates/sim-lib-audio-graph-live/src/runner_types.rs",
+      "crates/sim-lib-audio-graph-live/src/runtime.rs",
+      "crates/sim-lib-audio-graph-live/src/site.rs",
+      "crates/sim-lib-audio-graph-live/src/site_tests.rs",
+      "crates/sim-lib-audio-graph-live/src/tests/diagnostics.rs",
+      "crates/sim-lib-audio-graph-live/src/tests/mod.rs",
+      "crates/sim-lib-audio-graph-live/src/tests/runner.rs",
+      "crates/sim-lib-audio-graph-live/src/transport.rs",
+      "crates/sim-lib-plugin-clap/Cargo.toml",
+      "crates/sim-lib-plugin-clap/build.rs",
+      "crates/sim-lib-plugin-clap/recipes/01-basics/clap-gain/recipe.toml",
+      "crates/sim-lib-plugin-clap/recipes/book.toml",
+      "crates/sim-lib-plugin-clap/src/adapter.rs",
+      "crates/sim-lib-plugin-clap/src/cookbook.rs",
+      "crates/sim-lib-plugin-clap/src/descriptor.rs",
+      "crates/sim-lib-plugin-clap/src/event.rs",
+      "crates/sim-lib-plugin-clap/src/lib.rs",
+      "crates/sim-lib-plugin-clap/src/native.rs",
+      "crates/sim-lib-plugin-clap/src/runtime.rs",
+      "crates/sim-lib-plugin-clap/src/tests.rs",
+      "crates/sim-lib-plugin-clap/tests/overlap_baseline.rs",
+      "crates/sim-lib-plugin-core/Cargo.toml",
+      "crates/sim-lib-plugin-core/build.rs",
+      "crates/sim-lib-plugin-core/recipes/01-basics/gain-plugin/recipe.toml",
+      "crates/sim-lib-plugin-core/recipes/book.toml",
+      "crates/sim-lib-plugin-core/src/adapter.rs",
+      "crates/sim-lib-plugin-core/src/capability.rs",
+      "crates/sim-lib-plugin-core/src/citizen.rs",
+      "crates/sim-lib-plugin-core/src/cookbook.rs",
+      "crates/sim-lib-plugin-core/src/descriptor.rs",
+      "crates/sim-lib-plugin-core/src/lib.rs",
+      "crates/sim-lib-plugin-core/src/runtime.rs",
+      "crates/sim-lib-plugin-core/src/state.rs",
+      "crates/sim-lib-plugin-core/src/tests.rs",
+      "crates/sim-lib-plugin-lv2/Cargo.toml",
+      "crates/sim-lib-plugin-lv2/build.rs",
+      "crates/sim-lib-plugin-lv2/recipes/01-basics/lv2-gain/recipe.toml",
+      "crates/sim-lib-plugin-lv2/recipes/book.toml",
+      "crates/sim-lib-plugin-lv2/src/adapter.rs",
+      "crates/sim-lib-plugin-lv2/src/cookbook.rs",
+      "crates/sim-lib-plugin-lv2/src/descriptor.rs",
+      "crates/sim-lib-plugin-lv2/src/lib.rs",
+      "crates/sim-lib-plugin-lv2/src/native.rs",
+      "crates/sim-lib-plugin-lv2/src/runtime.rs",
+      "crates/sim-lib-plugin-lv2/src/state.rs",
+      "crates/sim-lib-plugin-lv2/src/tests.rs",
+      "crates/sim-lib-plugin-vst3/Cargo.toml",
+      "crates/sim-lib-plugin-vst3/build.rs",
+      "crates/sim-lib-plugin-vst3/recipes/01-basics/vst3-gain/recipe.toml",
+      "crates/sim-lib-plugin-vst3/recipes/book.toml",
+      "crates/sim-lib-plugin-vst3/src/adapter.rs",
+      "crates/sim-lib-plugin-vst3/src/cookbook.rs",
+      "crates/sim-lib-plugin-vst3/src/descriptor.rs",
+      "crates/sim-lib-plugin-vst3/src/event.rs",
+      "crates/sim-lib-plugin-vst3/src/lib.rs",
+      "crates/sim-lib-plugin-vst3/src/runtime.rs",
+      "crates/sim-lib-plugin-vst3/src/scope.rs",
+      "crates/sim-lib-plugin-vst3/src/tests.rs",
+      "crates/sim-lib-plugin-wasm/Cargo.toml",
+      "crates/sim-lib-plugin-wasm/recipes/01-basics/wasm-gain/recipe.toml",
+      "crates/sim-lib-plugin-wasm/recipes/book.toml",
+      "crates/sim-lib-plugin-wasm/src/abi.rs",
+      "crates/sim-lib-plugin-wasm/src/lib.rs",
+      "crates/sim-lib-plugin-wasm/src/limits.rs",
+      "crates/sim-lib-plugin-wasm/src/loader.rs",
+      "crates/sim-lib-plugin-wasm/src/native_fallback.rs",
+      "crates/sim-lib-plugin-wasm/src/processor/host.rs",
+      "crates/sim-lib-plugin-wasm/src/processor/manifest.rs",
+      "crates/sim-lib-plugin-wasm/src/processor.rs",
+      "crates/sim-lib-plugin-wasm/src/router.rs",
+      "crates/sim-lib-plugin-wasm/src/tests.rs",
+      "crates/sim-lib-stream-alsa/Cargo.toml",
+      "crates/sim-lib-stream-alsa/recipes/01-basics/modeled-alsa/recipe.toml",
+      "crates/sim-lib-stream-alsa/recipes/book.toml",
+      "crates/sim-lib-stream-alsa/src/backend.rs",
+      "crates/sim-lib-stream-alsa/src/bridge.rs",
+      "crates/sim-lib-stream-alsa/src/lib.rs",
+      "crates/sim-lib-stream-alsa/src/model.rs",
+      "crates/sim-lib-stream-alsa/src/runtime.rs",
+      "crates/sim-lib-stream-alsa/src/site.rs",
+      "crates/sim-lib-stream-alsa/src/tests.rs",
+      "crates/sim-lib-stream-asio/Cargo.toml",
+      "crates/sim-lib-stream-asio/recipes/01-basics/modeled-asio/recipe.toml",
+      "crates/sim-lib-stream-asio/recipes/book.toml",
+      "crates/sim-lib-stream-asio/src/backend.rs",
+      "crates/sim-lib-stream-asio/src/bridge.rs",
+      "crates/sim-lib-stream-asio/src/lib.rs",
+      "crates/sim-lib-stream-asio/src/model.rs",
+      "crates/sim-lib-stream-asio/src/runtime.rs",
+      "crates/sim-lib-stream-asio/src/tests.rs",
+      "crates/sim-lib-stream-coreaudio/Cargo.toml",
+      "crates/sim-lib-stream-coreaudio/recipes/01-basics/modeled-coreaudio/recipe.toml",
+      "crates/sim-lib-stream-coreaudio/recipes/book.toml",
+      "crates/sim-lib-stream-coreaudio/src/backend.rs",
+      "crates/sim-lib-stream-coreaudio/src/bridge.rs",
+      "crates/sim-lib-stream-coreaudio/src/lib.rs",
+      "crates/sim-lib-stream-coreaudio/src/model.rs",
+      "crates/sim-lib-stream-coreaudio/src/runtime.rs",
+      "crates/sim-lib-stream-coreaudio/src/tests.rs",
+      "crates/sim-lib-stream-cpal/Cargo.toml",
+      "crates/sim-lib-stream-cpal/build.rs",
+      "crates/sim-lib-stream-cpal/recipes/01-basics/cpal-hardware-smoke/recipe.toml",
+      "crates/sim-lib-stream-cpal/recipes/01-basics/modeled-site/recipe.toml",
+      "crates/sim-lib-stream-cpal/recipes/book.toml",
+      "crates/sim-lib-stream-cpal/src/backend_resolution.rs",
+      "crates/sim-lib-stream-cpal/src/cookbook.rs",
+      "crates/sim-lib-stream-cpal/src/lib.rs",
+      "crates/sim-lib-stream-cpal/src/model.rs",
+      "crates/sim-lib-stream-cpal/src/native.rs",
+      "crates/sim-lib-stream-cpal/src/provider_modeled.rs",
+      "crates/sim-lib-stream-cpal/src/tests.rs",
+      "crates/sim-lib-stream-jack/Cargo.toml",
+      "crates/sim-lib-stream-jack/recipes/01-basics/modeled-jack/recipe.toml",
+      "crates/sim-lib-stream-jack/recipes/book.toml",
+      "crates/sim-lib-stream-jack/src/backend.rs",
+      "crates/sim-lib-stream-jack/src/bridge.rs",
+      "crates/sim-lib-stream-jack/src/lib.rs",
+      "crates/sim-lib-stream-jack/src/model.rs",
+      "crates/sim-lib-stream-jack/src/runtime.rs",
+      "crates/sim-lib-stream-jack/src/spike.rs",
+      "crates/sim-lib-stream-jack/src/tests.rs",
+      "crates/sim-lib-stream-jack-provider/Cargo.toml",
+      "crates/sim-lib-stream-jack-provider/build.rs",
+      "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml",
+      "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml",
+      "crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml",
+      "crates/sim-lib-stream-jack-provider/recipes/book.toml",
+      "crates/sim-lib-stream-jack-provider/src/cookbook.rs",
+      "crates/sim-lib-stream-jack-provider/src/entry.rs",
+      "crates/sim-lib-stream-jack-provider/src/lib.rs",
+      "crates/sim-lib-stream-jack-provider/src/model.rs",
+      "crates/sim-lib-stream-jack-provider/src/native.rs",
+      "crates/sim-lib-stream-jack-provider/src/tests.rs",
+      "crates/sim-lib-stream-pipewire/Cargo.toml",
+      "crates/sim-lib-stream-pipewire/recipes/01-basics/modeled-pipewire/recipe.toml",
+      "crates/sim-lib-stream-pipewire/recipes/book.toml",
+      "crates/sim-lib-stream-pipewire/src/backend.rs",
+      "crates/sim-lib-stream-pipewire/src/bridge.rs",
+      "crates/sim-lib-stream-pipewire/src/lib.rs",
+      "crates/sim-lib-stream-pipewire/src/model.rs",
+      "crates/sim-lib-stream-pipewire/src/runtime.rs",
+      "crates/sim-lib-stream-pipewire/src/tests.rs",
+      "crates/sim-lib-stream-portaudio/Cargo.toml",
+      "crates/sim-lib-stream-portaudio/recipes/01-basics/modeled-portaudio/recipe.toml",
+      "crates/sim-lib-stream-portaudio/recipes/book.toml",
+      "crates/sim-lib-stream-portaudio/src/backend.rs",
+      "crates/sim-lib-stream-portaudio/src/callback.rs",
+      "crates/sim-lib-stream-portaudio/src/lib.rs",
+      "crates/sim-lib-stream-portaudio/src/model.rs",
+      "crates/sim-lib-stream-portaudio/src/runtime.rs",
+      "crates/sim-lib-stream-portaudio/src/tests.rs",
+      "crates/sim-lib-stream-portaudio/src/tone.rs",
+      "features.toml",
+      "xtask/Cargo.toml"
+    ]
+  },
+  "recipe_book_count": 16,
+  "recipes": [
+    {
+      "book": "audio-dsp",
+      "book_toml": "crates/sim-lib-audio-dsp/recipes/book.toml",
+      "card_id": "cookbook/audio-dsp",
+      "group": "workspace",
+      "package": "sim-lib-audio-dsp",
+      "recipe_count": 2,
+      "recipes": [
+        {
+          "card_id": "audio-dsp/01-basics/offline-chain",
+          "codec": "lisp",
+          "id": "offline-chain",
+          "package": "sim-lib-audio-dsp",
+          "recipe_toml": "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/recipe.toml",
+          "title": "Offline DSP chain descriptor"
+        },
+        {
+          "card_id": "audio-dsp/30-agents/a30-020-audio-processing",
+          "codec": "lisp",
+          "id": "a30-020-audio-processing",
+          "package": "sim-lib-audio-dsp",
+          "recipe_toml": "crates/sim-lib-audio-dsp/recipes/30-agents/a30-020-audio-processing/recipe.toml",
+          "title": "Audio processing agent"
+        }
+      ],
+      "summary": "Offline DSP processor and fixture descriptors.",
+      "title": "Audio DSP"
+    },
+    {
+      "book": "audio-graph/core",
+      "book_toml": "crates/sim-lib-audio-graph-core/recipes/book.toml",
+      "card_id": "cookbook/audio-graph/core",
+      "group": "workspace",
+      "package": "sim-lib-audio-graph-core",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "audio-graph/core/01-basics/copy-node",
+          "codec": "lisp",
+          "id": "copy-node",
+          "package": "sim-lib-audio-graph-core",
+          "recipe_toml": "crates/sim-lib-audio-graph-core/recipes/01-basics/copy-node/recipe.toml",
+          "title": "Copy node graph descriptor"
+        }
+      ],
+      "summary": "Hardware-free processor graph descriptors and offline blocks.",
+      "title": "Audio Graph Core"
+    },
+    {
+      "book": "audio-graph-live",
+      "book_toml": "crates/sim-lib-audio-graph-live/recipes/book.toml",
+      "card_id": "cookbook/audio-graph-live",
+      "group": "workspace",
+      "package": "sim-lib-audio-graph-live",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "audio-graph-live/01-basics/live-config",
+          "codec": "lisp",
+          "id": "live-config",
+          "package": "sim-lib-audio-graph-live",
+          "recipe_toml": "crates/sim-lib-audio-graph-live/recipes/01-basics/live-config/recipe.toml",
+          "title": "Live graph config descriptor"
+        }
+      ],
+      "summary": "Live graph queue, transport, and fake-clock descriptors.",
+      "title": "Audio Graph Live"
+    },
+    {
+      "book": "plugin-clap",
+      "book_toml": "crates/sim-lib-plugin-clap/recipes/book.toml",
+      "card_id": "cookbook/plugin-clap",
+      "group": "workspace",
+      "package": "sim-lib-plugin-clap",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "plugin-clap/01-basics/clap-gain",
+          "codec": "lisp",
+          "id": "clap-gain",
+          "package": "sim-lib-plugin-clap",
+          "recipe_toml": "crates/sim-lib-plugin-clap/recipes/01-basics/clap-gain/recipe.toml",
+          "title": "CLAP gain descriptor"
+        }
+      ],
+      "summary": "CLAP-shaped plugin descriptor and export metadata.",
+      "title": "CLAP Plugin"
+    },
+    {
+      "book": "plugin-core",
+      "book_toml": "crates/sim-lib-plugin-core/recipes/book.toml",
+      "card_id": "cookbook/plugin-core",
+      "group": "workspace",
+      "package": "sim-lib-plugin-core",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "plugin-core/01-basics/gain-plugin",
+          "codec": "lisp",
+          "id": "gain-plugin",
+          "package": "sim-lib-plugin-core",
+          "recipe_toml": "crates/sim-lib-plugin-core/recipes/01-basics/gain-plugin/recipe.toml",
+          "title": "Gain plugin descriptor"
+        }
+      ],
+      "summary": "Plugin descriptor, parameter, state, and graph adapter data.",
+      "title": "Plugin Core"
+    },
+    {
+      "book": "plugin-lv2",
+      "book_toml": "crates/sim-lib-plugin-lv2/recipes/book.toml",
+      "card_id": "cookbook/plugin-lv2",
+      "group": "workspace",
+      "package": "sim-lib-plugin-lv2",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "plugin-lv2/01-basics/lv2-gain",
+          "codec": "lisp",
+          "id": "lv2-gain",
+          "package": "sim-lib-plugin-lv2",
+          "recipe_toml": "crates/sim-lib-plugin-lv2/recipes/01-basics/lv2-gain/recipe.toml",
+          "title": "LV2 gain descriptor"
+        }
+      ],
+      "summary": "LV2-shaped plugin port and descriptor metadata.",
+      "title": "LV2 Plugin"
+    },
+    {
+      "book": "plugin-vst3",
+      "book_toml": "crates/sim-lib-plugin-vst3/recipes/book.toml",
+      "card_id": "cookbook/plugin-vst3",
+      "group": "workspace",
+      "package": "sim-lib-plugin-vst3",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "plugin-vst3/01-basics/vst3-gain",
+          "codec": "lisp",
+          "id": "vst3-gain",
+          "package": "sim-lib-plugin-vst3",
+          "recipe_toml": "crates/sim-lib-plugin-vst3/recipes/01-basics/vst3-gain/recipe.toml",
+          "title": "VST3 gain descriptor"
+        }
+      ],
+      "summary": "VST3-shaped bus, parameter, and export descriptors.",
+      "title": "VST3 Plugin"
+    },
+    {
+      "book": "plugin-wasm",
+      "book_toml": "crates/sim-lib-plugin-wasm/recipes/book.toml",
+      "card_id": "cookbook/plugin-wasm",
+      "group": "workspace",
+      "package": "sim-lib-plugin-wasm",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "plugin-wasm/01-basics/wasm-gain",
+          "codec": "",
+          "id": "wasm-gain",
+          "package": "sim-lib-plugin-wasm",
+          "recipe_toml": "crates/sim-lib-plugin-wasm/recipes/01-basics/wasm-gain/recipe.toml",
+          "title": "Load a bounded Wasm gain plugin"
+        }
+      ],
+      "summary": "Command-backed checks for bounded WebAssembly plugin loading.",
+      "title": "Plugin Wasm"
+    },
+    {
+      "book": "stream-alsa",
+      "book_toml": "crates/sim-lib-stream-alsa/recipes/book.toml",
+      "card_id": "cookbook/stream-alsa",
+      "group": "workspace",
+      "package": "sim-lib-stream-alsa",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "stream-alsa/01-basics/modeled-alsa",
+          "codec": "",
+          "id": "modeled-alsa",
+          "package": "sim-lib-stream-alsa",
+          "recipe_toml": "crates/sim-lib-stream-alsa/recipes/01-basics/modeled-alsa/recipe.toml",
+          "title": "Enumerate modeled ALSA PCM devices"
+        }
+      ],
+      "summary": "Command-backed checks for the modeled ALSA stream adapter.",
+      "title": "Stream ALSA"
+    },
+    {
+      "book": "stream-asio",
+      "book_toml": "crates/sim-lib-stream-asio/recipes/book.toml",
+      "card_id": "cookbook/stream-asio",
+      "group": "workspace",
+      "package": "sim-lib-stream-asio",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "stream-asio/01-basics/modeled-asio",
+          "codec": "",
+          "id": "modeled-asio",
+          "package": "sim-lib-stream-asio",
+          "recipe_toml": "crates/sim-lib-stream-asio/recipes/01-basics/modeled-asio/recipe.toml",
+          "title": "Enumerate a modeled ASIO driver"
+        }
+      ],
+      "summary": "Command-backed checks for the modeled Windows ASIO stream adapter.",
+      "title": "Stream ASIO"
+    },
+    {
+      "book": "stream-coreaudio",
+      "book_toml": "crates/sim-lib-stream-coreaudio/recipes/book.toml",
+      "card_id": "cookbook/stream-coreaudio",
+      "group": "workspace",
+      "package": "sim-lib-stream-coreaudio",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "stream-coreaudio/01-basics/modeled-coreaudio",
+          "codec": "",
+          "id": "modeled-coreaudio",
+          "package": "sim-lib-stream-coreaudio",
+          "recipe_toml": "crates/sim-lib-stream-coreaudio/recipes/01-basics/modeled-coreaudio/recipe.toml",
+          "title": "Enumerate modeled CoreAudio devices"
+        }
+      ],
+      "summary": "Command-backed checks for the modeled macOS CoreAudio stream adapter.",
+      "title": "Stream CoreAudio"
+    },
+    {
+      "book": "stream-cpal",
+      "book_toml": "crates/sim-lib-stream-cpal/recipes/book.toml",
+      "card_id": "cookbook/stream-cpal",
+      "group": "workspace",
+      "package": "sim-lib-stream-cpal",
+      "recipe_count": 2,
+      "recipes": [
+        {
+          "card_id": "stream-cpal/01-basics/cpal-hardware-smoke",
+          "codec": "lisp",
+          "id": "cpal-hardware-smoke",
+          "package": "sim-lib-stream-cpal",
+          "recipe_toml": "crates/sim-lib-stream-cpal/recipes/01-basics/cpal-hardware-smoke/recipe.toml",
+          "title": "cpal hardware smoke"
+        },
+        {
+          "card_id": "stream-cpal/01-basics/modeled-site",
+          "codec": "lisp",
+          "id": "modeled-site",
+          "package": "sim-lib-stream-cpal",
+          "recipe_toml": "crates/sim-lib-stream-cpal/recipes/01-basics/modeled-site/recipe.toml",
+          "title": "Modeled cpal site descriptor"
+        }
+      ],
+      "summary": "cpal modeled site descriptors and hardware-gated output plans.",
+      "title": "Stream cpal"
+    },
+    {
+      "book": "stream-jack",
+      "book_toml": "crates/sim-lib-stream-jack/recipes/book.toml",
+      "card_id": "cookbook/stream-jack",
+      "group": "workspace",
+      "package": "sim-lib-stream-jack",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "stream-jack/01-basics/modeled-jack",
+          "codec": "",
+          "id": "modeled-jack",
+          "package": "sim-lib-stream-jack",
+          "recipe_toml": "crates/sim-lib-stream-jack/recipes/01-basics/modeled-jack/recipe.toml",
+          "title": "Enumerate a modeled JACK client"
+        }
+      ],
+      "summary": "Command-backed checks for the modeled JACK stream adapter.",
+      "title": "Stream JACK"
+    },
+    {
+      "book": "stream-jack-provider",
+      "book_toml": "crates/sim-lib-stream-jack-provider/recipes/book.toml",
+      "card_id": "cookbook/stream-jack-provider",
+      "group": "",
+      "package": "sim-lib-stream-jack-provider",
+      "recipe_count": 3,
+      "recipes": [
+        {
+          "card_id": "stream-jack-provider/01-basics/jack-hardware-smoke",
+          "codec": "lisp",
+          "id": "jack-hardware-smoke",
+          "package": "sim-lib-stream-jack-provider",
+          "recipe_toml": "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml",
+          "title": "JACK hardware smoke"
+        },
+        {
+          "card_id": "stream-jack-provider/01-basics/jack-provider-load",
+          "codec": "lisp",
+          "id": "jack-provider-load",
+          "package": "sim-lib-stream-jack-provider",
+          "recipe_toml": "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml",
+          "title": "JACK provider load"
+        },
+        {
+          "card_id": "stream-jack-provider/01-basics/loadable-modeled-provider",
+          "codec": "lisp",
+          "id": "loadable-modeled-provider",
+          "package": "sim-lib-stream-jack-provider",
+          "recipe_toml": "crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml",
+          "title": "Loadable modeled JACK provider"
+        }
+      ],
+      "summary": "Loadable JACK provider descriptors and hardware-gated smoke checks.",
+      "title": "Stream JACK provider"
+    },
+    {
+      "book": "stream-pipewire",
+      "book_toml": "crates/sim-lib-stream-pipewire/recipes/book.toml",
+      "card_id": "cookbook/stream-pipewire",
+      "group": "workspace",
+      "package": "sim-lib-stream-pipewire",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "stream-pipewire/01-basics/modeled-pipewire",
+          "codec": "",
+          "id": "modeled-pipewire",
+          "package": "sim-lib-stream-pipewire",
+          "recipe_toml": "crates/sim-lib-stream-pipewire/recipes/01-basics/modeled-pipewire/recipe.toml",
+          "title": "Enumerate modeled PipeWire nodes"
+        }
+      ],
+      "summary": "Command-backed checks for the modeled PipeWire stream adapter.",
+      "title": "Stream PipeWire"
+    },
+    {
+      "book": "stream-portaudio",
+      "book_toml": "crates/sim-lib-stream-portaudio/recipes/book.toml",
+      "card_id": "cookbook/stream-portaudio",
+      "group": "workspace",
+      "package": "sim-lib-stream-portaudio",
+      "recipe_count": 1,
+      "recipes": [
+        {
+          "card_id": "stream-portaudio/01-basics/modeled-portaudio",
+          "codec": "",
+          "id": "modeled-portaudio",
+          "package": "sim-lib-stream-portaudio",
+          "recipe_toml": "crates/sim-lib-stream-portaudio/recipes/01-basics/modeled-portaudio/recipe.toml",
+          "title": "Open a modeled PortAudio output"
+        }
+      ],
+      "summary": "Command-backed checks for the modeled PortAudio stream adapter.",
+      "title": "Stream PortAudio"
+    }
   ]
 }

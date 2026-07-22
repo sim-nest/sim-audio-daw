@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-stream-cpal"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2024"
 license = "MPL-2.0"
 description = "cpal stream-host adapter with a modeled default lane and gated hardware support."

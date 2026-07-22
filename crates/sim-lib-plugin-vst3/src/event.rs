@@ -1,5 +1,6 @@
 use std::collections::BTreeMap;
 
+use sim_kernel::{Error, Result};
 use sim_lib_audio_graph_core::BlockEvent;
 
 /// A VST3 input event for one processing block.
@@ -98,6 +99,29 @@ impl Vst3Event {
             },
         }
     }
+
+    /// Translates this event after checking that its sample offset is inside
+    /// the current processing block.
+    pub fn try_to_block_event(&self, params: &Vst3ParamMap, frames: u32) -> Result<BlockEvent<'_>> {
+        let event = self.to_block_event(params);
+        let offset = block_event_offset(&event);
+        if offset >= frames {
+            return Err(Error::Eval(format!(
+                "VST3 event offset {offset} is outside block frames 0..{frames}"
+            )));
+        }
+        Ok(event)
+    }
+}
+
+fn block_event_offset(event: &BlockEvent<'_>) -> u32 {
+    match *event {
+        BlockEvent::Midi { offset, .. }
+        | BlockEvent::MidiLong { offset, .. }
+        | BlockEvent::ParamSet { offset, .. }
+        | BlockEvent::NoteOn { offset, .. }
+        | BlockEvent::NoteOff { offset, .. } => offset,
+    }
 }
 
 /// A mapping from host-facing VST3 parameter ids to SIM parameter ids.
@@ -166,6 +190,19 @@ impl Vst3EventBuffer {
         self.events
             .iter()
             .map(|event| event.to_block_event(params))
+            .collect()
+    }
+
+    /// Translates buffered events after checking every event offset against the
+    /// current processing block.
+    pub fn try_to_block_events(
+        &self,
+        params: &Vst3ParamMap,
+        frames: u32,
+    ) -> Result<Vec<BlockEvent<'_>>> {
+        self.events
+            .iter()
+            .map(|event| event.try_to_block_event(params, frames))
             .collect()
     }
 }

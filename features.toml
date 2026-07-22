@@ -1,0 +1,108 @@
+schema = "sim.features"
+
+[enforcement.audience]
+user = "strict"
+code = "strict"
+framework = "advisory"
+
+[enforcement.surface]
+cli = "strict"
+docs = "advisory"
+
+[enforcement.specimen]
+user = "strict"
+framework = "strict"
+code = "advisory"
+
+[enforcement.route]
+major_entrypoints = "advisory"
+frameworks = "advisory"
+
+[[feature]]
+id = "feature/sim-audio-daw/generated-docs"
+title = "Repository documentation surface"
+summary = "Publish generated package, card, recipe, and index facts for the audio and plugin crates."
+owner = "crate/xtask"
+audiences = ["code"]
+guidance = "Use this row when checking the generated documentation and index lane for the audio repo."
+claims_anchors = [
+  "anchor/cli/xtask",
+  "anchor/crate/xtask",
+  "anchor/doc/generated/card-index",
+  "anchor/doc/generated/feature-map",
+  "anchor/doc/generated/provenance",
+  "anchor/doc/generated/repo-contract",
+  "anchor/doc/generated/rustdoc-index",
+  "anchor/doc/generated/sim-index-fragment",
+  "anchor/repo/sim-audio-daw",
+]
+claims_surfaces = [
+  "cli/xtask",
+  "docs/sim-audio-daw/generated",
+]
+
+[[feature]]
+id = "feature/sim-audio-daw/audio-graph-workbench"
+title = "Audio graph workbench"
+summary = "Compose offline and live audio graph descriptors with DSP and gain-plugin examples."
+owner = "crate/sim-lib-audio-graph-core"
+audiences = ["user", "code"]
+guidance = "Use this row when building or checking an audio graph before connecting it to a host."
+claims_anchors = [
+  "anchor/crate/sim-lib-audio-dsp",
+  "anchor/crate/sim-lib-audio-graph-core",
+  "anchor/crate/sim-lib-audio-graph-live",
+  "anchor/crate/sim-lib-plugin-clap",
+  "anchor/crate/sim-lib-plugin-core",
+  "anchor/crate/sim-lib-plugin-lv2",
+  "anchor/crate/sim-lib-plugin-vst3",
+  "anchor/crate/sim-lib-plugin-wasm",
+  "anchor/runtime-lib/sim-lib-audio-dsp/audio-dsp-lib",
+  "anchor/runtime-lib/sim-lib-audio-graph-live/audio-graph-live-lib",
+  "anchor/runtime-lib/sim-lib-plugin-clap/clap-plugin-lib",
+  "anchor/runtime-lib/sim-lib-plugin-vst3/vst3-plugin-lib",
+]
+claims_specimens = [
+  "spec-test/sim-audio-daw/crates/sim-lib-audio-graph-core/src/tests",
+]
+
+[[feature]]
+id = "feature/sim-audio-daw/audio-device-providers"
+title = "Audio device providers"
+summary = "Model host audio devices and load JACK, cpal, PipeWire, ALSA, ASIO, CoreAudio, and PortAudio provider paths."
+owner = "crate/sim-lib-stream-cpal"
+audiences = ["user", "code", "framework"]
+guidance = "Use this row when choosing an audio placement target or checking a provider fixture."
+claims_anchors = [
+  "anchor/crate/sim-lib-stream-alsa",
+  "anchor/crate/sim-lib-stream-asio",
+  "anchor/crate/sim-lib-stream-coreaudio",
+  "anchor/crate/sim-lib-stream-cpal",
+  "anchor/crate/sim-lib-stream-jack",
+  "anchor/crate/sim-lib-stream-pipewire",
+  "anchor/crate/sim-lib-stream-portaudio",
+  "anchor/runtime-lib/sim-lib-stream-alsa/alsa-lib",
+  "anchor/runtime-lib/sim-lib-stream-asio/asio-lib",
+  "anchor/runtime-lib/sim-lib-stream-coreaudio/core-audio-lib",
+  "anchor/runtime-lib/sim-lib-stream-cpal/cpal-provider-modeled",
+  "anchor/runtime-lib/sim-lib-stream-jack/fixture-provider-lib",
+  "anchor/runtime-lib/sim-lib-stream-jack/jack-lib",
+  "anchor/runtime-lib/sim-lib-stream-pipewire/pipe-wire-lib",
+  "anchor/runtime-lib/sim-lib-stream-portaudio/port-audio-lib",
+]
+claims_surfaces = [
+  "site/sim-lib-stream-cpal",
+]
+claims_specimens = [
+  "spec-test/sim-audio-daw/crates/sim-lib-stream-cpal/src/tests",
+]
+
+[[route]]
+id = "route/build-audio-workbench"
+task = "Build an audio workbench"
+audiences = ["user", "code"]
+steps = [
+  { feature = "feature/sim-audio-daw/audio-graph-workbench", why = "The graph row collects the DSP and plugin recipes for local construction." },
+  { feature = "feature/sim-audio-daw/audio-device-providers", why = "The provider row selects a modeled or host-backed audio target." },
+  { specimen = "recipe/sim-audio-daw/crates/sim-lib-audio-graph-core/01-basics/copy-node", why = "The copy-node recipe is the smallest graph example." },
+]

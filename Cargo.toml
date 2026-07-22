@@ -10,7 +10,13 @@ members = [
   "crates/sim-lib-plugin-lv2",
   "crates/sim-lib-plugin-wasm",
   "crates/sim-lib-plugin-vst3",
+  "crates/sim-lib-stream-alsa",
+  "crates/sim-lib-stream-asio",
+  "crates/sim-lib-stream-coreaudio",
   "crates/sim-lib-stream-cpal",
+  "crates/sim-lib-stream-jack",
+  "crates/sim-lib-stream-pipewire",
+  "crates/sim-lib-stream-portaudio",
   "xtask",
 ]
 exclude = [

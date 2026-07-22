@@ -1,5 +1,6 @@
 use std::collections::BTreeMap;
 
+use sim_kernel::{Error, Result};
 use sim_lib_audio_graph_core::BlockEvent;
 
 /// A CLAP input event, mirroring the CLAP event union SIM accepts from a host.
@@ -96,6 +97,29 @@ impl ClapEvent {
             },
         }
     }
+
+    /// Translates this CLAP event after checking that its offset is inside the
+    /// current processing block.
+    pub fn try_to_block_event(&self, params: &ClapParamMap, frames: u32) -> Result<BlockEvent<'_>> {
+        let event = self.to_block_event(params);
+        let offset = block_event_offset(&event);
+        if offset >= frames {
+            return Err(Error::Eval(format!(
+                "CLAP event offset {offset} is outside block frames 0..{frames}"
+            )));
+        }
+        Ok(event)
+    }
+}
+
+fn block_event_offset(event: &BlockEvent<'_>) -> u32 {
+    match *event {
+        BlockEvent::Midi { offset, .. }
+        | BlockEvent::MidiLong { offset, .. }
+        | BlockEvent::ParamSet { offset, .. }
+        | BlockEvent::NoteOn { offset, .. }
+        | BlockEvent::NoteOff { offset, .. } => offset,
+    }
 }
 
 /// A translation table from CLAP parameter ids to SIM parameter ids.
@@ -166,6 +190,19 @@ impl ClapEventBuffer {
         self.events
             .iter()
             .map(|event| event.to_block_event(params))
+            .collect()
+    }
+
+    /// Translates buffered events after checking every event offset against the
+    /// current processing block.
+    pub fn try_to_block_events(
+        &self,
+        params: &ClapParamMap,
+        frames: u32,
+    ) -> Result<Vec<BlockEvent<'_>>> {
+        self.events
+            .iter()
+            .map(|event| event.try_to_block_event(params, frames))
             .collect()
     }
 }

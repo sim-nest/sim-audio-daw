@@ -1,0 +1,6 @@
+id = "modeled-portaudio"
+title = "Open a modeled PortAudio output"
+command = "cargo test -p sim-lib-stream-portaudio fake_backend_lists_and_opens_default_output_without_portaudio"
+order = 10
+tags = ["stream", "portaudio", "modeled", "inventory", "test-command"]
+requires = ["stream-portaudio", "codec/lisp"]

@@ -3,7 +3,7 @@ use std::f32::consts::TAU;
 use sim_lib_audio_graph_core::{PrepareConfig, ProcessBlock, Processor};
 
 use crate::{
-    common::{input_sample, output_channels, prepare_channels},
+    common::{input_sample, prepare_channels, prepared_output_channels},
     delay::DelayLine,
 };
 
@@ -66,6 +66,14 @@ impl ModulatedDelayProcessor {
             self.phase = (self.phase + TAU * self.rate_hz / self.sample_rate_hz).rem_euclid(TAU);
         }
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        let mut snapshot = Vec::with_capacity(self.lines.len() + 1);
+        snapshot.push(self.lines.capacity());
+        snapshot.extend(self.lines.iter().map(DelayLine::allocated_capacity));
+        snapshot
+    }
 }
 
 impl Processor for ModulatedDelayProcessor {
@@ -83,12 +91,7 @@ impl Processor for ModulatedDelayProcessor {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        let channels = output_channels(block);
-        if self.lines.len() < channels {
-            let max_delay_samples = self.max_delay_samples();
-            self.lines
-                .resize_with(channels, || DelayLine::new(max_delay_samples));
-        }
+        let channels = prepared_output_channels(block, self.lines.len(), "ModulatedDelayProcessor");
         let frames = block.frames as usize;
         for frame in 0..frames {
             let delay = self.current_delay_samples();
@@ -116,6 +119,11 @@ impl Chorus {
         Self {
             inner: ModulatedDelayProcessor::new(18.0, depth_ms, rate_hz).with_mix(0.65, 0.35),
         }
+    }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        self.inner.realtime_state_snapshot()
     }
 }
 
@@ -148,6 +156,11 @@ impl Flanger {
                 .with_mix(0.55, 0.45),
         }
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        self.inner.realtime_state_snapshot()
+    }
 }
 
 impl Processor for Flanger {
@@ -176,6 +189,11 @@ impl Vibrato {
         Self {
             inner: ModulatedDelayProcessor::new(depth_ms, depth_ms, rate_hz).with_mix(0.0, 1.0),
         }
+    }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        self.inner.realtime_state_snapshot()
     }
 }
 

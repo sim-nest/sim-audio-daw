@@ -4,7 +4,7 @@ In one line: A stand-in for PipeWire, the modern Linux sound server, that lets S
 
 ## What it gives you
 
-This crate models PipeWire, the sound and media server behind current Linux desktops, entirely in Rust. It binds to no library and needs no running daemon; instead it serves steady, made-up nodes and ports that behave the same every run. It presents provider-reported PipeWire nodes and the visible SIM client ports, folds quantum, sample-rate, and latency details into the shared stream configuration, and bridges made-up process callbacks into the audio graph and its PCM queues. Because none of this leans on a live PipeWire session, an audio project builds and validates anywhere, and a native adapter can later fill the same model from real PipeWire registry events.
+This crate models PipeWire, the sound and media server behind current Linux desktops, entirely in Rust. It binds to no library and needs no running daemon; instead it serves steady, made-up nodes and ports that behave the same every run. It presents provider-reported PipeWire nodes and the visible SIM client ports, folds quantum, sample-rate, and latency details into the shared stream configuration, and bridges made-up process callbacks into the audio graph and its PCM queues. Because none of this leans on a live PipeWire session, an audio project builds and validates anywhere, while native adapters use the same model for real PipeWire registry events.
 
 ## Why you will be glad
 

@@ -3,7 +3,7 @@ mod wasm_plugin {
     use sim_lib_audio_graph_core::{
         BlockArena, NullEventSink, PrepareConfig, ProcessBlock, Transport,
     };
-    use sim_lib_plugin_core::{AudioPluginCapability, CapabilitySet, PluginInstance};
+    use sim_lib_plugin_core::{AudioPluginCapability, CapabilitySet, PluginInstance, PluginState};
 
     use crate::{WasmPluginProcessor, WasmResourceLimits, load_wasm_plugin};
 
@@ -132,11 +132,83 @@ mod wasm_plugin {
         assert!(out_l.iter().all(|sample| *sample == 0.0));
         assert!(out_r.iter().all(|sample| *sample == 0.0));
     }
+
+    #[test]
+    fn wasm_trait_process_records_last_error_and_silences() {
+        let wasm_bytes =
+            wat::parse_str(include_str!("fixtures/gain.wat")).expect("valid gain fixture");
+        let caps = CapabilitySet::with(AudioPluginCapability::WasmPlugin);
+        let limits = WasmResourceLimits {
+            fuel_per_process: 1,
+            max_memory_pages: 64,
+        };
+        let mut processor = load_wasm_plugin(&caps, &wasm_bytes, limits).expect("plugin loads");
+        processor.prepare(PrepareConfig::new(48_000, 64, 2, 2));
+
+        let input_l = vec![1.0f32; 64];
+        let input_r = vec![-1.0f32; 64];
+        let mut out_l = vec![0.5f32; 64];
+        let mut out_r = vec![0.5f32; 64];
+        let mut outputs: Vec<&mut [f32]> = vec![out_l.as_mut_slice(), out_r.as_mut_slice()];
+        let mut sink = NullEventSink;
+        let mut scratch = BlockArena::with_f32_capacity(128);
+        let mut block = ProcessBlock {
+            frames: 64,
+            in_audio: &[&input_l, &input_r],
+            out_audio: &mut outputs,
+            in_events: &[],
+            out_events: &mut sink,
+            transport: Transport::default(),
+            scratch: &mut scratch,
+        };
+
+        let plugin: &mut dyn PluginInstance = &mut processor;
+        plugin.process(&mut block);
+        let err = plugin
+            .take_last_error()
+            .expect("trait process should preserve wasm failure");
+
+        assert!(err.contains("trapped"));
+        assert!(plugin.take_last_error().is_none());
+        assert!(out_l.iter().all(|sample| *sample == 0.0));
+        assert!(out_r.iter().all(|sample| *sample == 0.0));
+    }
+
+    #[test]
+    fn wasm_state_reports_only_applied_params() {
+        let wasm_bytes =
+            wat::parse_str(include_str!("fixtures/gain.wat")).expect("valid gain fixture");
+        let caps = CapabilitySet::with(AudioPluginCapability::WasmPlugin);
+        let mut processor = load_wasm_plugin(&caps, &wasm_bytes, WasmResourceLimits::default())
+            .expect("plugin loads");
+
+        let mut state = PluginState::new();
+        state.set_param(0, 0.25);
+        state.set_param(99, 0.75);
+        processor.set_state(state);
+
+        let reported = processor.state();
+        assert_eq!(reported.param(0), Some(0.25));
+        assert_eq!(reported.param(99), None);
+        let err = processor
+            .take_last_error()
+            .expect("invalid state restore should be visible");
+        assert!(err.contains("parameter 99 is absent"));
+
+        let mut valid = PluginState::new();
+        valid.set_param(0, 0.75);
+        processor.set_state(valid);
+
+        assert_eq!(processor.state().param(0), Some(0.75));
+        assert!(processor.take_last_error().is_none());
+    }
 }
 
 mod router_tests {
     use std::path::Path;
 
+    #[cfg(feature = "wasm-plugin")]
+    use sim_kernel::Error;
     use sim_lib_plugin_core::{AudioPluginCapability, CapabilitySet};
 
     use crate::{PluginRouter, WasmResourceLimits};
@@ -169,6 +241,23 @@ mod router_tests {
         assert_eq!(plugin.descriptor().id.stable_id, "sim.gain");
 
         let _ = std::fs::remove_file(path);
+    }
+
+    #[cfg(feature = "wasm-plugin")]
+    #[test]
+    fn router_denies_wasm_before_file_read() {
+        let path =
+            std::env::temp_dir().join(format!("sim_missing_router_{}.wasm", std::process::id()));
+        let _ = std::fs::remove_file(&path);
+        let router = PluginRouter::new(WasmResourceLimits::default());
+        let result = router.load(&path, &CapabilitySet::empty());
+        let Err(err) = result else {
+            panic!("missing capability unexpectedly loaded wasm path");
+        };
+
+        assert!(
+            matches!(err, Error::CapabilityDenied { capability } if capability.as_str() == "plugin.audio.wasm")
+        );
     }
 
     #[cfg(feature = "clap-host")]

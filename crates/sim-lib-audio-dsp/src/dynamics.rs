@@ -1,6 +1,9 @@
 use sim_lib_audio_graph_core::{PrepareConfig, ProcessBlock, Processor};
 
-use crate::common::{db_to_gain, gain_to_db, input_sample, output_channels, prepare_channels};
+use crate::common::{
+    db_to_gain, gain_to_db, input_sample, output_channels, prepare_channels,
+    prepared_output_channels,
+};
 
 /// A peak envelope follower with separate attack and release time constants.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -189,6 +192,11 @@ impl Compressor {
         let compressed_db = self.threshold_db + (level_db - self.threshold_db) / self.ratio;
         db_to_gain(compressed_db - level_db) * self.makeup_gain
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.envelopes.capacity()]
+    }
 }
 
 impl Processor for Compressor {
@@ -205,14 +213,7 @@ impl Processor for Compressor {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // state, so clamp to it rather than grow a wider block in place.
-        let prepared = self.envelopes.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "Compressor::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.envelopes.len(), "Compressor");
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {
@@ -236,6 +237,11 @@ impl Limiter {
         Self {
             inner: Compressor::new(threshold_db, 20.0).with_timing(0.5, 30.0),
         }
+    }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        self.inner.realtime_state_snapshot()
     }
 }
 
@@ -276,6 +282,11 @@ impl Gate {
     fn envelope(&self) -> DynamicsEnvelope {
         DynamicsEnvelope::new(self.sample_rate_hz, 2.0, 40.0)
     }
+
+    #[cfg(all(test, not(debug_assertions)))]
+    pub(crate) fn realtime_state_snapshot(&self) -> Vec<usize> {
+        vec![self.envelopes.capacity()]
+    }
 }
 
 impl Processor for Gate {
@@ -292,14 +303,7 @@ impl Processor for Gate {
     }
 
     fn process(&mut self, block: &mut ProcessBlock<'_>) {
-        // The audio callback never allocates: `prepare` sized the per-channel
-        // state, so clamp to it rather than grow a wider block in place.
-        let prepared = self.envelopes.len();
-        debug_assert!(
-            output_channels(block) <= prepared,
-            "Gate::process received more channels than prepare configured"
-        );
-        let channels = output_channels(block).min(prepared);
+        let channels = prepared_output_channels(block, self.envelopes.len(), "Gate");
         let frames = block.frames as usize;
         for channel in 0..channels {
             for frame in 0..frames {

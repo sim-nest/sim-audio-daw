@@ -38,6 +38,7 @@ mod arena;
 mod block;
 mod bridge;
 mod citizen;
+pub mod cookbook;
 mod graph;
 mod patch;
 mod port;
@@ -45,11 +46,12 @@ mod processor;
 
 pub use arena::BlockArena;
 pub use block::ProcessBlock;
-pub use bridge::DomainBridgeProcessor;
+pub use bridge::DomainBridgeMetadataProcessor;
 pub use citizen::{
     AudioGraphNodeConfig, AudioGraphPatchDescriptor, audio_graph_node_config_class_symbol,
     audio_graph_patch_class_symbol,
 };
+pub use cookbook::copy_node_demo;
 pub use graph::{Cable, Graph};
 pub use patch::{Patch, PatchNode};
 pub use port::{PortDecl, PortDir, PortMedia, PortUri};

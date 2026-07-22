@@ -10,7 +10,8 @@ use sim_lib_stream_host::{
 
 use crate::{
     PipeWireBackend, PipeWireCaptureBridge, PipeWireGraphBridge, PipeWireNode, PipeWireTiming,
-    install_stream_pipewire_lib, linux_audio_backend_priority, pipewire_backend_symbol,
+    install_stream_pipewire_lib, linux_audio_backend_priority, pipewire_audio_backend_candidate,
+    pipewire_backend_symbol,
 };
 
 #[derive(Debug)]
@@ -61,6 +62,15 @@ fn fake_backend_enumerates_default_nodes_and_visible_sim_ports() {
             .ports()
             .iter()
             .any(|port| port.id() == &Symbol::new("pipewire/sim/client/duplex_0"))
+    );
+}
+
+#[test]
+fn config_probe_candidate_names_pipewire_backend() {
+    assert_eq!(pipewire_audio_backend_candidate(), "pipewire");
+    assert_eq!(
+        pipewire_backend_symbol().name.as_ref(),
+        pipewire_audio_backend_candidate()
     );
 }
 

@@ -21,7 +21,7 @@ pub trait PluginInstance: Send {
         PluginState::new()
     }
 
-    /// Restores the instance from a previously captured [`PluginState`].
+    /// Restores the instance from a captured [`PluginState`].
     ///
     /// The default ignores the state; stateful backends override this.
     fn set_state(&mut self, _state: PluginState) {}
@@ -34,6 +34,16 @@ pub trait PluginInstance: Send {
 
     /// Processes one audio block in place.
     fn process(&mut self, block: &mut ProcessBlock<'_>);
+
+    /// Returns and clears the last backend error hidden behind a trait method
+    /// that cannot return [`sim_kernel::Result`].
+    ///
+    /// The default reports no latent error. Fallible backends override this so
+    /// hosts using the trait path can audit failures after `process`,
+    /// `set_state`, or other non-`Result` entry points.
+    fn take_last_error(&mut self) -> Option<String> {
+        None
+    }
 
     /// Returns the instance's reported latency in frames.
     ///
@@ -160,9 +170,9 @@ impl<P: Processor> PluginInstance for ProcessorPlugin<P> {
 /// Implement [`PluginInstance`] for a `$ty<P>` newtype whose only relevant field
 /// is `inner: ProcessorPlugin<P>`, forwarding all six methods to it. The clap,
 /// lv2, and vst3 exported-processor adapters shared this forward block verbatim
-/// before OVERLAP6.15. Call it at each adapter, where `Processor`, `ProcessBlock`,
-/// and `PrepareConfig` (from `sim_lib_audio_graph_core`) and the plugin-core
-/// trait types are already in scope.
+/// Call it at each adapter, where `Processor`, `ProcessBlock`, and
+/// `PrepareConfig` (from `sim_lib_audio_graph_core`) and the plugin-core trait
+/// types are already in scope.
 #[macro_export]
 macro_rules! forward_plugin_instance {
     ($ty:ident) => {
@@ -189,6 +199,10 @@ macro_rules! forward_plugin_instance {
 
             fn process(&mut self, block: &mut ProcessBlock<'_>) {
                 self.inner.process(block);
+            }
+
+            fn take_last_error(&mut self) -> Option<String> {
+                self.inner.take_last_error()
             }
         }
     };

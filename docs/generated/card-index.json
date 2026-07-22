@@ -1,67 +1,114 @@
 {
-  "schema": "sim.card-index.v1",
+  "card_count": 18,
   "cards": [
-    "crates/sim-lib-audio-dsp/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/purpose.md",
-    "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/recipe.toml",
-    "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/setup.siml",
-    "crates/sim-lib-audio-dsp/recipes/30-agents/a30-020-audio-processing/expected.txt",
-    "crates/sim-lib-audio-dsp/recipes/30-agents/a30-020-audio-processing/purpose.md",
-    "crates/sim-lib-audio-dsp/recipes/30-agents/a30-020-audio-processing/recipe.toml",
-    "crates/sim-lib-audio-dsp/recipes/30-agents/a30-020-audio-processing/setup.siml",
-    "crates/sim-lib-audio-dsp/recipes/30-agents/chapter.toml",
-    "crates/sim-lib-audio-dsp/recipes/book.toml",
-    "crates/sim-lib-audio-graph-core/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-audio-graph-core/recipes/01-basics/copy-node/purpose.md",
-    "crates/sim-lib-audio-graph-core/recipes/01-basics/copy-node/recipe.toml",
-    "crates/sim-lib-audio-graph-core/recipes/01-basics/copy-node/setup.siml",
-    "crates/sim-lib-audio-graph-core/recipes/book.toml",
-    "crates/sim-lib-audio-graph-live/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-audio-graph-live/recipes/01-basics/live-config/purpose.md",
-    "crates/sim-lib-audio-graph-live/recipes/01-basics/live-config/recipe.toml",
-    "crates/sim-lib-audio-graph-live/recipes/01-basics/live-config/setup.siml",
-    "crates/sim-lib-audio-graph-live/recipes/book.toml",
-    "crates/sim-lib-plugin-clap/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-plugin-clap/recipes/01-basics/clap-gain/purpose.md",
-    "crates/sim-lib-plugin-clap/recipes/01-basics/clap-gain/recipe.toml",
-    "crates/sim-lib-plugin-clap/recipes/01-basics/clap-gain/setup.siml",
-    "crates/sim-lib-plugin-clap/recipes/book.toml",
-    "crates/sim-lib-plugin-core/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-plugin-core/recipes/01-basics/gain-plugin/purpose.md",
-    "crates/sim-lib-plugin-core/recipes/01-basics/gain-plugin/recipe.toml",
-    "crates/sim-lib-plugin-core/recipes/01-basics/gain-plugin/setup.siml",
-    "crates/sim-lib-plugin-core/recipes/book.toml",
-    "crates/sim-lib-plugin-lv2/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-plugin-lv2/recipes/01-basics/lv2-gain/purpose.md",
-    "crates/sim-lib-plugin-lv2/recipes/01-basics/lv2-gain/recipe.toml",
-    "crates/sim-lib-plugin-lv2/recipes/01-basics/lv2-gain/setup.siml",
-    "crates/sim-lib-plugin-lv2/recipes/book.toml",
-    "crates/sim-lib-plugin-vst3/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-plugin-vst3/recipes/01-basics/vst3-gain/purpose.md",
-    "crates/sim-lib-plugin-vst3/recipes/01-basics/vst3-gain/recipe.toml",
-    "crates/sim-lib-plugin-vst3/recipes/01-basics/vst3-gain/setup.siml",
-    "crates/sim-lib-plugin-vst3/recipes/book.toml",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/cpal-hardware-smoke/expected.txt",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/cpal-hardware-smoke/purpose.md",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/cpal-hardware-smoke/recipe.toml",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/cpal-hardware-smoke/setup.siml",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/modeled-site/purpose.md",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/modeled-site/recipe.toml",
-    "crates/sim-lib-stream-cpal/recipes/01-basics/modeled-site/setup.siml",
-    "crates/sim-lib-stream-cpal/recipes/book.toml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/chapter.toml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/expected.txt",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/purpose.md",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/recipe.toml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-hardware-smoke/setup.siml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/expected.txt",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/purpose.md",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/recipe.toml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/jack-provider-load/setup.siml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/purpose.md",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/recipe.toml",
-    "crates/sim-lib-stream-jack-provider/recipes/01-basics/loadable-modeled-provider/setup.siml",
-    "crates/sim-lib-stream-jack-provider/recipes/book.toml"
-  ]
+    {
+      "id": "browse/catalog",
+      "kind": "browse-root",
+      "owner": "workspace",
+      "summary": "root browse catalog"
+    },
+    {
+      "id": "cookbook/audio-dsp",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-audio-dsp",
+      "summary": "Offline DSP processor and fixture descriptors."
+    },
+    {
+      "id": "cookbook/audio-graph-live",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-audio-graph-live",
+      "summary": "Live graph queue, transport, and fake-clock descriptors."
+    },
+    {
+      "id": "cookbook/audio-graph/core",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-audio-graph-core",
+      "summary": "Hardware-free processor graph descriptors and offline blocks."
+    },
+    {
+      "id": "cookbook/plugin-clap",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-clap",
+      "summary": "CLAP-shaped plugin descriptor and export metadata."
+    },
+    {
+      "id": "cookbook/plugin-core",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-core",
+      "summary": "Plugin descriptor, parameter, state, and graph adapter data."
+    },
+    {
+      "id": "cookbook/plugin-lv2",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-lv2",
+      "summary": "LV2-shaped plugin port and descriptor metadata."
+    },
+    {
+      "id": "cookbook/plugin-vst3",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-vst3",
+      "summary": "VST3-shaped bus, parameter, and export descriptors."
+    },
+    {
+      "id": "cookbook/plugin-wasm",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-plugin-wasm",
+      "summary": "Command-backed checks for bounded WebAssembly plugin loading."
+    },
+    {
+      "id": "cookbook/stream-alsa",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-alsa",
+      "summary": "Command-backed checks for the modeled ALSA stream adapter."
+    },
+    {
+      "id": "cookbook/stream-asio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-asio",
+      "summary": "Command-backed checks for the modeled Windows ASIO stream adapter."
+    },
+    {
+      "id": "cookbook/stream-coreaudio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-coreaudio",
+      "summary": "Command-backed checks for the modeled macOS CoreAudio stream adapter."
+    },
+    {
+      "id": "cookbook/stream-cpal",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-cpal",
+      "summary": "cpal modeled site descriptors and hardware-gated output plans."
+    },
+    {
+      "id": "cookbook/stream-jack",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-jack",
+      "summary": "Command-backed checks for the modeled JACK stream adapter."
+    },
+    {
+      "id": "cookbook/stream-jack-provider",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-jack-provider",
+      "summary": "Loadable JACK provider descriptors and hardware-gated smoke checks."
+    },
+    {
+      "id": "cookbook/stream-pipewire",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-pipewire",
+      "summary": "Command-backed checks for the modeled PipeWire stream adapter."
+    },
+    {
+      "id": "cookbook/stream-portaudio",
+      "kind": "cookbook-recipe",
+      "owner": "sim-lib-stream-portaudio",
+      "summary": "Command-backed checks for the modeled PortAudio stream adapter."
+    },
+    {
+      "id": "registry/catalog",
+      "kind": "browse-registry",
+      "owner": "workspace",
+      "summary": "registry catalog browse card"
+    }
+  ],
+  "generator": "xtask repo-contract v1"
 }

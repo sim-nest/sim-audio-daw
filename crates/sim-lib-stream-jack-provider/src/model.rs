@@ -3,7 +3,7 @@
 use std::sync::Arc;
 
 use sim_kernel::{
-    AbiVersion, Lib, LibManifest, LibTarget, Linker, LoadCx, Result, Symbol, Version,
+    AbiVersion, Export, Lib, LibManifest, LibTarget, Linker, LoadCx, Result, Symbol, Version,
 };
 use sim_lib_stream_host::{
     AudioDeviceCard, AudioSite, AudioSiteKey, FakeBackend, ModeledAudioSite,
@@ -19,9 +19,14 @@ pub fn jack_backend_symbol() -> Symbol {
     Symbol::qualified("stream/host", "jack")
 }
 
+/// Returns the modeled JACK audio site export symbol.
+pub fn jack_modeled_site_symbol() -> Symbol {
+    Symbol::qualified("audio/site", "jack-modeled")
+}
+
 /// Builds the deterministic modeled JACK site used by default validation.
 pub fn default_modeled_jack_site() -> Arc<dyn AudioSite> {
-    let key = AudioSiteKey::new("audio/provider/jack-modeled");
+    let key = AudioSiteKey(jack_modeled_site_symbol());
     let card = AudioDeviceCard::modeled(key, "JACK Provider Modeled");
     Arc::new(ModeledAudioSite::new(card, Arc::new(FakeBackend::new())))
 }
@@ -50,7 +55,10 @@ impl Lib for JackProviderModeled {
             target: LibTarget::HostRegistered,
             requires: Vec::new(),
             capabilities: Vec::new(),
-            exports: Vec::new(),
+            exports: vec![Export::Site {
+                symbol: jack_modeled_site_symbol(),
+                runtime_id: None,
+            }],
         }
     }
 
