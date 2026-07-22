@@ -1,5 +1,7 @@
 #![forbid(unsafe_code)]
 
+// conformance: audio device providers resolve modeled host streams.
+
 use sim_kernel::Symbol;
 use sim_lib_stream_host::{
     AudioDeviceCard, AudioPlacementRequest, AudioRouter, AudioSiteKey, FakeBackend,

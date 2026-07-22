@@ -3,6 +3,8 @@ use crate::{
     PatchNode, PortDecl, PortDir, PortMedia, PortUri, PrepareConfig, ProcessBlock, Processor,
 };
 
+// conformance: audio graph workbench composes checked graph descriptors.
+
 #[derive(Debug)]
 struct GainNode {
     gain: f32,
