@@ -16,7 +16,7 @@ cpal-hardware = ["dep:cpal"]
 
 [dependencies]
 sim-cookbook = { version = "0.1.0" }
-cpal = { version = "0.15", optional = true }
+cpal = { version = "0.18", optional = true }
 sim-kernel = { version = "0.1.0" }
 sim-lib-stream-core = { version = "0.1.0" }
 sim-lib-stream-host = { version = "0.1.0" }
