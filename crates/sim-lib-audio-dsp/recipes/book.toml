@@ -1,5 +1,5 @@
 book = "audio-dsp"
 title = "Audio DSP"
-summary = "Offline DSP processor and fixture descriptors."
+summary = "Offline and realtime-safe DSP processor and transform descriptors."
 order = 132
 chapters = ["01-basics", "30-agents"]

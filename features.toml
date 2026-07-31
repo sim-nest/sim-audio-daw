@@ -44,10 +44,10 @@ claims_surfaces = [
 [[feature]]
 id = "feature/sim-audio-daw/audio-graph-workbench"
 title = "Audio graph workbench"
-summary = "Compose offline and realtime audio graphs with reusable filters, waveshaping, dynamics, delay/modulation effects, and bounded preview output."
+summary = "Compose offline and realtime audio graphs with reusable bandlimited oscillators, fixed-state polyphase resampling, filters, dynamics, effects, and bounded preview output."
 owner = "crate/sim-lib-audio-graph-core"
 audiences = ["user", "code", "framework"]
-guidance = "Use audio-dsp for filters, waveshaping, dynamics, delay, and modulation processors; audio-graph-core for checked graph descriptors; and audio-graph-live for local realtime preview. Prepare processors, buffers, scratch, and bounded control/diagnostic queues before the callback. The callback path mutably owns its processor and preallocated storage and performs no locks or I/O; package buffered PCM previews only after processing. Offline sound/timbre rendering remains in sim-music, and host placement remains a loadable provider choice."
+guidance = "Use audio-dsp for PolyBLEP bandlimited oscillators, fixed-state windowed-sinc polyphase resampling, filters, waveshaping, dynamics, delay, and modulation processors; audio-graph-core for checked graph descriptors; and audio-graph-live for local realtime preview. Construct resamplers with explicit phases, taps, cutoff, channels, and per-call bounds; ask for required caller-owned output before consuming input. Prepare processors, buffers, scratch, and bounded control/diagnostic queues before the callback. The callback path mutably owns its processor and preallocated storage and performs no locks or I/O. Offline phase vocoding, loudness, and normalization remain in sim-music, and host placement remains a loadable provider choice."
 claims_anchors = [
   "anchor/crate/sim-lib-audio-dsp",
   "anchor/crate/sim-lib-audio-graph-core",
@@ -61,6 +61,10 @@ claims_anchors = [
   "anchor/runtime-lib/sim-lib-audio-graph-live/audio-graph-live-lib",
   "anchor/runtime-lib/sim-lib-plugin-clap/clap-plugin-lib",
   "anchor/runtime-lib/sim-lib-plugin-vst3/vst3-plugin-lib",
+  "anchor/rustdoc/sim-lib-audio-dsp/bandlimited-oscillator",
+  "anchor/rustdoc/sim-lib-audio-dsp/oscillator-policy",
+  "anchor/rustdoc/sim-lib-audio-dsp/polyphase-resampler",
+  "anchor/rustdoc/sim-lib-audio-dsp/resampler-policy",
 ]
 claims_specimens = [
   "spec-test/sim-audio-daw/crates/sim-lib-audio-dsp/src/tests",
@@ -108,5 +112,6 @@ steps = [
   { feature = "feature/sim-audio-daw/audio-device-providers", why = "The provider row selects a modeled or host-backed audio target." },
   { specimen = "recipe/sim-audio-daw/crates/sim-lib-audio-graph-core/01-basics/copy-node", why = "The copy-node recipe is the smallest graph example." },
   { specimen = "recipe/sim-audio-daw/crates/sim-lib-audio-dsp/01-basics/offline-chain", why = "The DSP recipe names the reusable filter, dynamics, delay, and modulation processor chain." },
+  { specimen = "spec-test/sim-audio-daw/crates/sim-lib-audio-dsp/src/tests", why = "The DSP specimen proves preallocated oscillator/resampler state, folded-harmonic suppression, impulse gain, passband response, and downsampling alias rejection." },
   { specimen = "recipe/sim-audio-daw/crates/sim-lib-audio-graph-live/01-basics/live-config", why = "The live recipe selects bounded callback buffers and queues before host placement." },
 ]

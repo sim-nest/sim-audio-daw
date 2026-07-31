@@ -1,3 +1,6 @@
+{"kind":"recipe","path":"crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/purpose.md"}
+{"kind":"recipe","path":"crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/recipe.toml"}
+{"kind":"recipe","path":"crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/setup.siml"}
 {"kind":"recipe","path":"crates/sim-lib-audio-dsp/recipes/01-basics/chapter.toml"}
 {"kind":"recipe","path":"crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/purpose.md"}
 {"kind":"recipe","path":"crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/recipe.toml"}

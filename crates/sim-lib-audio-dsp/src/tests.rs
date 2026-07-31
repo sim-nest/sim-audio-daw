@@ -10,11 +10,13 @@ use sim_lib_audio_graph_core::{
 use sim_lib_audio_graph_live::{LiveGraphConfig, LiveGraphRunner};
 
 use crate::{
-    AllPassFilter, BiquadFilter, Chorus, CombFilter, Compressor, DcBlocker, DelayProcessor,
-    DspConfigDescriptor, Flanger, FractionalDelay, Gain, Gate, Limiter, ModulatedDelayProcessor,
-    OnePoleFilter, OversampledSoftClipper, Pan, SmoothedGain, SoftClipper, StateVariableFilter,
-    StateVariableMode, Vibrato, Waveshape, Waveshaper, audio_dsp_symbols, install_audio_dsp_lib,
-    r30_delay_golden_fixture, r30_gain_golden_fixture, run_offline,
+    AllPassFilter, BandlimitedOscillator, BandlimitedWaveform, BiquadFilter, Chorus, CombFilter,
+    Compressor, DcBlocker, DelayProcessor, DspConfigDescriptor, Flanger, FractionalDelay, Gain,
+    Gate, Limiter, ModulatedDelayProcessor, OnePoleFilter, OscillatorPolicy,
+    OversampledSoftClipper, Pan, PolyphaseResampler, ResampleError, ResamplerPolicy, SmoothedGain,
+    SoftClipper, StateVariableFilter, StateVariableMode, Vibrato, Waveshape, Waveshaper,
+    audio_dsp_symbols, install_audio_dsp_lib, r30_delay_golden_fixture, r30_gain_golden_fixture,
+    run_offline,
 };
 
 // conformance: audio DSP reuse covers filters, waveshaping, dynamics, and effects.
@@ -43,6 +45,110 @@ fn all_public_effects_implement_processor() {
     assert_processor::<Limiter>();
     assert_processor::<Gate>();
     assert_processor::<OversampledSoftClipper>();
+    assert_processor::<BandlimitedOscillator>();
+}
+
+#[test]
+fn polyblep_oscillator_suppresses_a_folded_saw_harmonic() {
+    const SAMPLE_RATE: u32 = 48_000;
+    const LEN: usize = 4_096;
+    let fundamental_bin = 768usize;
+    let frequency = fundamental_bin as f32 * SAMPLE_RATE as f32 / LEN as f32;
+    let mut oscillator =
+        BandlimitedOscillator::new(OscillatorPolicy::new(frequency, BandlimitedWaveform::Saw));
+    let output = process_mono(&mut oscillator, &vec![0.0; LEN], SAMPLE_RATE);
+    let corrected = &output[0];
+    let naive = (0..LEN)
+        .map(|index| {
+            let phase = (index as f32 * frequency / SAMPLE_RATE as f32).fract();
+            2.0 * phase - 1.0
+        })
+        .collect::<Vec<_>>();
+    let folded_third_bin = LEN - fundamental_bin * 3;
+    let corrected_alias = dft_bin_magnitude(corrected, folded_third_bin);
+    let naive_alias = dft_bin_magnitude(&naive, folded_third_bin);
+
+    assert!(corrected.iter().all(|sample| sample.is_finite()));
+    assert!(dft_bin_magnitude(corrected, fundamental_bin) > 0.3);
+    assert!(
+        corrected_alias < naive_alias * 0.35,
+        "polyBLEP alias {corrected_alias} was not below naive alias {naive_alias}"
+    );
+}
+
+#[test]
+fn oscillator_and_resampler_callbacks_retain_preallocated_state() {
+    let mut oscillator =
+        BandlimitedOscillator::new(OscillatorPolicy::new(440.0, BandlimitedWaveform::Triangle));
+    oscillator.prepare(PrepareConfig::new(48_000, 128, 0, 2));
+    let oscillator_before = oscillator.realtime_state_snapshot();
+    let _ = process_without_reprepare(&mut oscillator, 2, 128);
+    assert_eq!(oscillator.realtime_state_snapshot(), oscillator_before);
+
+    let mut resampler = PolyphaseResampler::new(48_000, 44_100, 2, ResamplerPolicy::default())
+        .expect("valid resampler");
+    let before = resampler.realtime_state_snapshot();
+    let input = vec![0.0; 256];
+    let required = resampler.required_output_frames(128).unwrap();
+    let mut output = vec![0.0; required * 2];
+    let report = resampler.process_interleaved(&input, &mut output).unwrap();
+    assert_eq!(report.output_frames, required);
+    assert_eq!(resampler.realtime_state_snapshot(), before);
+}
+
+#[test]
+fn polyphase_resampler_has_unity_impulse_response_and_rejects_short_output() {
+    let policy = ResamplerPolicy {
+        taps: 48,
+        ..ResamplerPolicy::default()
+    };
+    let mut resampler = PolyphaseResampler::new(48_000, 48_000, 1, policy).unwrap();
+    let mut impulse = vec![0.0; 256];
+    impulse[96] = 1.0;
+    let required = resampler.required_output_frames(impulse.len()).unwrap();
+    let before = resampler.realtime_state_snapshot();
+    let error = resampler
+        .process_interleaved(&impulse, &mut vec![0.0; required - 1])
+        .unwrap_err();
+    assert_eq!(
+        error,
+        ResampleError::OutputTooSmall {
+            required,
+            available: required - 1,
+        }
+    );
+    assert_eq!(resampler.realtime_state_snapshot(), before);
+
+    let mut output = vec![0.0; required];
+    resampler
+        .process_interleaved(&impulse, &mut output)
+        .unwrap();
+    let response_sum = output.iter().map(|sample| f64::from(*sample)).sum::<f64>();
+    let peak = output
+        .iter()
+        .enumerate()
+        .max_by(|left, right| left.1.abs().total_cmp(&right.1.abs()))
+        .map(|(index, _)| index)
+        .unwrap();
+    assert!(
+        (response_sum - 1.0).abs() < 1e-5,
+        "impulse sum {response_sum}"
+    );
+    assert_eq!(peak, 96);
+}
+
+#[test]
+fn downsampling_filter_preserves_passband_and_rejects_alias_tone() {
+    let low = resample_tone(2_000.0);
+    let above_output_nyquist = resample_tone(12_000.0);
+    let low_rms = rms(&low[64..]);
+    let alias_rms = rms(&above_output_nyquist[64..]);
+
+    assert!(low_rms > 0.65, "passband RMS {low_rms}");
+    assert!(
+        alias_rms < 0.03,
+        "12 kHz input aliased into 16 kHz output at RMS {alias_rms}"
+    );
 }
 
 #[test]
@@ -474,4 +580,44 @@ where
     );
     assert_eq!(output.len(), 2, "{name} should preserve block shape");
     assert_all_finite(&output);
+}
+
+fn dft_bin_magnitude(samples: &[f32], bin: usize) -> f64 {
+    let len = samples.len() as f64;
+    let (real, imaginary) =
+        samples
+            .iter()
+            .enumerate()
+            .fold((0.0, 0.0), |(real, imaginary), (index, sample)| {
+                let angle = std::f64::consts::TAU * bin as f64 * index as f64 / len;
+                (
+                    real + f64::from(*sample) * angle.cos(),
+                    imaginary - f64::from(*sample) * angle.sin(),
+                )
+            });
+    real.hypot(imaginary) * 2.0 / len
+}
+
+fn resample_tone(frequency_hz: f64) -> Vec<f32> {
+    let input = (0..4_096)
+        .map(|index| (std::f64::consts::TAU * frequency_hz * index as f64 / 48_000.0).sin() as f32)
+        .collect::<Vec<_>>();
+    let policy = ResamplerPolicy {
+        taps: 64,
+        ..ResamplerPolicy::default()
+    };
+    let mut resampler = PolyphaseResampler::new(48_000, 16_000, 1, policy).unwrap();
+    let required = resampler.required_output_frames(input.len()).unwrap();
+    let mut output = vec![0.0; required];
+    resampler.process_interleaved(&input, &mut output).unwrap();
+    output
+}
+
+fn rms(samples: &[f32]) -> f64 {
+    (samples
+        .iter()
+        .map(|sample| f64::from(*sample).powi(2))
+        .sum::<f64>()
+        / samples.len() as f64)
+        .sqrt()
 }
