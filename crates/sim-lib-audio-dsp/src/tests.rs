@@ -17,6 +17,8 @@ use crate::{
     r30_delay_golden_fixture, r30_gain_golden_fixture, run_offline,
 };
 
+// conformance: audio DSP reuse covers filters, waveshaping, dynamics, and effects.
+
 fn assert_processor<T: Processor>() {}
 
 #[test]

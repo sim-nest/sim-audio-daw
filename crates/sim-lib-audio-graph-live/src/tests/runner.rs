@@ -16,6 +16,8 @@ use crate::{
     refuse_unbuffered_audio_callback_tunnel,
 };
 
+// conformance: realtime preview uses bounded local placement and preallocated callback state.
+
 use super::{OwnedEvent, RecordingProcessor};
 
 #[derive(Clone, Debug, Default)]
