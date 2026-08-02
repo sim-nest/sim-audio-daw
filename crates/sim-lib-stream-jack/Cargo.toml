@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-stream-jack"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 license = "MPL-2.0"
 description = "Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O)."

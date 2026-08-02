@@ -11,7 +11,7 @@
       "id": "cookbook/audio-dsp",
       "kind": "cookbook-recipe",
       "owner": "sim-lib-audio-dsp",
-      "summary": "Offline DSP processor and fixture descriptors."
+      "summary": "Offline and realtime-safe DSP processor and transform descriptors."
     },
     {
       "id": "cookbook/audio-graph-live",

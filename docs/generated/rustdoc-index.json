@@ -6,7 +6,7 @@
       "group": "workspace",
       "manifest": "crates/sim-lib-audio-dsp/Cargo.toml",
       "package": "sim-lib-audio-dsp",
-      "summary": "Reusable pure Rust DSP processors for the SIM audio graph."
+      "summary": "Reusable pure Rust DSP processors, bandlimited sources, and fixed-state sample-rate conversion for the SIM audio graph."
     },
     {
       "crate_name": "sim_lib_audio_graph_core",

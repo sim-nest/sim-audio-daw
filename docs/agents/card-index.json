@@ -1,6 +1,9 @@
 {
   "schema": "sim.card-index.v1",
   "cards": [
+    "crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/purpose.md",
+    "crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/recipe.toml",
+    "crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/setup.siml",
     "crates/sim-lib-audio-dsp/recipes/01-basics/chapter.toml",
     "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/purpose.md",
     "crates/sim-lib-audio-dsp/recipes/01-basics/offline-chain/recipe.toml",

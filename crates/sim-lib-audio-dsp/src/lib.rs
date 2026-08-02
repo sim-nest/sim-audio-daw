@@ -1,6 +1,7 @@
 #![forbid(unsafe_code)]
 #![deny(missing_docs)]
-//! Reusable pure Rust DSP processors for the SIM audio graph.
+//! Reusable pure Rust DSP processors, bandlimited sources, and fixed-state
+//! sample-rate conversion for the SIM audio graph.
 
 mod citizen;
 mod common;
@@ -12,7 +13,9 @@ mod filter;
 mod fixture;
 mod gain;
 mod modulation;
+mod oscillator;
 mod oversampling;
+mod resample;
 mod runtime;
 mod smoothing;
 
@@ -28,7 +31,11 @@ pub use filter::{
 pub use fixture::{GoldenFixture, r30_delay_golden_fixture, r30_gain_golden_fixture, run_offline};
 pub use gain::{DcBlocker, Gain, Pan};
 pub use modulation::{Chorus, Flanger, ModulatedDelayProcessor, Vibrato};
+pub use oscillator::{
+    BandlimitPolicy, BandlimitedOscillator, BandlimitedWaveform, OscillatorPolicy,
+};
 pub use oversampling::{NonlinearSampleProcessor, OversampledSoftClipper, OversamplingWrapper};
+pub use resample::{PolyphaseResampler, ResampleError, ResampleReport, ResamplerPolicy};
 pub use runtime::{AudioDspLib, audio_dsp_symbols, install_audio_dsp_lib};
 pub use smoothing::{SmoothValue, SmoothedGain};
 
