@@ -15,14 +15,14 @@ model = []
 jack-hardware = ["dep:jack"]
 
 [dependencies]
-sim-cookbook = { version = "0.1.0" }
+sim-cookbook = { version = "0.2.0" }
 jack = { version = "0.11", optional = true }
-sim-kernel = { version = "0.1.0" }
-sim-lib-stream-core = { version = "0.1.2" }
-sim-lib-stream-host = { version = "0.1.0" }
+sim-kernel = { version = "0.2.0" }
+sim-lib-stream-core = { version = "0.1.4" }
+sim-lib-stream-host = { version = "0.1.6" }
 
 [dev-dependencies]
-sim-kernel = { version = "0.1", features = ["test-support"] }
+sim-kernel = { version = "0.2.0", features = ["test-support"] }
 
 [build-dependencies]
-sim-cookbook = { version = "0.1.0" }
+sim-cookbook = { version = "0.2.0" }
