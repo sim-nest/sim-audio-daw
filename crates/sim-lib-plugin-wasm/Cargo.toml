@@ -22,7 +22,7 @@ sim-lib-plugin-clap = { version = "0.1.0", path = "../sim-lib-plugin-clap", opti
 sim-lib-plugin-core = { version = "0.1.0", path = "../sim-lib-plugin-core" }
 sim-lib-plugin-lv2 = { version = "0.1.0", path = "../sim-lib-plugin-lv2", optional = true }
 sim-wasm-abi = { version = "0.1.0", features = ["audio"] }
-wasmtime = { version = "23", optional = true, default-features = false, features = ["cranelift", "runtime", "component-model"] }
+wasmtime = { version = "47", optional = true, default-features = false, features = ["cranelift", "runtime", "component-model"] }
 
 [dev-dependencies]
 wat = "1"
