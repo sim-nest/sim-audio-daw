@@ -12,4 +12,4 @@ Reusable pure Rust DSP processors for the SIM audio graph.
 
 ## Crate Documentation
 
-Reusable pure Rust DSP processors for the SIM audio graph.
+Reusable pure Rust DSP processors, bandlimited sources, and fixed-state sample-rate conversion for the SIM audio graph.

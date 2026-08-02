@@ -5,7 +5,7 @@
 | Card | Kind | Owner | Summary |
 | --- | --- | --- | --- |
 | `browse/catalog` | `browse-root` | `workspace` | root browse catalog |
-| `cookbook/audio-dsp` | `cookbook-recipe` | `sim-lib-audio-dsp` | Offline DSP processor and fixture descriptors. |
+| `cookbook/audio-dsp` | `cookbook-recipe` | `sim-lib-audio-dsp` | Offline and realtime-safe DSP processor and transform descriptors. |
 | `cookbook/audio-graph-live` | `cookbook-recipe` | `sim-lib-audio-graph-live` | Live graph queue, transport, and fake-clock descriptors. |
 | `cookbook/audio-graph/core` | `cookbook-recipe` | `sim-lib-audio-graph-core` | Hardware-free processor graph descriptors and offline blocks. |
 | `cookbook/plugin-clap` | `cookbook-recipe` | `sim-lib-plugin-clap` | CLAP-shaped plugin descriptor and export metadata. |
