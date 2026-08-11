@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-plugin-wasm"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2024"
 license = "MPL-2.0"
 description = "WebAssembly audio plugin host for SIM audio graph processors."
@@ -21,7 +21,7 @@ sim-lib-audio-graph-core = { version = "0.1.2", path = "../sim-lib-audio-graph-c
 sim-lib-plugin-clap = { version = "0.1.2", path = "../sim-lib-plugin-clap", optional = true }
 sim-lib-plugin-core = { version = "0.1.2", path = "../sim-lib-plugin-core" }
 sim-lib-plugin-lv2 = { version = "0.1.2", path = "../sim-lib-plugin-lv2", optional = true }
-sim-wasm-abi = { version = "0.2.0", features = ["audio"] }
+sim-wasm-abi = { version = "0.3.0", features = ["audio"] }
 wasmtime = { version = "23", optional = true, default-features = false, features = ["cranelift", "runtime", "component-model"] }
 
 [dev-dependencies]
