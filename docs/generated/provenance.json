@@ -3,10 +3,10 @@
   "generated_by": "cargo run -p xtask -- simdoc",
   "generation_timestamp": "2026-07-15T01:30:35+02:00",
   "generator": "xtask repo-contract v1",
-  "git_commit": "ab1b201321f02cdb24cb765d6be3a5ba35382e9e",
+  "git_commit": "b88a1ae8118f50c1aafa3fdef8dae7822303f555",
   "repo": "sim-audio-daw",
   "schema": "sim.provenance.v1",
-  "source_commit": "ab1b201321f02cdb24cb765d6be3a5ba35382e9e",
+  "source_commit": "b88a1ae8118f50c1aafa3fdef8dae7822303f555",
   "source_remote": "https://github.com/sim-nest/sim-audio-daw",
   "validation_commands": [
     "cargo fmt --all --check",
@@ -19,7 +19,7 @@
     "cargo run -p xtask -- validation-matrix --check --repo .",
     "cargo run -p xtask -- crate-catalog --check --repo ."
   ],
-  "workspace_hash": "b96e377c2d3fc69d",
+  "workspace_hash": "c39785123bb8ef50",
   "workspace_hash_algorithm": "fnv1a64",
   "workspace_hash_input_count": 205,
   "workspace_hash_inputs": [

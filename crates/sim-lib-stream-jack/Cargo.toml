@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-stream-jack"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 license = "MPL-2.0"
 description = "Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O)."
@@ -15,13 +15,13 @@ default = ["model"]
 model = []
 
 [dependencies]
-sim-kernel = { version = "0.2.0" }
+sim-kernel = { version = "0.2.1" }
 sim-lib-audio-graph-core = { version = "0.1.2", path = "../sim-lib-audio-graph-core" }
-sim-lib-core = { version = "0.1.0" }
+sim-lib-core = { version = "0.2.0" }
 sim-lib-stream-audio = { version = "0.1.2" }
 sim-lib-stream-clock = { version = "0.1.2" }
 sim-lib-stream-core = { version = "0.1.4" }
-sim-lib-stream-host = { version = "0.1.6" }
+sim-lib-stream-host = { version = "0.1.7" }
 
 [dev-dependencies]
 sim-test-support = { version = "0.1.0" }
