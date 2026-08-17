@@ -17,7 +17,7 @@ lv2-host = []
 
 [dependencies]
 sim-cookbook = { version = "0.2.0" }
-sim-kernel = { version = "0.2.0" }
+sim-kernel = { version = "0.2.1" }
 sim-lib-audio-dsp = { version = "0.1.4", path = "../sim-lib-audio-dsp" }
 sim-lib-audio-graph-core = { version = "0.1.2", path = "../sim-lib-audio-graph-core" }
 sim-lib-core = { version = "0.2.0" }
