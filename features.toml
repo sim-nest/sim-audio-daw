@@ -103,6 +103,15 @@ claims_specimens = [
   "spec-test/sim-audio-daw/crates/sim-lib-stream-cpal/src/tests",
 ]
 
+[[feature]]
+id = "feature/sim-audio-daw/native-media-ports"
+title = "Native media ports"
+summary = "Describe native audio devices and plugins without importing platform APIs into audio semantics."
+owner = "crate/sim-audio-ports"
+audiences = ["code", "framework"]
+guidance = "Consume AudioDevicePort and NativePluginPort through Cards, strict realtime budgets, unique callback ownership, and typed refusals. Use ModelAudioDevicePort for deterministic enumeration, hotplug, loss, overflow, clock, cancellation, and unload tests; platform capsules alone implement native APIs."
+claims_anchors = ["anchor/crate/sim-audio-ports", "spec-test/sim-audio-daw/crates/sim-audio-ports/src/tests"]
+
 [[route]]
 id = "route/build-audio-workbench"
 task = "Build an audio workbench"
