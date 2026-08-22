@@ -25,4 +25,4 @@ sim-lib-stream-host = { version = "0.1.6" }
 sim-kernel = { version = "0.2.0", features = ["test-support"] }
 
 [build-dependencies]
-sim-cookbook = { version = "0.2.0" }
+sim-cookbook-build = { version = "0.1.0" }
