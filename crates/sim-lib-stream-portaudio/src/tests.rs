@@ -130,7 +130,11 @@ fn backend_priority_documents_plain_ubuntu_fallback_order() {
 
 #[test]
 fn install_stream_portaudio_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x7bcd_e578_4b75_531e),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_stream_portaudio_lib,

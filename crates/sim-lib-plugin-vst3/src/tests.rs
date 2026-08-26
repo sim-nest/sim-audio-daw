@@ -135,7 +135,11 @@ fn vst3_scope_documents_native_sdk_and_hosting_decisions() {
 
 #[test]
 fn install_vst3_plugin_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x5653_5433),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_vst3_plugin_lib,

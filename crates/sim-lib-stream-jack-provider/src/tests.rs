@@ -27,7 +27,11 @@ impl LibLoader for JackModeledProviderLoader {
 }
 
 fn test_cx() -> Cx {
-    Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory))
+    Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0xf756_6474_2984_0129),
+    )
 }
 
 #[cfg(not(feature = "jack-hardware"))]

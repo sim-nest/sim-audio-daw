@@ -1,3 +1,5 @@
+// conformance: native-port tests prove device lifecycle, realtime bounds, and typed refusal.
+
 use super::*;
 
 fn card() -> AudioDeviceCard {

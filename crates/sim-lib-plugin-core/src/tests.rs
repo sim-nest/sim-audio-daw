@@ -83,7 +83,11 @@ fn processor_plugin_exports_processor_as_plugin_instance() {
 
 #[test]
 fn install_plugin_core_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x012c_6508_cbcd_6ba1),
+    );
     install_plugin_core_lib(&mut cx).expect("install");
     install_plugin_core_lib(&mut cx).expect("idempotent install");
 

@@ -290,7 +290,11 @@ fn same_processor_runs_offline_and_in_live_graph() {
 
 #[test]
 fn install_audio_dsp_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0xe3db_e1b7_2d8d_ec5d),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_audio_dsp_lib,

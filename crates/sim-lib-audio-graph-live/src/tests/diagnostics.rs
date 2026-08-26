@@ -157,7 +157,11 @@ fn stream_clock_metadata_feeds_transport() {
 
 #[test]
 fn install_audio_graph_live_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0xf1d6_c075_25ac_d355),
+    );
     install_audio_graph_live_lib(&mut cx).expect("install");
     install_audio_graph_live_lib(&mut cx).expect("idempotent install");
 

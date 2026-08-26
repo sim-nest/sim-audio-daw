@@ -119,6 +119,7 @@
   ],
   "groups": {
     "workspace": [
+      "sim-audio-ports",
       "sim-lib-audio-dsp",
       "sim-lib-audio-graph-core",
       "sim-lib-audio-graph-live",
@@ -139,8 +140,35 @@
   },
   "non_citizen_exemption_count": 0,
   "non_citizen_exemptions": [],
-  "package_count": 16,
+  "package_count": 17,
   "packages": [
+    {
+      "crate_name": "sim_audio_ports",
+      "dependencies": [],
+      "description": "Provider-neutral native audio device and plugin realization ports for SIM.",
+      "features": [],
+      "group": "workspace",
+      "manifest": "crates/sim-audio-ports/Cargo.toml",
+      "name": "sim-audio-ports",
+      "publish": "true",
+      "root": "crates/sim-audio-ports",
+      "rustdoc_summary": "Provider-neutral ports for native audio devices and plugins.",
+      "target_kinds": [
+        "lib"
+      ],
+      "targets": [
+        {
+          "crate_types": [
+            "lib"
+          ],
+          "kind": [
+            "lib"
+          ],
+          "name": "sim_audio_ports",
+          "src": "crates/sim-audio-ports/src/lib.rs"
+        }
+      ]
+    },
     {
       "crate_name": "sim_lib_audio_dsp",
       "dependencies": [
@@ -1057,10 +1085,10 @@
     "generated_by": "cargo run -p xtask -- simdoc",
     "generation_timestamp": "2026-07-15T01:30:35+02:00",
     "generator": "xtask repo-contract v1",
-    "git_commit": "b88a1ae8118f50c1aafa3fdef8dae7822303f555",
+    "git_commit": "149842dbfdcea19c7c4fb3351646359d13ec4d32",
     "repo": "sim-audio-daw",
     "schema": "sim.provenance.v1",
-    "source_commit": "b88a1ae8118f50c1aafa3fdef8dae7822303f555",
+    "source_commit": "149842dbfdcea19c7c4fb3351646359d13ec4d32",
     "source_remote": "https://github.com/sim-nest/sim-audio-daw",
     "validation_commands": [
       "cargo fmt --all --check",
@@ -1073,11 +1101,14 @@
       "cargo run -p xtask -- validation-matrix --check --repo .",
       "cargo run -p xtask -- crate-catalog --check --repo ."
     ],
-    "workspace_hash": "c39785123bb8ef50",
+    "workspace_hash": "8bde7fd72efefa32",
     "workspace_hash_algorithm": "fnv1a64",
-    "workspace_hash_input_count": 205,
+    "workspace_hash_input_count": 208,
     "workspace_hash_inputs": [
       "Cargo.toml",
+      "crates/sim-audio-ports/Cargo.toml",
+      "crates/sim-audio-ports/src/lib.rs",
+      "crates/sim-audio-ports/src/tests.rs",
       "crates/sim-lib-audio-dsp/Cargo.toml",
       "crates/sim-lib-audio-dsp/build.rs",
       "crates/sim-lib-audio-dsp/recipes/01-basics/bandlimited-resample/recipe.toml",

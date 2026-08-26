@@ -1,5 +1,6 @@
 id = "wasm-gain"
 title = "Load a bounded Wasm gain plugin"
+purpose = "Load and exercise a capability-bounded Wasm audio gain plugin."
 command = "cargo test -p sim-lib-plugin-wasm wasm_plugin_load_allowed_with_capability --features wasm-plugin"
 order = 10
 tags = ["plugin", "wasm", "capability", "bounded", "test-command"]

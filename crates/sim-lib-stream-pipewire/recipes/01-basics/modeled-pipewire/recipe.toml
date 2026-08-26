@@ -1,5 +1,6 @@
 id = "modeled-pipewire"
 title = "Enumerate modeled PipeWire nodes"
+purpose = "Verify deterministic PipeWire node discovery without a live graph."
 command = "cargo test -p sim-lib-stream-pipewire fake_backend_enumerates_default_nodes_and_visible_sim_ports"
 order = 10
 tags = ["stream", "pipewire", "modeled", "inventory", "test-command"]

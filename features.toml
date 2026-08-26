@@ -110,7 +110,8 @@ summary = "Describe native audio devices and plugins without importing platform 
 owner = "crate/sim-audio-ports"
 audiences = ["code", "framework"]
 guidance = "Consume AudioDevicePort and NativePluginPort through Cards, strict realtime budgets, unique callback ownership, and typed refusals. Use ModelAudioDevicePort for deterministic enumeration, hotplug, loss, overflow, clock, cancellation, and unload tests; platform capsules alone implement native APIs."
-claims_anchors = ["anchor/crate/sim-audio-ports", "spec-test/sim-audio-daw/crates/sim-audio-ports/src/tests"]
+claims_anchors = ["anchor/crate/sim-audio-ports"]
+claims_specimens = ["spec-test/sim-audio-daw/crates/sim-audio-ports/src/tests"]
 
 [[route]]
 id = "route/build-audio-workbench"

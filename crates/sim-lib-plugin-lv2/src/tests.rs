@@ -68,7 +68,11 @@ fn sim_gain_exports_as_lv2_and_hosts_as_graph_processor() {
 
 #[test]
 fn install_lv2_plugin_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0xd2ab_47fb_866d_ec8d),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_lv2_plugin_lib,

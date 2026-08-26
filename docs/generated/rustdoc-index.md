@@ -4,6 +4,7 @@
 
 | Package | Group | Summary |
 | --- | --- | --- |
+| `sim-audio-ports` | `workspace` | Provider-neutral ports for native audio devices and plugins. |
 | `sim-lib-audio-dsp` | `workspace` | Reusable pure Rust DSP processors, bandlimited sources, and fixed-state sample-rate conversion for the SIM audio graph. |
 | `sim-lib-audio-graph-core` | `workspace` | Pure Rust audio processor graph primitives. |
 | `sim-lib-audio-graph-live` | `workspace` | Preallocated live audio graph runner for host callback integration. |

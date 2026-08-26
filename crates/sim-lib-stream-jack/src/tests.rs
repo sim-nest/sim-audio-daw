@@ -174,7 +174,11 @@ fn graph_bridge_drives_process_callback_with_transport_and_midi() {
 
 #[test]
 fn install_stream_jack_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x46aa_6f62_510a_4d6d),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_stream_jack_lib,
