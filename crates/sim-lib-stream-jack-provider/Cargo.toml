@@ -1,6 +1,6 @@
 [package]
 name = "sim-lib-stream-jack-provider"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 license = "MPL-2.0"
 description = "JACK audio placement provider with a modeled default lane and gated hardware support."
@@ -15,14 +15,14 @@ model = []
 jack-hardware = ["dep:jack"]
 
 [dependencies]
-sim-cookbook = { version = "0.2.0" }
+sim-cookbook = { version = "0.3.0" }
 jack = { version = "0.11", optional = true }
-sim-kernel = { version = "0.2.0" }
-sim-lib-stream-core = { version = "0.1.4" }
-sim-lib-stream-host = { version = "0.1.6" }
+sim-kernel = { version = "0.3.0" }
+sim-lib-stream-core = { version = "0.2.0" }
+sim-lib-stream-host = { version = "0.2.0" }
 
 [dev-dependencies]
-sim-kernel = { version = "0.2.0", features = ["test-support"] }
+sim-kernel = { version = "0.3.0", features = ["test-support"] }
 
 [build-dependencies]
 sim-cookbook-build = { version = "0.1.0" }
