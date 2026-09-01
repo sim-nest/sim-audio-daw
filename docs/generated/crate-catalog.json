@@ -1,7 +1,19 @@
 {
   "generator": "xtask crate-catalog v1",
-  "package_count": 16,
+  "package_count": 17,
   "packages": [
+    {
+      "description": "Provider-neutral native audio device and plugin realization ports for SIM.",
+      "generated_readme": false,
+      "manifest": "crates/sim-audio-ports/Cargo.toml",
+      "name": "sim-audio-ports",
+      "publish": "true",
+      "readme": "crates/sim-audio-ports/README.md",
+      "root": "crates/sim-audio-ports",
+      "target_kinds": [
+        "lib"
+      ]
+    },
     {
       "description": "Reusable pure Rust DSP processors for the SIM audio graph.",
       "generated_readme": true,
