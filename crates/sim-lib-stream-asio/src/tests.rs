@@ -152,7 +152,11 @@ fn sdk_requirements_document_optional_native_build() {
 
 #[test]
 fn install_stream_asio_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x7950_3a41_2ee4_79f7),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_stream_asio_lib,

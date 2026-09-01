@@ -199,7 +199,11 @@ fn cassette_replays_pipewire_callback_timeline_without_daemon() {
 
 #[test]
 fn install_stream_pipewire_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x234d_25f6_18c7_0253),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_stream_pipewire_lib,

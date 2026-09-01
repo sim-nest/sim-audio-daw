@@ -4,6 +4,7 @@
 
 | Package | Group | Features | Workspace feature edges |
 | --- | --- | ---: | ---: |
+| `sim-audio-ports` | `workspace` | 0 | 0 |
 | `sim-lib-audio-dsp` | `workspace` | 0 | 0 |
 | `sim-lib-audio-graph-core` | `workspace` | 0 | 0 |
 | `sim-lib-audio-graph-live` | `workspace` | 0 | 0 |

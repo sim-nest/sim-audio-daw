@@ -1,5 +1,6 @@
 id = "modeled-portaudio"
 title = "Open a modeled PortAudio output"
+purpose = "Verify bounded PortAudio output selection without the host library."
 command = "cargo test -p sim-lib-stream-portaudio fake_backend_lists_and_opens_default_output_without_portaudio"
 order = 10
 tags = ["stream", "portaudio", "modeled", "inventory", "test-command"]

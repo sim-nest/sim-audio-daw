@@ -2,6 +2,13 @@
   "generator": "xtask repo-contract v1",
   "packages": [
     {
+      "crate_name": "sim_audio_ports",
+      "group": "workspace",
+      "manifest": "crates/sim-audio-ports/Cargo.toml",
+      "package": "sim-audio-ports",
+      "summary": "Provider-neutral ports for native audio devices and plugins."
+    },
+    {
       "crate_name": "sim_lib_audio_dsp",
       "group": "workspace",
       "manifest": "crates/sim-lib-audio-dsp/Cargo.toml",

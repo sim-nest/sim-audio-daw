@@ -144,7 +144,11 @@ fn macos_priorities_keep_portable_audio_and_rtmidi_first() {
 
 #[test]
 fn install_stream_coreaudio_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x12b3_9067_2c5f_dbf3),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_stream_coreaudio_lib,

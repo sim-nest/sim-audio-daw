@@ -333,7 +333,11 @@ fn capture_queue_replays_pcm_cassette_without_hardware() {
 
 #[test]
 fn install_stream_alsa_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x369f_632b_fb84_968e),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_stream_alsa_lib,

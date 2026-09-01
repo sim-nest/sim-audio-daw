@@ -77,7 +77,11 @@ mod tests {
     }
 
     fn test_cx() -> (Cx, GrantSeat) {
-        Cx::new_seated(Arc::new(EagerPolicy), Arc::new(DefaultFactory))
+        Cx::new_seated(
+            Arc::new(EagerPolicy),
+            Arc::new(DefaultFactory),
+            sim_kernel::HandleSeed::new(0xb8d1_b552_c438_f93d),
+        )
     }
 
     trait GrantOutcome {

@@ -104,7 +104,11 @@ fn sim_gain_exports_as_clap_and_hosts_as_graph_processor() {
 
 #[test]
 fn install_clap_plugin_lib_registers_runtime_exports() {
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x63a9_52c2_10a2_d8a9),
+    );
     sim_test_support::assert_lib_exports(
         &mut cx,
         install_clap_plugin_lib,

@@ -1,5 +1,6 @@
 id = "modeled-alsa"
 title = "Enumerate modeled ALSA PCM devices"
+purpose = "Verify deterministic ALSA device discovery without physical hardware."
 command = "cargo test -p sim-lib-stream-alsa fake_backend_enumerates_default_hw_and_plughw_pcm_devices"
 order = 10
 tags = ["stream", "alsa", "modeled", "inventory", "test-command"]

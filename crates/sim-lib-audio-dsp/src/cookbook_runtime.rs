@@ -110,7 +110,11 @@ mod tests {
 
     #[test]
     fn audio_dsp_cookbook_callables_return_recipe_expressions() {
-        let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+        let mut cx = Cx::new(
+            Arc::new(EagerPolicy),
+            Arc::new(DefaultFactory),
+            sim_kernel::HandleSeed::new(0x19f6_514e_94a0_d00d),
+        );
         install_audio_dsp_lib(&mut cx).unwrap();
 
         let value = cx

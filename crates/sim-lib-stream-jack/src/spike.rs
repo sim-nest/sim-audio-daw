@@ -72,7 +72,11 @@ fn spike_provider_loads_through_loader() {
     let loaded = Arc::new(AtomicBool::new(false));
     let loaders =
         LoaderRegistry::new().with_loader(FixtureProviderLoader::new(Arc::clone(&loaded)));
-    let mut cx = Cx::new(Arc::new(EagerPolicy), Arc::new(DefaultFactory));
+    let mut cx = Cx::new(
+        Arc::new(EagerPolicy),
+        Arc::new(DefaultFactory),
+        sim_kernel::HandleSeed::new(0x3526_859d_7c97_1b50),
+    );
 
     let provider = loaders
         .load_lib(&mut cx, LibSource::Symbol(provider_symbol()))

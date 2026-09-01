@@ -2,6 +2,7 @@
 [workspace]
 resolver = "3"
 members = [
+  "crates/sim-audio-ports",
   "crates/sim-lib-audio-dsp",
   "crates/sim-lib-audio-graph-core",
   "crates/sim-lib-audio-graph-live",
