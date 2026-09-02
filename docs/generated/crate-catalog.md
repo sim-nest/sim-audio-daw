@@ -6,6 +6,7 @@ Generated from Cargo metadata by `xtask crate-catalog v1`.
 
 | Package | Publish | Targets | Description |
 | --- | --- | --- | --- |
+| `sim-audio-ports` | `true` | `lib` | Provider-neutral native audio device and plugin realization ports for SIM. |
 | `sim-lib-audio-dsp` | `true` | `custom-build, lib, test` | Reusable pure Rust DSP processors for the SIM audio graph. |
 | `sim-lib-audio-graph-core` | `true` | `custom-build, lib` | Pure Rust audio processor graph primitives. |
 | `sim-lib-audio-graph-live` | `true` | `custom-build, lib` | Preallocated live audio graph runner for host callback integration. |
