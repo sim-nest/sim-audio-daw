@@ -18,6 +18,7 @@
 | `sim-lib-stream-coreaudio` | `workspace` | Modeled macOS CoreAudio stream-host adapter (in-process simulation). |
 | `sim-lib-stream-cpal` | `workspace` | cpal stream-host adapter. |
 | `sim-lib-stream-jack` | `workspace` | Modeled JACK stream-host adapter (in-process simulation). |
+| `sim-lib-stream-jack-provider` | `workspace` | Loadable JACK audio placement provider. |
 | `sim-lib-stream-pipewire` | `workspace` | Modeled PipeWire stream-host adapter (in-process simulation). |
 | `sim-lib-stream-portaudio` | `workspace` | Modeled PortAudio stream-host adapter (in-process simulation). |
 | `xtask` | `workspace` | SIM workspace package for xtask. |

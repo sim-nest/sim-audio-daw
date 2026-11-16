@@ -19,6 +19,7 @@ Generated from Cargo metadata by `xtask crate-catalog v1`.
 | `sim-lib-stream-asio` | `true` | `lib` | Modeled Windows ASIO stream-host adapter (in-process simulation; no ASIO SDK/driver I/O). |
 | `sim-lib-stream-coreaudio` | `true` | `lib` | Modeled macOS CoreAudio stream-host adapter (in-process simulation; no Apple framework I/O). |
 | `sim-lib-stream-cpal` | `true` | `custom-build, lib` | cpal stream-host adapter with a modeled default lane and gated hardware support. |
+| `sim-lib-stream-jack-provider` | `true` | `custom-build, lib` | JACK audio placement provider with a modeled default lane and gated hardware support. |
 | `sim-lib-stream-jack` | `true` | `lib` | Modeled JACK stream-host adapter (in-process simulation; no real JACK server I/O). |
 | `sim-lib-stream-pipewire` | `true` | `lib` | Modeled PipeWire stream-host adapter (in-process simulation; no real PipeWire daemon I/O). |
 | `sim-lib-stream-portaudio` | `true` | `lib` | Modeled PortAudio stream-host adapter (in-process simulation; no real PortAudio I/O). |

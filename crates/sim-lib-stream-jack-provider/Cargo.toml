@@ -9,6 +9,9 @@ publish = true
 repository = "https://github.com/sim-nest/sim-audio-daw"
 homepage = "https://github.com/sim-nest/sim-audio-daw"
 
+[workspace]
+members = ["."]
+
 [features]
 default = ["model"]
 model = []

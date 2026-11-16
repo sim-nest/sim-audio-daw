@@ -1,6 +1,6 @@
 {
   "generator": "xtask crate-catalog v1",
-  "package_count": 17,
+  "package_count": 18,
   "packages": [
     {
       "description": "Provider-neutral native audio device and plugin realization ports for SIM.",
@@ -163,6 +163,19 @@
       "publish": "true",
       "readme": "crates/sim-lib-stream-cpal/README.md",
       "root": "crates/sim-lib-stream-cpal",
+      "target_kinds": [
+        "custom-build",
+        "lib"
+      ]
+    },
+    {
+      "description": "JACK audio placement provider with a modeled default lane and gated hardware support.",
+      "generated_readme": false,
+      "manifest": "crates/sim-lib-stream-jack-provider/Cargo.toml",
+      "name": "sim-lib-stream-jack-provider",
+      "publish": "true",
+      "readme": "crates/sim-lib-stream-jack-provider/README.md",
+      "root": "crates/sim-lib-stream-jack-provider",
       "target_kinds": [
         "custom-build",
         "lib"
