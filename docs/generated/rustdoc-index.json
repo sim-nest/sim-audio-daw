@@ -100,6 +100,13 @@
       "summary": "Modeled JACK stream-host adapter (in-process simulation)."
     },
     {
+      "crate_name": "sim_lib_stream_jack_provider",
+      "group": "workspace",
+      "manifest": "crates/sim-lib-stream-jack-provider/Cargo.toml",
+      "package": "sim-lib-stream-jack-provider",
+      "summary": "Loadable JACK audio placement provider."
+    },
+    {
       "crate_name": "sim_lib_stream_pipewire",
       "group": "workspace",
       "manifest": "crates/sim-lib-stream-pipewire/Cargo.toml",

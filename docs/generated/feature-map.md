@@ -18,6 +18,7 @@
 | `sim-lib-stream-coreaudio` | `workspace` | 2 | 0 |
 | `sim-lib-stream-cpal` | `workspace` | 3 | 0 |
 | `sim-lib-stream-jack` | `workspace` | 2 | 0 |
+| `sim-lib-stream-jack-provider` | `workspace` | 3 | 0 |
 | `sim-lib-stream-pipewire` | `workspace` | 2 | 0 |
 | `sim-lib-stream-portaudio` | `workspace` | 2 | 0 |
 | `xtask` | `workspace` | 0 | 0 |

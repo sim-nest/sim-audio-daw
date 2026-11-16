@@ -249,6 +249,31 @@
           "workspace_edges": []
         },
         {
+          "edges": [
+            "dep:jack"
+          ],
+          "name": "jack-hardware",
+          "workspace_edges": []
+        },
+        {
+          "edges": [],
+          "name": "model",
+          "workspace_edges": []
+        }
+      ],
+      "group": "workspace",
+      "package": "sim-lib-stream-jack-provider"
+    },
+    {
+      "features": [
+        {
+          "edges": [
+            "model"
+          ],
+          "name": "default",
+          "workspace_edges": []
+        },
+        {
           "edges": [],
           "name": "model",
           "workspace_edges": []
